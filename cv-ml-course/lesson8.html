@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: ONNX Conversion and Optimization</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="8">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 8</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3">✓</span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4">✓</span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5">✓</span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6">✓</span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7">✓</span></a></li>
+    <li><a href="lesson8.html" class="active"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8">✓</span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:80%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">ONNX Conversion and Optimization</div>
+    <h1>The Universal Model Format<br>From PyTorch to Everywhere</h1>
+    <p class="lesson-subtitle">Understanding ONNX as a bridge between frameworks and hardware</p>
+  </header>
+
+  <div class="story-hook">
+    You've trained your model in PyTorch, but now you need to deploy it to different hardware platforms - some prefer TensorRT, others like Qualcomm's Hexagon NN, and maybe you want to try OpenVINO too. Maintaining separate export pipelines for each target is tedious. Enter ONNX - the Open Neural Network Exchange format that acts as a universal intermediary.
+  </div>
+
+  <h2>What is ONNX?</h2>
+  <p>
+    ONNX (Open Neural Network Exchange) is an open format built to represent machine learning models. ONNX defines a common set of operators - the building blocks of machine learning and deep learning models - and a common file format to enable AI developers to use models with a variety of frameworks, tools, runtimes, and compilers.
+  </p>
+
+  <h2>Why Use ONNX?</h2>
+  <p>
+    ONNX provides several key benefits for computer vision deployment:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Framework Interoperability:</strong> Train in PyTorch, deploy with TensorRT, OpenVINO, or Qualcomm SNPE</li>
+    <li><strong>Hardware Optimization:</strong> Each platform can optimize the ONNX model for their specific accelerators</li>
+    <li><strong>Versioning and Compatibility:</strong> Clear specification helps avoid framework version lock-in</li>
+    <li><strong>Community and Ecosystem:</strong> Growing support from major tech companies and hardware vendors</li>
+    <li><strong>Extensibility:</strong> Custom operators for specialized hardware or novel layer types</li>
+  </ul>
+
+  <h2>The ONNX Conversion Process</h2>
+  <p>
+    Converting a PyTorch model to ONNX involves these steps:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Model Preparation:</strong> Ensure model is in evaluation mode</li>
+    <li><strong>Dummy Input:</strong> Create sample input tensor with correct shape</li>
+    <li><strong>Export:</strong> Use torch.onnx.convert to export the model</li>
+    <li><strong>Verification:</strong> Check that the ONNX model produces same outputs as PyTorch model</li>
+    <li><strong>Optimization:</strong> Use ONNX Runtime tools to optimize the model</li>
+  </ol>
+
+  <div class="concept-card">
+    <h3>Basic ONNX Export in PyTorch</h3>
+    <pre><code>import torch
+import torch.onnx
+
+# Set model to evaluation mode
+model.eval()
+
+# Create dummy input (batch_size, channels, height, width)
+dummy_input = torch.randn(1, 3, 224, 224, requires_grad=True)
+
+# Export the model
+torch.onnx.export(
+    model,                     # model being run
+    dummy_input,               # model input (or tuple for multiple inputs)
+    "model.onnx",              # where to save the model
+    export_params=True,        # store the trained parameter weights
+    opset_version=11,          # the ONNX version to export the model to
+    do_constant_folding=True,  # whether to execute constant folding
+    input_names=['input'],     # the model's input names
+    output_names=['output'],   # the model's output names
+    dynamic_axes={             # variable length axes
+        'input' : {0 : 'batch_size'},    # variable length axes
+        'output' : {0 : 'batch_size'}
+    })
+</code></pre>
+  </div>
+
+  <h2>ONNX Runtime and Optimization</h2>
+  <p>
+    After conversion, you can optimize and run the model with ONNX Runtime:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>ONNX Runtime:</strong> Cross-platform inference engine with performance optimizations</li>
+    <li><strong>Graph Optimization:</strong> Fuse operations, eliminate redundant nodes, optimize memory usage</li>
+    <li><strong>Execution Providers:</strong> Hardware-specific backends (CUDA, TensorRT, QNN, etc.)</li>
+    <li><strong>Quantization:</strong> Built-in quantization tools for INT8/FP16 conversion</li>
+    <li><strong>Profiling:</strong> Tools to identify performance bottlenecks</li>
+  </ul>
+
+  <h2>Platform-Specific ONNX Workflows</h2>
+  <p>
+    How different platforms utilize ONNX:
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>NVIDIA Orin NX with TensorRT</h3>
+      <p>
+        <ul>
+          <li>ONNX → TensorRT parser → optimized engine</li>
+          <li>Leverage TensorRT's layer fusion, kernel auto-tuning, and precision calibration</li>
+          <li>Supports FP16, INT8, and FP32 precision modes</li>
+          <li>Use trtexec for benchmarking and validation</li>
+        </ul>
+      </p>
+    </div>
+    <div class="concept-card">
+      <h3>Qualcomm QCS8550 with QNN</h3>
+      <p>
+        <ul>
+          <li>ONNX → Qualcomm Neural Processing SDK (QNN) </li>
+          <li>Hexagon NNP (Neural Network Processor) and HTA (Tensor Accelerator) support</li>
+          <li>Optimize for Hexagon DSP vector units and scalar processors</li>
+          <li>Use SNPE (Snapdragon Neural Processing Engine) for deployment</li>
+        </ul>
+      </p>
+    </div>
+    <div class="concept-card">
+      <h3>Cross-Platform with ONNX Runtime</h3>
+      <p>
+        <ul>
+          <li>Single runtime that works across platforms</li>
+          <li>Choose execution provider based on available hardware</li>
+          <li>Good for prototyping or when hardware-specific SDKs aren't available</li>
+          <li>Supports CPU, CUDA, TensorRT, OpenVINO, and QNN execution providers</li>
+        </ul>
+      </p>
+    </div>
+  </div>
+
+  <h2>Common Issues and Solutions</h2>
+  <p>
+    When working with ONNX, watch out for these challenges:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Operator Support:</strong> Some PyTorch ops may not have ONNX equivalents - use custom operators or approximate</li>
+    <li><strong>Dynamic Shapes:</strong> Models with variable input sizes need special handling for static shapes</li>
+    <li><strong>Numerical Differences:</strong> Small numerical differences between frameworks - usually acceptable</li>
+    <li><strong>Training vs Inference:</strong> Ensure dropout/batch norm behave correctly in inference mode</li>
+    <li><strong>Custom Layers:</strong> Novel architectures may require exporting custom ONNX operators</li>
+  </ol>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson9.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 9 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

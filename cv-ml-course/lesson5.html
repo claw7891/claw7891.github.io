@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: Model Optimization and Quantization</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="5">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 5</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3">✓</span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4">✓</span></a></li>
+    <li><a href="lesson5.html" class="active"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5">✓</span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6"></span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7"></span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8"></span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:50%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">Model Optimization and Quantization</div>
+    <h1>Making Your Model Fast and Small<br>Techniques for Edge Deployment</h1>
+    <p class="lesson-subtitle">From pruning to quantization - optimizing models for embedded systems</p>
+  </header>
+
+  <div class="story-hook">
+    You've trained a model that works great on your desktop GPU, but when you try to run it on an Orin NX or QCS8550, it's too slow or uses too much memory. In this lesson, we'll learn how to optimize and compress models without sacrificing too much accuracy.
+  </div>
+
+  <h2>Why Optimize for Edge?</h2>
+  <p>
+    Embedded systems have strict constraints:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Limited Compute:</strong> Less GPU/NPU power than desktop cards</li>
+    <li><strong>Memory Restrictions:</strong> Often 4-8GB RAM shared with OS</li>
+    <li><strong>Power Budgets:</strong> Need to operate within watts, not hundreds of watts</li>
+    <li><strong>Thermal Limits:</strong> No active cooling in many embedded designs</li>
+    <li><strong>Real-time Requirements:</strong> Often need 30 FPS or higher for robotics</li>
+  </ul>
+
+  <h2>Optimization Techniques</h2>
+  <p>
+    Here are the main categories of model optimization:
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>Model Pruning</h3>
+      <p>Remove unnecessary connections or channels in the network. Can be structured (removing whole filters) or unstructured (individual weights).</p>
+    </div>
+    <div class="concept-card">
+      <h3>Quantization</h3>
+      <p>Reduce numerical precision of weights and activations (e.g., FP32 → INT8 or FP16). Significantly reduces model size and speeds up inference on integer-capable hardware.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Knowledge Distillation</h3>
+      <p>Train a smaller "student" network to mimic a larger "teacher" network. Often yields better small models than direct training.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Neural Architecture Search (NAS)</h3>
+      <p>Automatically discover optimized architectures for specific hardware constraints.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Low-Rank Factorization</h3>
+      <p>Decompose weight matrices into lower-rank approximations to reduce parameters.</p>
+    </div>
+  </div>
+
+  <h2>Quantization Deep Dive</h2>
+  <p>
+    Quantization is particularly important for embedded deployment. Key concepts:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Post-Training Quantization (PTQ):</strong> Quantize a trained model without retraining. Fast but may lose accuracy.</li>
+    <li><strong>Quantization-Aware Training (QAT):</strong> Simulate quantization during training to learn weights that are robust to quantization.</li>
+    <li><strong>Dynamic vs Static Quantization:</strong> Dynamic quantizes activations at runtime; static uses pre-calculated scale factors.</li>
+    <li><strong>Hardware Support:</strong> Orin NX supports INT8/FP16 on GPU; QCS8550 Hexagon NPU is optimized for INT8.</li>
+  </ul>
+
+  <h2>Tools and Frameworks</h2>
+  <p>
+    Popular tools for model optimization:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>TensorRT:</strong> NVIDIA's optimizer for GPU deployment (great for Orin NX)</li>
+    <li><strong>Qualcomm AI Engine Direct:</strong> SDK for optimizing models for Hexagon NPU</li>
+    <li><strong>ONNX Runtime:</strong> Cross-platform inference engine with optimization options</li>
+    <li><strong>OpenVINO:</strong> Intel's toolkit for optimizing and deploying models</li>
+    <li><strong>TVM:</strong> Apache TVM for compiling models to various backends</li>
+    <li><strong>PyTorch Mobile:</strong> For deploying PyTorch models on mobile/embedded</li>
+  </ul>
+
+  <h2>Practical Tips</h2>
+  <ol class="content-list">
+    <li>Start with PTQ to see baseline performance impact</li>
+    <li>If accuracy drop is too high, try QAT</li>
+    <li>Consider hybrid approaches (e.g., keep first and last layers in FP32)</li>
+    <li>Profile your model to find bottlenecks before optimizing</li>
+    <li>Test on actual hardware early - simulators can be misleading</li>
+  </ol>
+
+  <!-- Completion -->
+  <div class="completion-box">
+    <span class="check-icon">✓</span>
+    <span class="check-text">Mark as complete</span>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson6.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 6 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

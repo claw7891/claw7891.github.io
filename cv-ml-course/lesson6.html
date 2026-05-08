@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: Deployment to Embedded Systems</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="6">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 6</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3">✓</span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4">✓</span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5">✓</span></a></li>
+    <li><a href="lesson6.html" class="active"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6">✓</span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7"></span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8"></span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:60%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">Deployment to Embedded Systems</div>
+    <h1>Getting Your Model on Hardware<br>From Framework to Embedded Runtime</h1>
+    <p class="lesson-subtitle">Understanding the deployment process for Orin NX and QCS8550</p>
+  </header>
+
+  <div class="story-hook">
+    You've trained and optimized your model, but now comes the tricky part: actually getting it to run on your target embedded device. Deployment involves more than just copying files - you need to consider runtime compatibility, hardware acceleration, and system integration.
+  </div>
+
+  <h2>The Deployment Pipeline</h2>
+  <p>
+    Deploying a CV model to embedded systems typically involves these steps:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Model Export:</strong> Convert from training framework (PyTorch/TensorFlow) to deployment format</li>
+    <li><strong>Hardware Optimization:</strong> Use vendor-specific tools to optimize for target accelerator</li>
+    <li><strong>Runtime Integration:</strong> Embed the model in your application code</li>
+    <li><strong>System Testing:</strong> Validate performance, accuracy, and resource usage on target hardware</li>
+    <li><strong>Iteration:</strong> Go back and optimize further based on real-world measurements</li>
+  </ol>
+
+  <h2>NVIDIA Orin NX Deployment</h2>
+  <p>
+    For the Orin NX (Jetson platform), the deployment workflow looks like this:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Framework:</strong> Start with PyTorch model</li>
+    <li><strong>Export:</strong> Convert to ONNX or TorchScript</li>
+    <li><strong>Optimization:</strong> Use TensorRT for GPU acceleration</li>
+    <li><strong>Runtime:</strong> Deploy with TensorRT, ONNX Runtime, or PyTorch C++/Python</li>
+    <li><strong>Tools:</strong> JetPack SDK includes CUDA, cuDNN, TensorRT, and multimedia APIs</li>
+  </ul>
+
+  <div class="concept-card">
+    <h3>Orin NX Specific Tips</h3>
+    <p>
+      <ul>
+        <li>Leverage CUDA cores and Tensor cores for acceleration</li>
+        <li>Use shared memory (CPU-GPU) efficiently to avoid bottlenecks</li>
+        <li>Consider power modes - MAXN for performance, 10W/15W for efficiency</li>
+        <li>Use Jetson Multimedia API (JMAPI) for camera input if needed</li>
+        <li>Monitor with tegrastats for GPU/CPU usage and power consumption</li>
+      </ul>
+    </p>
+  </div>
+
+  <h2>Qualcomm QCS8550 Deployment</h2>
+  <p>
+    For the QCS8550 (Qualcomm platform), the deployment workflow is:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Framework:</strong> Start with PyTorch or TensorFlow model</li>
+    <li><strong>Export:</strong> Convert to ONNX (preferred) or TensorFlow Lite</li>
+    <li><strong>Optimization:</strong> Use Qualcomm AI Engine Direct SDK</li>
+    <li><strong>Runtime:</strong> Deploy with Qualcomm Neural Processing SDK</li>
+    <li><strong>Tools:</strong> QCS SDK includes Hexagon NN libraries, ADSP tools, and camera drivers</li>
+  </ul>
+
+  <div class="concept-card">
+    <h3>QCS8550 Specific Tips</h3>
+    <p>
+      <ul>
+        <li>Hexagon NPU is optimized for INT8 operations - prioritize INT8 quantization</li>
+        <li>Use Hexagon Vector Extensions (HVX) for efficient vector operations</li>
+        <li>Leverage the Adreno GPU for graphics or CV tasks that prefer floating point</li>
+        <li>Use the Qualcomm Sensor SDK for integrated sensor processing</li>
+        <li>Consider the Hexagon Tensor Accelerator (HTA) for tensor operations</li>
+      </ul>
+    </p>
+  </div>
+
+  <h2>Cross-Platform Considerations</h2>
+  <p>
+    If you need to deploy to both platforms:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>ONNX as Intermediate:</strong> Use ONNX as a common format that both platforms can optimize</li>
+    <li><strong>Abstract Hardware Layer:</strong> Design your inference wrapper to plug in different backends</li>
+    <li><strong>Benchmark Early:</strong> Test on both platforms to understand performance characteristics</li>
+    <li><strong>Consider Power vs Performance:</strong> QCS8550 often better for battery-powered; Orin NX for maximum performance</li>
+  </ol>
+
+  <h2>Deployment Checklist</h2>
+  <p>
+    Before declaring deployment complete:
+  </p>
+
+  <ul class="content-list">
+    <li>Model loads successfully on target hardware</li>
+    <li>Inference produces expected outputs (numerical parity with training framework)</li>
+    <li>Latency meets real-time requirements (measure end-to-end including preprocessing)</li>
+    <li>Memory usage is within system limits</li>
+    <li>Power consumption is within budget</li>
+    <li>Thermal performance is sustainable for expected runtime</li>
+  </ul>
+
+  <!-- Completion -->
+  <div class="completion-box">
+    <span class="check-icon">✓</span>
+    <span class="check-text">Mark as complete</span>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson7.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 7 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: Introduction to Computer Vision and ML Pipeline</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="1">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 1</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html" class="active"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2"></span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3"></span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4"></span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5"></span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6"></span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7"></span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8"></span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:10%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">Introduction to Computer Vision and ML Pipeline</div>
+    <h1>The Computer Vision ML Pipeline<br>From Problem to Production</h1>
+    <p class="lesson-subtitle">Understanding the end-to-end process for building CV systems</p>
+  </header>
+
+  <div class="story-hook">
+    Imagine you want to build a system that can automatically detect and count different bird species at a feeder. You have a camera, you can collect images, but how do you go from those raw pixels to a system that can reliably identify sparrows vs. finvs? That's where the computer vision ML pipeline comes in.
+  </div>
+
+  <h2>What is Computer Vision?</h2>
+  <p>
+    Computer vision is a field of artificial intelligence that trains computers to interpret and understand the visual world. Using digital images from cameras and videos and deep learning models, machines can accurately identify and classify objects — and then react to what they "see."
+  </p>
+
+  <h2>The CV ML Pipeline Overview</h2>
+  <p>
+    Building a computer vision system involves several interconnected stages. Think of it as a factory assembly line where each step adds value and prepares the data for the next process:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Problem Definition:</strong> Clearly define what you want to detect, classify, or track</li>
+    <li><strong>Data Collection:</strong> Gather relevant images and videos</li>
+    <li><strong>Data Annotation:</strong> Label objects of interest in your data</li>
+    <li><strong>Model Selection:</strong> Choose an appropriate architecture</li>
+    <li><strong>Training:</strong> Teach the model to recognize patterns</li>
+    <li><strong>Evaluation:</strong> Test how well your model performs</li>
+    <li><strong>Optimization:</strong> Make the model faster and smaller</li>
+    <li><strong>Deployment:</strong> Put the model on your target hardware</li>
+    <li><strong>Monitoring:</strong> Track performance in the real world</li>
+  </ol>
+
+  <h2>Types of Computer Vision Tasks</h2>
+  <p>
+    Depending on your application, you might be working on one of these common CV tasks:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Image Classification:</strong> Assigning a label to an entire image (e.g., "cat" or "dog")</li>
+    <li><strong>Object Detection:</strong> Identifying and locating multiple objects in an image (e.g., detecting all cars in a traffic scene)</li>
+    <li><strong>Instance Segmentation:</strong> Precisely outlining each object pixel-by-pixel</li>
+    <li><strong>Semantic Segmentation:</strong> Labeling each pixel with a class (e.g., road, sky, building)</li>
+    <li><strong>Object Tracking:</strong> Following objects across video frames over time</li>
+    <li><strong>Pose Estimation:</strong> Detecting key points on objects (e.g., human joint positions)</li>
+  </ul>
+
+  <h2>Key Concepts</h2>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>Features</h3>
+      <p>Distinctive patterns in images that models learn to recognize — edges, textures, shapes, etc.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Convolution</h3>
+      <p>The core operation in CNNs that detects features by sliding filters across the image.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Loss Function</h3>
+      <p>Measures how wrong the model's predictions are — guides the training process.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Backpropagation</h3>
+      <p>The algorithm that computes gradients and updates model weights during training.</p>
+    </div>
+  </div>
+
+  <h2>Hardware Targets Overview</h2>
+  <p>
+    Throughout this course, we'll focus on deploying to these embedded platforms:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>NVIDIA Orin NX:</strong> Jetson module with Ampere GPU, great for CV workloads</li>
+    <li><strong>Qualcomm QCS8550:</strong> Hexagon NPU + Adreno GPU, optimized for power efficiency</li>
+    <li><strong>Why these matter:</strong> They represent the edge of what's possible in embedded CV</li>
+  </ul>
+
+  <!-- Completion -->
+  <div class="completion-box">
+    <span class="check-icon">✓</span>
+    <span class="check-text">Mark as complete</span>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson2.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 2 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

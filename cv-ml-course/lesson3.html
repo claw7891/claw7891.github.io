@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: Model Architecture Selection</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="3">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 3</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html" class="active"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3">✓</span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4"></span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5"></span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6"></span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7"></span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8"></span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:30%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">Model Architecture Selection</div>
+    <h1>Choosing the Right Model<br>Balancing Accuracy, Speed, and Size</h1>
+    <p class="lesson-subtitle">Understanding the trade-offs between different CV architectures</p>
+  </header>
+
+  <div class="story-hook">
+    You've collected and annotated your data, but now you're staring at a zoo of model names: YOLOv8, SSD, EfficientDet, Faster R-CNN, DETR, ViT... How do you choose? In this lesson, we'll learn how to pick the right architecture for your specific constraints and goals.
+  </div>
+
+  <h2>Factors to Consider</h2>
+  <p>
+    When selecting a model architecture, consider these key factors:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Task Type:</strong> Detection, classification, segmentation, etc. require different architectures</li>
+    <li><strong>Accuracy Requirements:</strong> How precise do your predictions need to be?</li>
+    <li><strong>Speed Requirements:</strong> Do you need real-time processing (e.g., 30 FPS)?</li>
+    <li><strong>Resource Constraints:</strong> What are the memory, power, and compute limits of your target hardware?</li>
+    <li><strong>Model Size:</strong> How much storage and RAM can you allocate?</li>
+    <li><strong>Development Complexity:</strong> How much time do you have for implementation and tuning?</li>
+  </ul>
+
+  <h2>Popular Architecture Families</h2>
+  <p>
+    Here are the main families of computer vision models you'll encounter:
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>Two-Stage Detectors</h3>
+      <p><strong>Examples:</strong> Faster R-CNN, Mask R-CNN<br>
+         <strong>Pros:</strong> High accuracy<br>
+         <strong>Cons:</strong> Slow, computationally expensive</p>
+    </div>
+    <div class="concept-card">
+      <h3>One-Stage Detectors</h3>
+      <p><strong>Examples:</strong> YOLO, SSD, RetinaNet<br>
+         <strong>Pros:</strong> Fast, good for real-time<br>
+         <strong>Cons:</strong> Lower accuracy on small objects</p>
+    </div>
+    <div class="concept-card">
+      <h3>Transformer-Based Models</h3>
+      <p><strong>Examples:</strong> DETR, ViT, Swin Transformer<br>
+         <strong>Pros:</strong> State-of-the-art accuracy, flexible<br>
+         <strong>Cons:</strong> Computationally heavy, longer training</p>
+    </div>
+    <div class="concept-card">
+      <h3>Efficient Models</h3>
+      <p><strong>Examples:</strong> MobileNet, EfficientNet, EfficientDet<br>
+         <strong>Pros:</strong> Designed for mobile/embedded, good accuracy/speed trade-off<br>
+         <strong>Cons:</strong> May require specific hardware optimizations</p>
+    </div>
+  </div>
+
+  <h2>Embedded-Specific Considerations</h2>
+  <p>
+    When targeting embedded systems like Orin NX or QCS8550, consider:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Hardware Acceleration:</strong> Does the model work well with GPU, NPU, or DSP accelerators?</li>
+    <li><strong>Memory Bandwidth:</strong> Models that access memory randomly may suffer on embedded systems</li>
+    <li><strong>Power Efficiency:</strong> Some architectures consume more power than others for the same accuracy</li>
+    <li><strong>Quantization Friendliness:</strong> How well does the model maintain accuracy after quantization?</li>
+  </ol>
+
+  <h2>Quick Start Recommendations</h2>
+  <p>
+    For common embedded CV tasks:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Real-time Object Detection:</strong> YOLOv8n or YOLOv8s (for speed) or YOLOv8m (for balance)</li>
+    <li><strong>High-Accuracy Detection:</strong> EfficientDet-D0/D1 or YOLOv8l</li>
+    <li><strong>Classification:</strong> MobileNetV3 or EfficientNet-B0</li>
+    <li><strong>Segmentation:</strong> DeepLabV3+ with MobileNet backbone or YOLOv8-seg</li>
+  </ul>
+
+  <!-- Completion -->
+  <div class="completion-box">
+    <span class="check-icon">✓</span>
+    <span class="check-text">Mark as complete</span>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson4.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 4 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

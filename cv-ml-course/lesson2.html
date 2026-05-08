@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: Data Collection and Annotation</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="2">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 2</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html" class="active"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3"></span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4"></span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5"></span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6"></span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7"></span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8"></span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:20%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">Data Collection and Annotation</div>
+    <h1>Building Your Dataset<br>The Foundation of Any CV System</h1>
+    <p class="lesson-subtitle">Garbage in, garbage out — why data quality matters more than model complexity</p>
+  </header>
+
+  <div class="story-hook">
+    You've picked the perfect model architecture, but your training data consists of blurry images taken at night with a potato camera. No amount of tuning will save you. In this lesson, we'll learn how to collect and annotate data that actually works.
+  </div>
+
+  <h2>The Data Lifecycle</h2>
+  <p>
+    Before you write a single line of training code, you need to think about data. The data lifecycle for a computer vision project typically looks like this:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Define Requirements:</strong> What classes do you need? What variations (lighting, angle, occlusion) must be handled?</li>
+    <li><strong>Source Data:</strong> Collect existing datasets, capture new data, or use synthetic generation</li>
+    <li><strong>Store and Organize:</strong> Set up a coherent directory structure and naming convention</li>
+    <li><strong>Annotate:</strong> Label objects of interest with bounding boxes, polygons, or keypoints</li>
+    <li><strong>Validate:</strong> Check annotation quality and inter-annotator agreement</li>
+    <li><strong>Split:</strong> Divide into training, validation, and test sets</li>
+    <li><strong>Augment:</strong> Apply transformations to increase dataset size and robustness</li>
+  </ol>
+
+  <h2>Data Collection Strategies</h2>
+  <p>
+    Depending on your use case, you might use one or more of these approaches:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Public Datasets:</strong> Start with COCO, ImageNet, OpenImages, or domain-specific datasets</li>
+    <li><strong>Web Scraping:</strong> Collect images from search engines or social media (respecting copyright and privacy)</li>
+    <li><strong>Synthetic Data:</strong> Use rendering engines like Blender or Unity to generate perfectly labeled data</li>
+    <li><strong>Active Learning:</strong> Have the model identify uncertain samples for human annotation</li>
+    <li><strong>Simulation:</strong> Use tools like CARLA for autonomous driving or Isaac Sim for robotics</li>
+  </ul>
+
+  <h2>Annotation Types and Tools</h2>
+  <p>
+    The type of annotation you need depends on your task:
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>Bounding Boxes</h3>
+      <p>Rectangles around objects - fastest to annotate, used for object detection</p>
+    </div>
+    <div class="concept-card">
+      <h3>Polygons/Segmentation Masks</h3>
+      <p>Precise outlines - used for instance and semantic segmentation</p>
+    </div>
+    <div class="concept-card">
+      <h3>Keypoints</h3>
+      <p>Specific points on objects - used for pose estimation</p>
+    </div>
+    <div class="concept-card">
+      <h3>Cuboids</h3>
+      <p>3D bounding boxes - used for depth estimation and 3D object detection</p>
+    </div>
+  </div>
+
+  <h2>Popular Annotation Tools</h2>
+  <ul class="content-list">
+    <li><strong>LabelImg:</strong> Simple, open-source tool for bounding boxes</li>
+    <li><strong>LabelMe:</strong> More advanced, supports polygons and keypoints</li>
+    <li><strong>CVAT:</strong> Web-based, collaborative annotation platform</li>
+    <li><strong>Roboflow:</strong> End-to-end dataset management with augmentation</li>
+    <li><strong>Scale AI:</strong> Professional annotation service</li>
+  </ul>
+
+  <h2>Data Quality Checklist</h2>
+  <p>
+    Before moving on, ask yourself these questions:
+  </p>
+
+  <ol class="content-list">
+    <li>Do I have enough samples per class (at least 1000 for deep learning)?</li>
+    <li>Is my data representative of real-world conditions (lighting, weather, backgrounds)?</li>
+    <li>Are my annotations consistent and accurate?</li>
+    <li>Have I checked for class imbalance?</li>
+    <li>Is my data properly split (no leakage between train/val/test)?</li>
+  </ol>
+
+  <!-- Completion -->
+  <div class="completion-box">
+    <span class="check-icon">✓</span>
+    <span class="check-text">Mark as complete</span>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson3.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 3 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

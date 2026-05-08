@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: End-to-End Project and Best Practices</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="9">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 9</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3">✓</span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4">✓</span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5">✓</span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6">✓</span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7">✓</span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8">✓</span></a></li>
+    <li><a href="lesson9.html" class="active"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9">✓</span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:90%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">End-to-End Project and Best Practices</div>
+    <h1>Bringing It All Together<br>From Concept to Deployed System</h1>
+    <p class="lesson-subtitle">A complete walkthrough and best practices for successful CV projects</p>
+  </header>
+
+  <div class="story-hook>
+    Now that you've learned all the individual components, let's walk through a complete example project: building a drone-based system for inspecting solar panels for defects. We'll cover everything from defining the problem to deploying on an Orin NX, including lessons learned and best practices.
+  </div>
+
+  <h2>End-to-End Example: Solar Panel Inspection System</h2>
+  <p>
+    Let's trace through a realistic computer vision project:
+  </p>
+
+  <h3>1. Problem Definition</h3>
+  <ul class="content-list">
+    <li><strong>Goal:</strong> Automatically detect defects (cracks, hot spots, debris) in solar panels using drone imagery</li>
+    <li><strong>Classes:</strong> Normal panel, crack, hot spot, debris, shading</li>
+    <li><strong>Requirements:</strong> 95%+ accuracy, <1 second inference time, lightweight for drone mounting</li>
+    <li><strong>Constraints:</strong> Must run on Orin NX with <10W power budget, handle varying lighting conditions</li>
+  </ul>
+
+  <h3>2. Data Collection and Annotation</h3>
+  <ul class="content-list">
+    <li><strong>Data Sources:</strong> Combination of public solar panel datasets, synthetic renders, and collected drone footage</li>
+    <li><strong>Variations:</strong> Different times of day, weather conditions, panel types, installation angles</li>
+    <li><strong>Annotation:</strong> Bounding boxes for defects, with severity levels for cracks</li>
+    <li><strong>Quality Control:</strong> Double-annotation for 20% of data, inter-annotator agreement >0.85 IoU</li>
+  </ul>
+
+  <h3>3. Model Selection and Training</h3>
+  <ul class="content-list">
+    <li><strong>Architecture:</strong> YOLOv8s (good balance of speed and accuracy for small defect detection)</li>
+    <li><strong>Transfer Learning:</strong> Started with COCO-pre-trained weights</li>
+    <li><strong>Training:</strong> 100 epochs with cosine annealing scheduler, mixed precision</li>
+    <li><strong>Augmentation:</strong> Random brightness/contrast, solarization, mosaic augmentation</li>
+    <li><strong>Results:</strong> 0.92 mAP@0.5 on validation set</li>
+  </ul>
+
+  <h3>4. Optimization and Quantization</h3>
+  <ul class="content-list">
+    <li><strong>Quantization:</strong> INT8 quantization using PyTorch QAT</li>
+    <li><strong>Accuracy Impact:</strong> <1.5% mAP drop after quantization</li>
+    <li><strong>Optimization:</strong> TensorRT FP16 mode for Orin NX</li>
+    <li><strong>Speed:</strong> 35 FPS on Orin NX (vs 8 FPS FP32 PyTorch)</li>
+  </ul>
+
+  <h3>5. Deployment and Integration</h3>
+  <ul class="content-list">
+    <li><strong>Runtime:</strong> TensorRT C++ API for low overhead</li>
+    <li><strong>Preprocessing:</strong> GPU-accelerated resize and normalize using CUDA</li>
+    <li><strong>Postprocessing:</strong> Efficient NMS implementation, confidence threshold tuning</li>
+    <li><strong>Tracking:</strong> Simple IOU tracker for temporal smoothing of detections</li>
+    <li><strong>Power:</strong> 8.2W average consumption at 35 FPS</li>
+  </ul>
+
+  <h2>Best Practices Checklist</h2>
+  <p>
+    Based on lessons learned from real-world projects:
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>Data Practices</h3>
+      <ul>
+        <li>Spend 50% of project time on data - it's that important</li>
+        <li>Start small, iterate fast - collect 100 good annotations before scaling</li>
+        <li>Use data versioning (DVC, Git LFS) to track changes</li>
+        <li>Always keep a holdout test set that mimics production conditions</li>
+        <li>Annotate edge cases deliberately - they're worth 10x normal samples</li>
+      </ul>
+    </div>
+    <div class="concept-card">
+      <h3>Model Development</h3>
+      <ul>
+        <li>Start with a pre-trained model and simple baseline</li>
+        <li>Use learning rate finders and systematic hyperparameter search</li>
+        <li>Validate with metrics that matter to your business (not just accuracy)</li>
+        <li>Implement early stopping to prevent overfitting</li>
+        <li>Test for bias - does performance vary across conditions?</li>
+      </ul>
+    </div>
+    <div class="concept-card">
+      <h3>Optimization Strategies</h3>
+      <ul>
+        <li>Measure before optimizing - profile to find real bottlenecks</li>
+        <li>Consider the full pipeline - sometimes preprocessing is the bottleneck</li>
+        <li>Quantize early and often - catch accuracy issues sooner</li>
+        <li>Test on target hardware weekly, not just at the end</li>
+        <li>Keep an unoptimized "golden model" for comparison and debugging</li>
+      </ul>
+    </div>
+    <div class="concept-card">
+      <h3>Deployment and Monitoring</h3>
+      <ul>
+        <li>Plan for model updates - how will you retrain and redeploy?</li>
+        <li>Implement logging and metrics collection in production</li>
+        <li>Set up alerts for data drift or performance degradation</li>
+        <li>Consider A/B testing for model updates in production</li>
+        <li>Have a fallback rule-based system for critical failures</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Tools and Resources</h2>
+  <p>
+    Here are some valuable tools for your CV ML journey:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Frameworks:</strong> PyTorch, TensorFlow, JAX</li>
+    <li><strong>CV Libraries:</strong> OpenCV, Albumentations, torchvision</li>
+    <li><strong>Experiment Tracking:</strong> Weights & Biases, TensorBoard, MLflow</li>
+    <li><strong>Annotation:</strong> LabelImg, LabelMe, CVAT, Roboflow</li>
+    <li><strong>Optimization:</strong> TensorRT, ONNX Runtime, OpenVINO, Qualcomm SNPE</li>
+    <li><strong>Deployment:</strong> Docker, Triton Inference Server, TorchServe</li>
+    <li><strong>Hardware:</strong> Jetson Orin NX dev kit, Qualcomm RB5 platform</li>
+  </ul>
+
+  <h2>Next Steps</h2>
+  <p>
+    Your journey in computer vision ML is just beginning. Consider:
+  </p>
+
+  <ol class="content-list">
+    <li>Pick a small, well-defined project to start (e.g., object counter, quality inspection)</li>
+    <li>Join computer vision communities (Papers with Code, Reddit r/MachineLearning)</li>
+    <li>Stay current with recent architectures (look at CVPR, ICCV, ECCV papers)</li>
+    <li>Consider ethical implications - privacy, bias, safety in your applications</li>
+    <li>Have fun building systems that can see and understand the world!</li>
+  </ol>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="index.html" class="nav-btn" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      ← Back to Course Home
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

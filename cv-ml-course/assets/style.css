@@ -1,0 +1,549 @@
+/* === Music Theory: From Why to Wow === */
+/* PerThirtySix-inspired dark theme, mobile-first */
+
+:root {
+  --bg: #1a1a1f;
+  --bg-card: #24242a;
+  --bg-accent: #2a2a35;
+  --text: #e4e4ec;
+  --text-muted: #9292a4;
+  --accent: #7c6ff7;
+  --accent-glow: rgba(124, 111, 247, 0.25);
+  --accent2: #ff6b9d;
+  --accent3: #4ecdc4;
+  --border: #36364a;
+  --danger: #ff4757;
+  --success: #2ed573;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  --max-width: 740px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --transition: 0.25s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Navigation === */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.nav-brand {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.nav-brand .emoji { font-size: 1.3rem; }
+
+.nav-lesson {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: none;
+}
+@media (min-width: 500px) { .nav-lesson { display: block; } }
+
+.menu-btn {
+  background: none; border: none; color: var(--text);
+  font-size: 1.4rem; cursor: pointer; padding: 0.3rem;
+  line-height: 1;
+}
+
+/* Slide-out lesson drawer */
+.lesson-drawer {
+  position: fixed; top: 0; right: 0; z-index: 200;
+  width: 300px; max-width: 85vw; height: 100dvh;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  transform: translateX(100%);
+  transition: transform var(--transition);
+  padding: 1.2rem;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+}
+.lesson-drawer.open { transform: translateX(0); }
+
+.drawer-overlay {
+  position: fixed; inset: 0; z-index: 199;
+  background: rgba(0,0,0,0.5);
+  display: none;
+}
+.drawer-overlay.active { display: block; }
+
+.drawer-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.2rem;
+}
+.drawer-header h3 { font-size: 1.05rem; font-weight: 600; }
+.drawer-close {
+  background: none; border: none; color: var(--text); font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.lesson-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.lesson-list li a {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all var(--transition);
+}
+.lesson-list li a:hover, .lesson-list li a.active {
+  color: var(--text); background: var(--bg-accent);
+}
+.lesson-list li a.active {
+  border-left: 3px solid var(--accent);
+  padding-left: calc(0.8rem - 3px);
+  font-weight: 600;
+}
+.lesson-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  width: 1.4rem;
+  text-align: center;
+  font-family: var(--font-mono);
+}
+.lesson-check {
+  margin-left: auto;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.lesson-check.done { opacity: 1; }
+
+/* === Main content === */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.2rem 4rem;
+}
+
+.lesson-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.lesson-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.lesson-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Story hook */
+.story-hook {
+  background: var(--bg-card);
+  border-left: 4px solid var(--accent);
+  padding: 1.2rem 1.4rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 1.5rem 0;
+  font-size: 1.05rem;
+  color: var(--text);
+  font-style: normal;
+  line-height: 1.6;
+}
+.story-hook em { color: var(--accent2); font-style: normal; }
+
+/* TL;DR box */
+.tldr {
+  background: var(--bg-accent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 1.5rem 0;
+}
+.tldr-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.tldr p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Section headers */
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 2.5rem 0 0.8rem;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 650;
+  margin: 1.6rem 0 0.5rem;
+  color: var(--text);
+}
+
+p {
+  margin: 0.7rem 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+/* Inline emphasis */
+.key-term {
+  color: var(--accent2);
+  font-weight: 600;
+}
+
+.note-ref {
+  font-family: var(--font-mono);
+  background: var(--bg-accent);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Lists */
+.content-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0;
+}
+.content-list li {
+  padding: 0.3rem 0;
+  padding-left: 1.2rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.content-list li::before {
+  content: '→';
+  position: absolute; left: 0;
+  color: var(--accent3);
+  font-weight: 700;
+}
+
+/* Step numbers */
+.step {
+  display: flex; align-items: baseline; gap: 0.4rem;
+  margin: 0.3rem 0;
+}
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 700;
+  min-width: 1.2rem;
+}
+
+/* === Interactive Widgets === */
+.widget {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.widget-header {
+  padding: 0.7rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-accent);
+  border-bottom: 1px solid var(--border);
+}
+
+.widget-body {
+  padding: 1rem;
+}
+
+.widget canvas {
+  display: block;
+  width: 100%;
+  touch-action: manipulation;
+}
+
+.widget-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  align-items: center;
+}
+
+.widget-controls label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.widget-controls select {
+  background: var(--bg-accent);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.6rem;
+  font-size: 0.85rem;
+  font-family: var(--font);
+}
+
+.widget-controls button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background var(--transition);
+}
+.widget-controls button:hover { background: #6959e6; }
+.widget-controls button:active { background: #5a4ad4; }
+
+/* Mini keyboard display */
+.keyboard-keys {
+  display: flex;
+  position: relative;
+  height: 100px;
+  gap: 1px;
+}
+
+.white-key {
+  flex: 1;
+  background: #333;
+  border-radius: 0 0 6px 6px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.white-key:active, .white-key.pressed {
+  background: var(--accent);
+  color: #fff;
+}
+.white-key.root { background: #3d3a5e; }
+.white-key.highlight-in-scale { background: #2a2a40; }
+
+.black-key {
+  position: absolute;
+  width: 8%;
+  height: 58%;
+  background: #1a1a1f;
+  border-radius: 0 0 4px 4px;
+  top: 0;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.1s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  font-size: 0.5rem;
+  color: var(--text-muted);
+}
+.black-key:active, .black-key.pressed {
+  background: var(--accent);
+  color: #fff;
+}
+.black-key.highlight-in-scale { background: #2a2a40; }
+
+/* Highlight note in chord */
+.highlight-in-chord { 
+  background: var(--accent3) !important;
+  color: #000 !important;
+}
+
+/* === Callout boxes === */
+.callout {
+  background: var(--bg-accent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+}
+.callout strong { color: var(--accent); }
+
+.experiment-callout {
+  background: var(--bg-card);
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin: 1.5rem 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+.experiment-callout::before {
+  content: '🧪 Try it: ';
+  font-weight: 600;
+  color: var(--accent3);
+}
+
+/* === Bottom navigation === */
+.lesson-nav-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+  gap: 1rem;
+}
+
+.nav-btn {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all var(--transition);
+  display: flex; align-items: center; gap: 0.3rem;
+}
+.nav-btn:hover { border-color: var(--accent); background: var(--bg-accent); }
+.nav-btn.next { margin-left: auto; background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+/* Completion checkbox style */
+.completion-box {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: 1.5rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  transition: all var(--transition);
+  user-select: none;
+}
+.completion-box:hover { border-color: var(--accent); }
+.completion-box.checked {
+  border-color: var(--success);
+  color: var(--success);
+}
+.completion-box .check-icon {
+  font-size: 1.1rem;
+  width: 1.4rem;
+  text-align: center;
+}
+.completion-box .check-text { flex: 1; }
+
+/* Progress bar under nav */
+.progress-bar {
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.6s ease both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Interval table */
+.interval-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 1rem 0;
+}
+.interval-table th {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.interval-table td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+.interval-table tr:hover td { background: var(--bg-accent); }
+
+/* Code / formula */
+.formula {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  background: var(--bg-accent);
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .lesson-header h1 { font-size: 1.55rem; }
+  h2 { font-size: 1.2rem; }
+  .story-hook { font-size: 0.95rem; padding: 1rem 1.1rem; }
+}

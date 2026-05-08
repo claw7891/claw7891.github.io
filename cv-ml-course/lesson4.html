@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: Training Fundamentals and PyTorch Basics</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="4">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 4</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3">✓</span></a></li>
+    <li><a href="lesson4.html" class="active"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4">✓</span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5"></span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6"></span></a></li>
+    <li><a href="lesson7.html"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7"></span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8"></span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:40%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">Training Fundamentals and PyTorch Basics</div>
+    <h1>Teaching Your Model to See<br>From Data to Trained Weights</h1>
+    <p class="lesson-subtitle">Understanding the training loop, loss functions, and optimization in PyTorch</p>
+  </header>
+
+  <div class="story-hook">
+    You've got your data and chosen your model architecture. Now it's time to teach the model to recognize objects. In this lesson, we'll dive into the training process using PyTorch, the popular deep learning framework favored by researchers and engineers alike.
+  </div>
+
+  <h2>Why PyTorch?</h2>
+  <p>
+    PyTorch has become a go-to framework for computer vision research and development because of:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Pythonic and Imperative:</strong> Easy to debug and intuitive to use</li>
+    <li><strong>Dynamic Computation Graphs:</strong> Flexibility for complex models</li>
+    <li><strong>Strong Community and Ecosystem:</strong> TorchVision, TorchAudio, and numerous pre-trained models</li>
+    <li><strong>Production Ready:</strong> TorchServe for model serving, TorchScript for deployment</li>
+    <li><strong>Hardware Acceleration:</strong> Excellent CUDA support for NVIDIA GPUs</li>
+  </ul>
+
+  <h2>The Training Loop</h2>
+  <p>
+    At its core, training a neural network involves repeating these steps:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Forward Pass:</strong> Input data goes through the model to produce predictions</li>
+    <li><strong>Loss Calculation:</strong> Compare predictions to ground truth using a loss function</li>
+    <li><strong>Backward Pass:</strong> Compute gradients of the loss with respect to model parameters</li>
+    <li><strong>Weight Update:</strong> Adjust model weights using an optimizer (e.g., SGD, Adam)</li>
+  </ol>
+
+  <div class="concept-card">
+    <h3>PyTorch Training Loop Pseudocode</h3>
+    <pre><code>for epoch in range(num_epochs):
+    for batch in dataloader:
+        inputs, labels = batch
+        
+        # Zero the gradients
+        optimizer.zero_grad()
+        
+        # Forward pass
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        
+        # Backward pass
+        loss.backward()
+        
+        # Update weights
+        optimizer.step()</code></pre>
+  </div>
+
+  <h2>Key Components in PyTorch</h2>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>torch.nn.Module</h3>
+      <p>The base class for all neural network modules. Defines the model architecture.</p>
+    </div>
+    <div class="concept-card">
+      <h3>torch.utils.data.DataLoader</h3>
+      <p>Handles loading and batching of data, with options for shuffling and parallel loading.</p>
+    </div>
+    <div class="concept-card">
+      <h3>torch.optim</h3>
+      <p>Implements various optimization algorithms (SGD, Adam, RMSprop, etc.).</p>
+    </div>
+    <div class="concept-card">
+      <h3>torch.nn.functional</h3>
+      <p>Contains loss functions (CrossEntropyLoss, MSELoss, etc.) and activation functions.</p>
+    </div>
+  </div>
+
+  <h2>Training Computer Vision Models</h2>
+  <p>
+    When training CV models, there are some special considerations:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Data Augmentation:</strong> Use transforms (random crops, flips, color jitter) to increase robustness</li>
+    <li><strong>Learning Rate Scheduling:</strong> Adjust learning rate during training (e.g., step decay, cosine annealing)</li>
+    <li><strong>Transfer Learning:</strong> Start with pre-trained weights (e.g., from ImageNet) and fine-tune</li>
+    <li><strong>Mixed Precision Training:</strong> Use FP16 to speed up training and reduce memory usage</li>
+    <li><strong>Gradient Clipping:</strong> Prevent exploding gradients in deep networks</li>
+  </ul>
+
+  <h2>Monitoring and Debugging</h2>
+  <p>
+    Effective training requires monitoring:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Loss Curves:</strong> Track training and validation loss over time</li>
+    <li><strong>Accuracy Metrics:</strong> mAP for detection, accuracy for classification, IoU for segmentation</li>
+    <li><strong>Visualization:</strong> Use TensorBoard or Weights & Biases to log metrics and visualize predictions</li>
+    <li><strong>Learning Rate Finder:</strong> Help identify optimal learning rate</li>
+  </ul>
+
+  <!-- Completion -->
+  <div class="completion-box">
+    <span class="check-icon">✓</span>
+    <span class="check-text">Mark as complete</span>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson5.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 5 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

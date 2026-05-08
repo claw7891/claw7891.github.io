@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Vision ML: Real-time Inference and Tracking</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-lesson="7">
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="emoji">👁️‍🗨️</span> CV ML Course
+  </a>
+  <span class="nav-lesson">Lesson 7</span>
+  <button class="menu-btn" aria-label="Lessons">☰</button>
+</nav>
+
+<!-- Lesson Drawer -->
+<div class="drawer-overlay"></div>
+<aside class="lesson-drawer">
+  <div class="drawer-header">
+    <h3>Course Syllabus</h3>
+    <button class="drawer-close">✕</button>
+  </div>
+  <ul class="lesson-list">
+    <li><a href="index.html"><span class="lesson-num">🏠</span>Home</a></li>
+    <li><a href="lesson1.html"><span class="lesson-num">01</span> Introduction to Computer Vision and ML Pipeline <span class="lesson-check" data-lesson="1">✓</span></a></li>
+    <li><a href="lesson2.html"><span class="lesson-num">02</span> Data Collection and Annotation <span class="lesson-check" data-lesson="2">✓</span></a></li>
+    <li><a href="lesson3.html"><span class="lesson-num">03</span> Model Architecture Selection <span class="lesson-check" data-lesson="3">✓</span></a></li>
+    <li><a href="lesson4.html"><span class="lesson-num">04</span> Training Fundamentals and PyTorch Basics <span class="lesson-check" data-lesson="4">✓</span></a></li>
+    <li><a href="lesson5.html"><span class="lesson-num">05</span> Model Optimization and Quantization <span class="lesson-check" data-lesson="5">✓</span></a></li>
+    <li><a href="lesson6.html"><span class="lesson-num">06</span> Deployment to Embedded Systems <span class="lesson-check" data-lesson="6">✓</span></a></li>
+    <li><a href="lesson7.html" class="active"><span class="lesson-num">07</span> Real-time Inference and Tracking <span class="lesson-check" data-lesson="7">✓</span></a></li>
+    <li><a href="lesson8.html"><span class="lesson-num">08</span> ONNX Conversion and Optimization <span class="lesson-check" data-lesson="8"></span></a></li>
+    <li><a href="lesson9.html"><span class="lesson-num">09</span> End-to-End Project and Best Practices <span class="lesson-check" data-lesson="9"></span></a></li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width:70%"></div></div>
+</aside>
+
+<!-- Main Content -->
+<main class="container">
+  <header class="lesson-header">
+    <div class="lesson-meta">Real-time Inference and Tracking</div>
+    <h1>Making Your Model See in Real Time<br>From Single Images to Video Streams</h1>
+    <p class="lesson-subtitle">Techniques for achieving low-latency, high-frame-rate inference</p>
+  </header>
+
+  <div class="story-hook">
+    You've deployed your model to the Orin NX or QCS8550, but now you notice it's only running at 5 FPS when you need 30 FPS for smooth tracking. In this lesson, we'll learn how to optimize your inference pipeline for real-time performance and implement object tracking to maintain identity across frames.
+  </div>
+
+  <h2>Understanding Latency</h2>
+  <p>
+    Real-time inference requires minimizing latency at every stage:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Image Capture:</strong> Camera exposure time and readout speed</li>
+    <li><strong>Preprocessing:</strong> Resizing, normalization, color conversion</li>
+    <li><strong>Inference:</strong> Model computation time on accelerator</li>
+    <li><strong>Postprocessing:</strong> NMS, decoding predictions, filtering</li>
+    <li><strong>Display/Output:</strong> Rendering results or sending to next stage</li>
+  </ul>
+
+  <h2>Optimizing the Inference Pipeline</h2>
+  <p>
+    Here are strategies to reduce latency:
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>Batch Size = 1</h3>
+      <p>For real-time, process one frame at a time to avoid waiting for batch accumulation.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Asynchronous Processing</h3>
+      <p>Overlap capture, preprocessing, inference, and postprocessing using multiple threads or pipelines.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Hardware-Accelerated Preprocessing</h3>
+      <p>Use GPU or dedicated ISP for resizing, color conversion, and normalization.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Model Input Shape Optimization</h3>
+      <p>Choose input resolution that balances accuracy and speed (e.g., 416x416 vs 608x608 for YOLO).</p>
+    </div>
+  </div>
+
+  <h2>Object Tracking Fundamentals</h2>
+  <p>
+    Detection alone isn't enough for many applications - you need to maintain object identity across frames:
+  </p>
+
+  <ul class="content-list">
+    <li><strong>Why Track?</strong> To count objects, analyze behavior, reduce false positives, and enable smoother interaction</li>
+    <li><strong>Tracking by Detection:</strong> Simple approach - detect in each frame and associate detections using IOU or distance</li>
+    <li><strong>Kalman Filters:</strong> Predict object motion based on previous state to handle temporary occlusions</li>
+    <li><strong>Deep SORT:</strong> Combines deep appearance features with Kalman filtering for robust tracking</li>
+    <li><strong>ByteTrack:</strong> Associates low-confidence detections to improve tracking of small/fast objects</li>
+  </ul>
+
+  <h2>Embedded-Specific Tracking Considerations</h2>
+  <p>
+    On embedded systems like Orin NX and QCS8550:
+  </p>
+
+  <ol class="content-list">
+    <li><strong>Memory Bandwidth:</strong> Tracking algorithms that require large feature maps may strain memory bandwidth</li>
+    <li><strong>Compute Budget:</strong> Appearance-based tracking (like Deep SORT) adds significant compute overhead</li>
+    <li><strong>Latency Trade-offs:</strong> More sophisticated tracking increases latency - choose based on your FPS requirements</li>
+    <li><strong>Hardware Acceleration:</strong> Some tracking components can be offloaded to GPU, NPU, or DSP</li>
+  </ol>
+
+  <h2>Practical Implementation Tips</h2>
+  <ul class="content-list">
+    <li>Start simple: use IOU-based tracking before adding complex appearance models</li>
+    <li>Measure end-to-end latency, not just model inference time</li>
+    <li>Consider region-of-interest (ROI) processing to reduce computation in irrelevant image areas</li>
+    <li>Use hardware-accelerated video decoding/encoding if working with compressed video streams</li>
+    <li>Implement fallback mechanisms for tracking failures (e.g., redetection after loss)</li>
+  </ul>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="lesson8.html" class="nav-btn next" style="display:inline-flex;font-size:1.05rem;padding:0.75rem 1.5rem;">
+      Continue to Lesson 8 → 
+    </a>
+  </div>
+</main>
+
+<script src="assets/nav.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>
