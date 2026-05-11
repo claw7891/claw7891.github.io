@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Taker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .input-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .input-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .input-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.2s;
+        }
+        
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .process-button {
+            display: block;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .process-button:hover {
+            opacity: 0.9;
+        }
+        
+        .process-button:active {
+            opacity: 0.8;
+        }
+        
+        .exhibitors-section {
+            padding: 1.5rem;
+            display: none;
+        }
+        
+        .exhibitors-section.active {
+            display: block;
+        }
+        
+        .exhibitors-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .download-button {
+            padding: 0.5rem 1rem;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .download-button:hover {
+            opacity: 0.9;
+        }
+        
+        .exhibitor-section {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .exhibitor-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .exhibitor-header.active {
+            background: #e3f2fd;
+        }
+        
+        .exhibitor-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        .exhibitor-booth {
+            background: #6c757d;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .exhibitor-content {
+            padding: 1rem;
+            display: none;
+        }
+        
+        .exhibitor-content.active {
+            display: block;
+        }
+        
+        .exhibitor-description {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        
+        .notes-group {
+            margin-bottom: 1rem;
+        }
+        
+        .notes-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .notes-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.2s;
+        }
+        
+        .notes-group textarea:focus {
+            outline: none;
+            border-color: #28a745;
+        }
+        
+        .image-group {
+            margin-bottom: 1rem;
+        }
+        
+        .image-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            background-color: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+        
+        .image-preview.video-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 2rem;
+        }
+        
+        .image-preview.no-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+        
+        .image-controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .image-controls button {
+            flex: 1;
+            min-width: 80px;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .capture-button {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .upload-button {
+            background: #28a745;
+            color: white;
+        }
+        
+        .clear-button {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .image-controls button:hover {
+            opacity: 0.9;
+        }
+        
+        .image-controls button:active {
+            opacity: 0.8;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+            
+            .input-section {
+                padding: 1rem;
+            }
+            
+            .exhibitors-section {
+                padding: 1rem;
+            }
+            
+            .exhibitor-header {
+                padding: 0.75rem;
+            }
+            
+            .exhibitor-content {
+                padding: 0.75rem;
+            }
+            
+            .input-group textarea {
+                min-height: 60px;
+            }
+            
+            .notes-group textarea {
+                min-height: 80px;
+            }
+            
+            .image-preview {
+                height: 120px;
+            }
+            
+            .process-button {
+                padding: 1.25rem;
+            }
+            
+            .download-button {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Note Taker</h1>
+            <p>Take notes and capture business cards for exhibitors</p>
+        </header>
+        
+        <div class="input-section">
+            <h2>Load Exhibitor Data</h2>
+            <div class="input-group">
+                <label for="exhibitorJson">Paste JSON from Exhibitor Selector:</label>
+                <textarea id="exhibitorJson" placeholder='[{"name": "Exhibitor Name", "description": "Description", "boothNumber": "123"}]'></textarea>
+            </div>
+            <button class="process-button" id="processButton">Load Exhibitors</button>
+        </div>
+        
+        <div class="exhibitors-section" id="exhibitorsSection">
+            <div class="exhibitors-title">
+                <span>Exhibitors</span>
+                <button class="download-button" id="downloadButton">Download Notes</button>
+            </div>
+            <div id="exhibitorsContainer">
+                <!-- Exhibitor sections will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const exhibitorJsonInput = document.getElementById('exhibitorJson');
+            const processButton = document.getElementById('processButton');
+            const exhibitorsSection = document.getElementById('exhibitorsSection');
+            const exhibitorsContainer = document.getElementById('exhibitorsContainer');
+            const downloadButton = document.getElementById('downloadButton');
+            
+            let exhibitorsData = [];
+            
+            // Process button click handler
+            processButton.addEventListener('click', function() {
+                const jsonText = exhibitorJsonInput.value.trim();
+                if (!jsonText) {
+                    alert('Please paste exhibitor JSON data');
+                    return;
+                }
+                
+                try {
+                    exhibitorsData = JSON.parse(jsonText);
+                    if (!Array.isArray(exhibitorsData)) {
+                        throw new Error('JSON must be an array');
+                    }
+                    
+                    // Validate each exhibitor has required fields
+                    exhibitorsData.forEach((exhibitor, index) => {
+                        if (!exhibitor.name || !exhibitor.description) {
+                            throw new Error(`Exhibitor at index ${index} missing required fields (name, description)`);
+                        }
+                        // Ensure boothNumber exists (can be empty string)
+                        if (exhibitor.boothNumber === undefined) {
+                            exhibitor.boothNumber = '';
+                        }
+                    });
+                    
+                    renderExhibitors();
+                    exhibitorsSection.classList.add('active');
+                } catch (error) {
+                    alert('Invalid JSON: ' + error.message);
+                    exhibitorsData = [];
+                }
+            });
+            
+            // Render exhibitors
+            function renderExhibitors() {
+                exhibitorsContainer.innerHTML = '';
+                
+                if (exhibitorsData.length === 0) {
+                    exhibitorsContainer.innerHTML = '<div class="empty-state">No exhibitors to display</div>';
+                    return;
+                }
+                
+                exhibitorsData.forEach((exhibitor, index) => {
+                    const exhibitorElement = document.createElement('div');
+                    exhibitorElement.className = 'exhibitor-section';
+                    exhibitorElement.innerHTML = `
+                        <div class="exhibitor-header">
+                            <h3>${exhibitor.name}</h3>
+                            <span class="exhibitor-booth">Booth ${exhibitor.boothNumber || 'TBD'}</span>
+                        </div>
+                        <div class="exhibitor-content">
+                            <div class="exhibitor-description">${exhibitor.description}</div>
+                            
+                            <div class="notes-group">
+                                <label for="notes-${index}">Notes:</label>
+                                <textarea id="notes-${index}" placeholder="Take notes about this exhibitor..."></textarea>
+                            </div>
+                            
+                            <div class="image-group">
+                                <label>Business Card Image:</label>
+                                <div class="image-preview" id="preview-${index}">
+                                    <div class="no-image">No image captured</div>
+                                </div>
+                                <div class="image-controls">
+                                    <button class="capture-button" onclick="captureImage(${index})">Take Photo</button>
+                                    <button class="upload-button" onclick="uploadImage(${index})">Choose Image</button>
+                                    <button class="clear-button" onclick="clearImage(${index})">Clear</button>
+                                </div>
+                                <input type="file" id="fileInput-${index}" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                    `;
+                    
+                    exhibitorsContainer.appendChild(exhibitorElement);
+                    
+                    // Add toggle functionality to header
+                    const header = exhibitorElement.querySelector('.exhibitor-header');
+                    const content = exhibitorElement.querySelector('.exhibitor-content');
+                    header.addEventListener('click', function() {
+                        header.classList.toggle('active');
+                        content.classList.toggle('active');
+                    });
+                });
+            }
+            
+            // Image capture functions
+            window.captureImage = function(index) {
+                // Try to access camera first
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(stream => {
+                            const video = document.createElement('video');
+                            video.autoplay = true;
+                            video.srcObject = stream;
+                            
+                            const preview = document.getElementById(`preview-${index}`);
+                            preview.innerHTML = '';
+                            preview.appendChild(video);
+                            preview.classList.remove('no-image');
+                            
+                            // Create capture button
+                            const captureBtn = document.createElement('button');
+                            captureBtn.textContent = 'Capture Photo';
+                            captureBtn.style.position = 'absolute';
+                            captureBtn.style.bottom = '10px';
+                            captureBtn.style.left = '50%';
+                            captureBtn.style.transform = 'translateX(-50%)';
+                            captureBtn.style.background = 'rgba(0,0,0,0.7)';
+                            captureBtn.style.color = 'white';
+                            captureBtn.style.border = 'none';
+                            captureBtn.style.padding = '5px 10px';
+                            captureBtn.style.borderRadius = '4px';
+                            captureBtn.style.cursor = 'pointer';
+                            preview.style.position = 'relative';
+                            preview.appendChild(captureBtn);
+                            
+                            captureBtn.addEventListener('click', function() {
+                                // Create canvas to capture image
+                                const canvas = document.createElement('canvas');
+                                canvas.width = video.videoWidth;
+                                canvas.height = video.videoHeight;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                
+                                // Convert to base64
+                                const imageDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                                
+                                // Store image data
+                                if (!exhibitorsData[index].businessCardImage) {
+                                    exhibitorsData[index].businessCardImage = [];
+                                }
+                                exhibitorsData[index].businessCardImage.push(imageDataUrl);
+                                
+                                // Update preview
+                                updateImagePreview(index, imageDataUrl);
+                                
+                                // Clean up
+                                stream.getTracks().forEach(track => track.stop());
+                                preview.removeChild(video);
+                                preview.removeChild(captureBtn);
+                            });
+                            
+                            // Auto-capture after 3 seconds for simplicity
+                            setTimeout(() => {
+                                captureBtn.click();
+                            }, 3000);
+                        })
+                        .catch(err => {
+                            console.error("Camera access denied or not available:", err);
+                            // Fall back to file upload
+                            document.getElementById(`fileInput-${index}`).click();
+                        });
+                } else {
+                    // Fall back to file upload
+                    document.getElementById(`fileInput-${index}`).click();
+                }
+            };
+            
+            window.uploadImage = function(index) {
+                document.getElementById(`fileInput-${index}`).click();
+            };
+            
+            window.clearImage = function(index) {
+                if (exhibitorsData[index]) {
+                    exhibitorsData[index].businessCardImage = null;
+                }
+                updateImagePreview(index, null);
+            };
+            
+            // File input change handler
+            function setupFileInput(index) {
+                const fileInput = document.getElementById(`fileInput-${index}`);
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const imageDataUrl = event.target.result;
+                            
+                            // Store image data
+                            if (!exhibitorsData[index].businessCardImage) {
+                                exhibitorsData[index].businessCardImage = [];
+                            }
+                            exhibitorsData[index].businessCardImage.push(imageDataUrl);
+                            
+                            // Update preview
+                            updateImagePreview(index, imageDataUrl);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+            
+            // Update image preview
+            function updateImagePreview(index, imageDataUrl) {
+                const preview = document.getElementById(`preview-${index}`);
+                preview.innerHTML = '';
+                
+                if (imageDataUrl) {
+                    const img = document.createElement('img');
+                    img.src = imageDataUrl;
+                    preview.appendChild(img);
+                    preview.classList.remove('no-image');
+                } else {
+                    preview.innerHTML = '<div class="no-image">No image captured</div>';
+                    preview.classList.add('no-image');
+                }
+            }
+            
+            // Initialize file inputs for all exhibitors
+            function initializeFileInputs() {
+                exhibitorsData.forEach((_, index) => {
+                    setupFileInput(index);
+                });
+            }
+            
+            // Download button click handler
+            downloadButton.addEventListener('click', function() {
+                if (exhibitorsData.length === 0) {
+                    alert('No exhibitor data to download');
+                    return;
+                }
+                
+                // Prepare data for download - include notes and images
+                const outputData = exhibitorsData.map(exhibitor => {
+                    const exhibitorCopy = { ...exhibitor };
+                    // Add notes if they exist
+                    const notesElement = document.getElementById(`notes-${exhibitorsData.indexOf(exhibitorCopy)}`);
+                    if (notesElement) {
+                        exhibitorCopy.notes = notesElement.value.trim();
+                    }
+                    // Ensure businessCardImage exists (even if null)
+                    if (exhibitorCopy.businessCardImage === undefined) {
+                        exhibitorCopy.businessCardImage = null;
+                    }
+                    return exhibitorCopy;
+                });
+                
+                const jsonString = JSON.stringify(outputData, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `exhibitor_notes_${new Date().toISOString().slice(0,10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+</body>
+</html>

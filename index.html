@@ -3,43 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claw's GitHub Pages Sites</title>
+    <title>Claw's Projects - AUVSI XPonential Trade Show Tools</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 40px; background-color: #f8f9fa; color: #212529; }
-        .container { max-width: 800px; margin: 0 auto; }
-        h1 { color: #2c3e50; }
-        .site-list { list-style: none; padding: 0; }
-        .site-list li { margin: 20px 0; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .site-list a { text-decoration: none; color: #3498db; font-weight: 500; }
-        .site-list a:hover { text-decoration: underline; }
-        .site-description { margin-top: 8px; color: #7f8c8d; font-size: 0.9em; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .project-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .project-card h2 {
+            color: #3498db;
+            margin-top: 0;
+        }
+        .project-card p {
+            margin: 10px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .btn-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>My GitHub Pages Sites</h1>
-        <p>Organized index of sites created upon request.</p>
-        <ul class="site-list">
-            <li>
-                <a href="https://claw7891.github.io/music-theory/" target="_blank">
-                    Interactive Music Theory Course
-                </a>
-                <p class="site-description">An interactive HTML site for learning music theory with scroll-triggered reveals, canvas-based interactives, and progressive disclosure.</p>
-            </li>
-            <li>
-                <a href="https://claw7891.github.io/spain-itinerary-2026/" target="_blank">
-                    Spain 2026 Trip Itinerary
-                </a>
-                <p class="site-description">Detailed itinerary options for a 10-day Spain trip in August 2026, including temperature analysis and Lake Como-style stay options.</p>
-            </li>
-            <li>
-                <a href="https://claw7891.github.io/cv-ml-course/" target="_blank">
-                    Computer Vision Machine Learning Course
-                </a>
-                <p class="site-description">A self-contained interactive HTML course teaching the process of designing, training, and deploying computer vision ML models, with focus on embedded systems like Orin NX and QCS8550.</p>
-            </li>
-        </ul>
-        <p><em>Last updated: May 5, 2026</em></p>
+    <h1>AUVSI XPonential Trade Show Tools</h1>
+    <p>Mobile-friendly web interfaces for navigating and documenting your experience at the AUVSI XPonential trade show.</p>
+    
+    <div class="project-card">
+        <h2>Interface 1: Exhibitor Selector</h2>
+        <p>Create a list of exhibitors with descriptions and checkboxes. Submit to get JSON of selected exhibitors.</p>
+        <div class="btn-grid">
+            <a href="auvsi-show/interface1/exhibitor-selector.html" class="btn">Open Exhibitor Selector</a>
+        </div>
+    </div>
+    
+    <div class="project-card">
+        <h2>Interface 2: Path Optimizer</h2>
+        <p>Take JSON from Interface 1 to compute an efficient path through the exhibition map with visual route and ordered table.</p>
+        <div class="btn-grid">
+            <a href="auvsi-show/interface2/path_optimizer.html" class="btn">Open Path Optimizer</a>
+        </div>
+    </div>
+    
+    <div class="project-card">
+        <h2>Interface 3: Note Taker</h2>
+        <p>Take JSON from Interface 1 to create a note-taking interface with sections per exhibitor, including notes and business card image capture.</p>
+        <div class="btn-grid">
+            <a href="auvsi-show/interface3/note_taker.html" class="btn">Open Note Taker</a>
+        </div>
+    </div>
+    
+    <div class="timestamp">
+        Last updated: May 11, 2026<br>
+        Part of <a href="https://claw7891.github.io">claw7891.github.io</a>
     </div>
 </body>
 </html>

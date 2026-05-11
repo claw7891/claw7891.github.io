@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exhibitor Selector</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .exhibitors-list {
+            padding: 1.5rem;
+        }
+        
+        .exhibitor-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+        
+        .exhibitor-item:hover {
+            background-color: #f8f9ff;
+        }
+        
+        .exhibitor-item:last-child {
+            border-bottom: none;
+        }
+        
+        .exhibitor-checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-top: 0.25rem;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+        
+        .exhibitor-info {
+            flex: 1;
+        }
+        
+        .exhibitor-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #2c3e50;
+        }
+        
+        .exhibitor-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        
+        .submit-button:hover {
+            opacity: 0.9;
+        }
+        
+        .submit-button:active {
+            opacity: 0.8;
+        }
+        
+        .results-section {
+            padding: 1.5rem;
+            display: none;
+        }
+        
+        .results-section.active {
+            display: block;
+        }
+        
+        .results-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .results-json {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+            
+            .exhibitors-list {
+                padding: 1rem;
+            }
+            
+            .exhibitor-item {
+                padding: 0.75rem;
+            }
+            
+            .submit-button {
+                padding: 1.25rem;
+            }
+            
+            .results-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Exhibitor Selector</h1>
+            <p>Select exhibitors you're interested in</p>
+        </header>
+        
+        <div class="exhibitors-list">
+            <!-- Exhibitor items will be populated by JavaScript -->
+        </div>
+        
+        <button class="submit-button" id="submitButton">
+            Get Selected Exhibitors
+        </button>
+        
+        <div class="results-section" id="resultsSection">
+            <div class="results-title">Selected Exhibitors</div>
+            <div class="results-json" id="resultsJson">
+                <!-- JSON output will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample exhibitor data - in a real app, this might come from an API
+        const exhibitors = [
+            {
+                id: 1,
+                name: "AeroTech Solutions",
+                description: "Leading provider of drone technology and aerial imaging systems for industrial applications"
+            },
+            {
+                id: 2,
+                name: "Thermal Vision Inc.",
+                description: "Specializing in advanced thermal imaging cameras and sensors for security and surveillance"
+            },
+            {
+                id: 3,
+                name: "SkySurvey Dynamics",
+                description: "Innovative mapping and surveying solutions using LiDAR and photogrammetry technology"
+            },
+            {
+                id: 4,
+                name: "NaviDrone Systems",
+                description: "Autonomous navigation systems and flight control software for commercial UAV operations"
+            },
+            {
+                id: 5,
+                name: "PixelPerfect Imaging",
+                description: "High-resolution aerial photography and videography services for real estate and construction"
+            },
+            {
+                id: 6,
+                name: "SafeFlight Technologies",
+                description: "Collision avoidance and airspace management systems for safe drone operations"
+            },
+            {
+                id: 7,
+                name: "GeoSpatial Analytics",
+                description: "Data analysis and GIS solutions for processing aerial survey information"
+            },
+            {
+                id: 8,
+                name: "PowerGrid Inspect",
+                description: "Specialized inspection services for power line and utility infrastructure using drones"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const exhibitorsList = document.querySelector('.exhibitors-list');
+            const submitButton = document.getElementById('submitButton');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsJson = document.getElementById('resultsJson');
+            
+            // Populate exhibitor list
+            exhibitors.forEach(exhibitor => {
+                const exhibitorElement = document.createElement('div');
+                exhibitorElement.className = 'exhibitor-item';
+                exhibitorElement.innerHTML = `
+                    <input type="checkbox" class="exhibitor-checkbox" data-id="${exhibitor.id}">
+                    <div class="exhibitor-info">
+                        <div class="exhibitor-name">${exhibitor.name}</div>
+                        <div class="exhibitor-description">${exhibitor.description}</div>
+                    </div>
+                `;
+                exhibitorsList.appendChild(exhibitorElement);
+            });
+            
+            // Handle submit button click
+            submitButton.addEventListener('click', function() {
+                const selectedExhibitors = [];
+                const checkboxes = document.querySelectorAll('.exhibitor-checkbox:checked');
+                
+                checkboxes.forEach(checkbox => {
+                    const exhibitorId = parseInt(checkbox.dataset.id);
+                    const exhibitor = exhibitors.find(ex => ex.id === exhibitorId);
+                    if (exhibitor) {
+                        selectedExhibitors.push({
+                            id: exhibitor.id,
+                            name: exhibitor.name,
+                            description: exhibitor.description
+                        });
+                    }
+                });
+                
+                // Display results
+                if (selectedExhibitors.length > 0) {
+                    resultsJson.textContent = JSON.stringify(selectedExhibitors, null, 2);
+                    resultsSection.classList.add('active');
+                } else {
+                    resultsJson.textContent = '[]';
+                    resultsSection.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
