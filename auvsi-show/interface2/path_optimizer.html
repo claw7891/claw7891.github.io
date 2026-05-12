@@ -245,7 +245,7 @@
       Paste the JSON array of exhibitors from the <strong>Exhibitor Selector</strong> tool.
       Each exhibitor must have a <code>name</code> and <code>boothNumber</code> field.
     </p>
-    <textarea id="jsonInput" placeholder='[{ "name": "DJI", "boothNumber": "2101" }, ... ]'></textarea>
+    <textarea id="jsonInput" placeholder='[{ "name": "Skydio", "boothNumber": "25000" }, ... ]&#10;&#10;Paste JSON from Interface 1 (Exhibitor Selector).&#10;Booth numbers use 5-digit format e.g. 31019, 25000, 12009.'></textarea>
     <div class="btn-group">
       <button class="btn btn-primary" id="calcBtn" onclick="calculatePath()">🚀 Calculate Route</button>
       <button class="btn btn-secondary" onclick="loadSample()">📋 Load Sample</button>
@@ -317,53 +317,101 @@
 // Coordinates are percentage-based (0-100) for SVG scaling.
 // Booth numbers follow a typical AUVSI convention center grid.
 
-const BOOTH_DATABASE = (() => {
-  const booths = {};
+// ============================================================
+// DYNAMIC BOOTH COORDINATE MAP — XPONENTIAL 2026 @ Huntington Place
+// ============================================================
+// Real booth numbers follow a 5-digit pattern: ZZPPP
+//   ZZ = aisle/zone (10-44)
+//   PPP = position within aisle (000-999)
+// Huntington Place Hall A-D is ~200K sq ft rectangle.
+// Zones run in rows: 10-19 front, 20-29 row2, 30-39 row3, 40-44 back.
+// Within each zone, booths are arranged along the aisle (alternating sides).
 
-  function add(num, x, y, label) {
-    booths[String(num)] = { x, y, label: label || null };
+function getBoothCoord(boothStr) {
+  boothStr = String(boothStr).trim();
+
+  // Handle Meeting Rooms (MR1, MR2, etc)
+  if (/^MR\s*(\d+)$/i.test(boothStr)) {
+    const n = parseInt(RegExp.$1);
+    return { x: 85 + n * 2.5, y: 6, label: `Meeting Room ${n}` };
   }
 
-  // 8 aisles x 16 booths per aisle
-  const AISLE_Y = [8, 20, 32, 44, 56, 68, 80, 92];
-  const BOOTH_START = [100, 200, 300, 400, 500, 600, 700, 800];
-  const BOOTH_COUNT = 16;
+  // Must be a 4-5 digit number
+  const m = boothStr.match(/^(\d+)$/);
+  if (!m) return null;
 
-  for (let a = 0; a < AISLE_Y.length; a++) {
-    for (let i = 0; i < BOOTH_COUNT; i++) {
-      const num = BOOTH_START[a] + i;
-      const x = 4.5 + (i * 91 / BOOTH_COUNT);
-      const yOff = (i % 2 === 0) ? -4.5 : 4.5;
-      add(num, x, AISLE_Y[a] + yOff);
-    }
+  const num = parseInt(m[1]);
+  // 5-digit format: ZZ-PPP → zone = first 2 digits, pos = last 3 digits
+  // e.g. 31019 → zone 31, position 019
+  const zone = Math.floor(num / 1000); // 31 from 31019
+  const pos  = num % 1000;             // 19 from 31019
+
+  // Map zone to a row on the floor (0-3 rows covering zones 10-44)
+  // Zones 10-18: Row 0  (front, Hall A)
+  // Zones 19-28: Row 1  (Hall B)
+  // Zones 29-38: Row 2  (Hall C)
+  // Zones 39-44: Row 3  (back, Hall D)
+  let row;
+  if (zone >= 10 && zone <= 18) row = 0;
+  else if (zone >= 19 && zone <= 28) row = 1;
+  else if (zone >= 29 && zone <= 38) row = 2;
+  else if (zone >= 39 && zone <= 44) row = 3;
+  else return null; // outside known zone range
+
+  // Y: center line of each row, alternating sides per aisle
+  const rowBaseY = [14, 36, 58, 80];
+  const yCenter = rowBaseY[row];
+  const side = (zone % 2 === 0) ? -4.2 : 4.2;
+  const y = yCenter + side;
+
+  // X: positions are typically spread across the floor width
+  // Booth positions 000-999 map across the 0-100 X range
+  // Use the zone within the row to determine horizontal sector
+  const zoneInRow = zone - (row * 10 + 10); // 0-8 within row
+  const zonesPerRow = (row === 3) ? 6 : 10; // row 3 has zones 39-44 (6 zones)
+  const sectorWidth = 100 / zonesPerRow;
+  const sectorStart = zoneInRow * sectorWidth;
+
+  // Within the sector, position the booth based on its pos value
+  // pos ranges 0-99, map to the sector width (leaving margins)
+  const margin = sectorWidth * 0.08;
+  const usableWidth = sectorWidth - 2 * margin;
+  const x = sectorStart + margin + (pos / 99) * usableWidth;
+
+  const zoneLabel = `Zone ${zone}`;
+  return { x, y, label: zoneLabel };
+}
+
+// Build a lookup for all known zones (lazy, computed on demand)
+const BOOTH_DATABASE = new Proxy({}, {
+  get(target, prop) {
+    if (target[prop] !== undefined) return target[prop];
+    const coord = getBoothCoord(prop);
+    if (coord) { target[prop] = coord; }
+    return coord;
   }
-
-  // Special locations
-  add(100, 50, 2, 'Main Entrance');
-  add(815, 50, 98, 'Registration');
-
-  return booths;
-})();
+});
 
 // ============================================================
 // SAMPLE EXHIBITOR DATA
 // ============================================================
+// Sample: 15 real XPONENTIAL 2026 exhibitors for quick testing
 const SAMPLE_EXHIBITORS = [
-  { name: 'DJI',                     boothNumber: '301', description: 'Leading drone manufacturer with enterprise and consumer UAV solutions.' },
-  { name: 'Skydio',                  boothNumber: '405', description: 'Autonomous drone platform for enterprise inspection and defense.' },
-  { name: 'Auterion',                boothNumber: '210', description: 'Open-source enterprise drone OS and fleet management.' },
-  { name: 'Parrot',                  boothNumber: '502', description: 'French drone manufacturer, professional and agricultural UAVs.' },
-  { name: 'AeroVironment',           boothNumber: '708', description: 'Unmanned aircraft systems for defense and government.' },
-  { name: 'General Atomics',         boothNumber: '103', description: 'Predator and other large-scale UAS platforms for defense.' },
-  { name: 'L3Harris',                boothNumber: '312', description: 'ISR and electronic warfare solutions for unmanned systems.' },
-  { name: 'Northrop Grumman',        boothNumber: '608', description: 'Global Hawk and advanced autonomous systems.' },
-  { name: 'Wing',                    boothNumber: '114', description: 'Alphabet subsidiary for drone delivery services.' },
-  { name: 'Zipline',                 boothNumber: '209', description: 'Medical drone delivery service operating in multiple countries.' },
-  { name: 'Textron Systems',         boothNumber: '703', description: 'Aerosonde and other tactical UAS platforms.' },
-  { name: 'Shield AI',               boothNumber: '506', description: 'AI pilot technology for autonomous aircraft operations.' },
-  { name: 'Anduril',                 boothNumber: '401', description: 'Defense technology company with autonomous systems.' },
-  { name: 'Kespry',                  boothNumber: '308', description: 'Drone-based aerial intelligence for industrial inspections.' },
-  { name: 'AgEagle',                 boothNumber: '612', description: 'Agricultural drone solutions and precision analytics.' }
+  { name: 'Skydio',                  boothNumber: '25000', description: 'Autonomous drone platform for enterprise inspection and defense.' },
+  { name: 'DJI Enterprise',          boothNumber: '23000', description: 'Leading drone manufacturer with enterprise and consumer UAV solutions.' },
+  { name: 'Anduril Industries',      boothNumber: '21000', description: 'Defense technology company with autonomous systems and AI.' },
+  { name: 'Shield AI',               boothNumber: '24000', description: 'AI pilot technology for autonomous aircraft operations.' },
+  { name: 'AeroVironment',           boothNumber: '12009', description: 'Unmanned aircraft systems for defense and government.' },
+  { name: 'Honeywell',               boothNumber: '24010', description: 'Aerospace guidance, navigation, and autonomy solutions.' },
+  { name: 'Red Cat / Teal Drones',  boothNumber: '32000', description: 'American-made sUAS for defense and public safety.' },
+  { name: 'Zipline',                 boothNumber: '23010', description: 'Medical drone delivery service operating in multiple countries.' },
+  { name: 'Wing',                    boothNumber: '21010', description: 'Alphabet subsidiary for drone delivery services.' },
+  { name: 'Amazon Prime Air',        boothNumber: '38000', description: 'Amazon drone delivery program for fast package delivery.' },
+  { name: 'Doodle Labs',             boothNumber: '32001', description: 'Industrial-grade wireless mesh networking for robotics.' },
+  { name: 'ESRI',                    boothNumber: '24017', description: 'GIS mapping and spatial analytics software platform.' },
+  { name: 'Trimble Inc',             boothNumber: '27000', description: 'GNSS positioning, surveying, and precision agriculture tech.' },
+  { name: 'Teledyne FLIR',           boothNumber: '18010', description: 'Thermal imaging and sensing for defense and industrial.' },
+  { name: 'Silvus Technologies',     boothNumber: '35000', description: 'MIMO mesh networking for tactical communications.' }
 ];
 
 // ============================================================
@@ -451,7 +499,7 @@ function _calculatePath() {
     }
 
     if (!BOOTH_DATABASE[booth]) {
-      showStatus('error', `⚠️ Booth "${booth}" (${name}) was not found on the exhibition map.`);
+      showStatus('error', `⚠️ Booth "${booth}" (${name}) was not found. Valid booths are in zones 10-44 (e.g. 10000–44999) or MR1-MR9 meeting rooms.`);
       return;
     }
 
@@ -573,9 +621,15 @@ function renderMap(route) {
     svg += `<line x1="${P}" y1="${sy(pct)}" x2="${P + iW}" y2="${sy(pct)}" stroke="#e2e8f0" stroke-width="0.5"/>`;
   }
 
-  // Draw all known booths in light grey
-  for (const [, booth] of Object.entries(BOOTH_DATABASE)) {
-    svg += `<circle cx="${sx(booth.x)}" cy="${sy(booth.y)}" r="3.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="0.5" opacity="0.5"/>`;
+  // Draw floor plan zones as labeled aisles
+  const zoneColors = ['#f1f5f9', '#f8fafc', '#f1f5f9', '#f8fafc'];
+  const zoneLabels = ['Hall A (10-18)', 'Hall B (19-28)', 'Hall C (29-38)', 'Hall D (39-44)'];
+  for (let row = 0; row < 4; row++) {
+    const yTop = [4, 26, 48, 70][row];
+    const yBot = [24, 46, 68, 90][row];
+    svg += `<rect x="${P}" y="${sy(yTop)}" width="${iW}" height="${sy(yBot)-sy(yTop)}"
+      fill="${zoneColors[row]}" stroke="#cbd5e1" stroke-width="1" rx="4"/>`;
+    svg += `<text x="${P+8}" y="${sy(yTop+2)}" fill="#94a3b8" font-size="9" font-weight="500">${zoneLabels[row]}</text>`;
   }
 
   // Draw path segments (dashed lines with arrows)
