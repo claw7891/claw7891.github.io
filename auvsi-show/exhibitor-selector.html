@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exhibitor Selector</title>
+    <title>AUVSI XPONENTIAL 2026 - Exhibitor Selector</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,52 +13,128 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: #0f172a;
+            color: #e2e8f0;
             line-height: 1.6;
             padding: 1rem;
         }
         
+        .header-badge {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0ea5e9 50%, #f59e0b 100%);
+            color: white;
+            text-align: center;
+            padding: 0.35rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
         .container {
-            max-width: 600px;
+            max-width: 720px;
             margin: 0 auto;
-            background: white;
+            background: #1e293b;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
             overflow: hidden;
+            border: 1px solid #334155;
         }
         
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 1.75rem 1.5rem;
             text-align: center;
+            border-bottom: 2px solid #0ea5e9;
         }
         
         h1 {
             font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            color: #0ea5e9;
         }
         
-        p {
-            opacity: 0.9;
+        .subtitle {
+            opacity: 0.8;
+            font-size: 0.85rem;
+        }
+        
+        .date-location {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+        
+        .sticky-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #1e293b;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .sticky-bar input[type="text"] {
+            flex: 1;
+            min-width: 180px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            color: #e2e8f0;
             font-size: 0.9rem;
         }
         
+        .sticky-bar input[type="text"]:focus {
+            outline: none;
+            border-color: #0ea5e9;
+        }
+        
+        .sticky-bar .select-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .sticky-btn {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+            padding: 0.45rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .sticky-btn:hover {
+            background: #475569;
+        }
+        
+        .selection-counter {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+        
         .exhibitors-list {
-            padding: 1.5rem;
+            padding: 0;
         }
         
         .exhibitor-item {
             display: flex;
             align-items: flex-start;
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.2s;
+            padding: 0.85rem 1.5rem;
+            border-bottom: 1px solid #1e293b;
+            transition: background-color 0.15s;
         }
         
         .exhibitor-item:hover {
-            background-color: #f8f9ff;
+            background-color: #1a2d45;
         }
         
         .exhibitor-item:last-child {
@@ -66,40 +142,73 @@
         }
         
         .exhibitor-checkbox {
-            width: 1.25rem;
-            height: 1.25rem;
-            margin-top: 0.25rem;
-            margin-right: 1rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            margin-top: 0.3rem;
+            margin-right: 0.85rem;
             cursor: pointer;
+            accent-color: #0ea5e9;
+            flex-shrink: 0;
         }
         
         .exhibitor-info {
             flex: 1;
+            min-width: 0;
         }
         
         .exhibitor-name {
             font-weight: 600;
-            margin-bottom: 0.25rem;
-            color: #2c3e50;
+            margin-bottom: 0.15rem;
+            color: #f1f5f9;
+            font-size: 0.95rem;
+        }
+        
+        .exhibitor-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.2rem;
+            font-size: 0.8rem;
+        }
+        
+        .booth-badge {
+            display: inline-block;
+            background: #0ea5e9;
+            color: #0f172a;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        
+        .exhibitor-website a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 0.78rem;
+        }
+        
+        .exhibitor-website a:hover {
+            text-decoration: underline;
+            color: #7dd3fc;
         }
         
         .exhibitor-description {
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.4;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            margin-top: 0.15rem;
         }
         
         .submit-button {
             display: block;
             width: 100%;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
             color: white;
             border: none;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            border: none;
             transition: opacity 0.2s;
         }
         
@@ -114,6 +223,8 @@
         .results-section {
             padding: 1.5rem;
             display: none;
+            background: #0f172a;
+            border-top: 1px solid #334155;
         }
         
         .results-section.active {
@@ -121,53 +232,61 @@
         }
         
         .results-title {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 1rem;
-            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            color: #0ea5e9;
         }
         
         .results-json {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
+            background: #1e293b;
+            border: 1px solid #334155;
             border-radius: 8px;
             padding: 1rem;
             font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             overflow-x: auto;
             white-space: pre-wrap;
             word-break: break-all;
+            color: #e2e8f0;
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         .empty-state {
             text-align: center;
-            color: #888;
+            color: #64748b;
             font-style: italic;
+            padding: 3rem 2rem;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #94a3b8;
             padding: 2rem;
+            font-size: 0.9rem;
         }
         
         @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
             .container {
-                margin: 0;
                 border-radius: 0;
+                border: none;
             }
-            
             header {
-                padding: 1rem;
+                padding: 1.25rem 1rem;
             }
-            
-            .exhibitors-list {
-                padding: 1rem;
-            }
-            
             .exhibitor-item {
-                padding: 0.75rem;
+                padding: 0.75rem 1rem;
             }
-            
+            .sticky-bar {
+                padding: 0.6rem 1rem;
+            }
             .submit-button {
-                padding: 1.25rem;
+                padding: 1rem;
             }
-            
             .results-section {
                 padding: 1rem;
             }
@@ -175,94 +294,2338 @@
     </style>
 </head>
 <body>
+    <div class="header-badge">
+        AUVSI XPONENTIAL 2026 &bull; Detroit, MI &bull; May 11-14
+    </div>
+    
     <div class="container">
         <header>
-            <h1>Exhibitor Selector</h1>
-            <p>Select exhibitors you're interested in</p>
+            <h1>🦀 Exhibitor Selector</h1>
+            <div class="subtitle">Huntington Place &bull; Detroit, Michigan</div>
+            <div class="date-location">May 11-14, 2026</div>
         </header>
         
-        <div class="exhibitors-list">
-            <!-- Exhibitor items will be populated by JavaScript -->
+        <div class="sticky-bar" id="stickyBar">
+            <input type="text" id="searchInput" placeholder="Search exhibitors..." autocomplete="off">
+            <div class="select-actions">
+                <button class="sticky-btn" id="selectAllBtn">Select All</button>
+                <button class="sticky-btn" id="deselectAllBtn">Deselect All</button>
+            </div>
+            <span class="selection-counter" id="selectionCounter">0 selected</span>
+        </div>
+        
+        <div class="exhibitors-list" id="exhibitorsList">
+            <!-- Populated by JavaScript -->
         </div>
         
         <button class="submit-button" id="submitButton">
-            Get Selected Exhibitors
+            📋 Get Selected Exhibitors
         </button>
         
         <div class="results-section" id="resultsSection">
-            <div class="results-title">Selected Exhibitors</div>
-            <div class="results-json" id="resultsJson">
-                <!-- JSON output will appear here -->
-            </div>
+            <div class="results-title">📋 Selected Exhibitors</div>
+            <div class="results-json" id="resultsJson">[]</div>
+            <button class="sticky-btn" id="copyBtn" style="margin-top: 0.75rem;">Copy to Clipboard</button>
+            <button class="sticky-btn" id="closeResultsBtn" style="margin-top: 0.75rem; margin-left: 0.5rem;">Close</button>
         </div>
     </div>
 
     <script>
-        // Sample exhibitor data - in a real app, this might come from an API
         const exhibitors = [
-            {
-                id: 1,
-                name: "AeroTech Solutions",
-                description: "Leading provider of drone technology and aerial imaging systems for industrial applications"
-            },
-            {
-                id: 2,
-                name: "Thermal Vision Inc.",
-                description: "Specializing in advanced thermal imaging cameras and sensors for security and surveillance"
-            },
-            {
-                id: 3,
-                name: "SkySurvey Dynamics",
-                description: "Innovative mapping and surveying solutions using LiDAR and photogrammetry technology"
-            },
-            {
-                id: 4,
-                name: "NaviDrone Systems",
-                description: "Autonomous navigation systems and flight control software for commercial UAV operations"
-            },
-            {
-                id: 5,
-                name: "PixelPerfect Imaging",
-                description: "High-resolution aerial photography and videography services for real estate and construction"
-            },
-            {
-                id: 6,
-                name: "SafeFlight Technologies",
-                description: "Collision avoidance and airspace management systems for safe drone operations"
-            },
-            {
-                id: 7,
-                name: "GeoSpatial Analytics",
-                description: "Data analysis and GIS solutions for processing aerial survey information"
-            },
-            {
-                id: 8,
-                name: "PowerGrid Inspect",
-                description: "Specialized inspection services for power line and utility infrastructure using drones"
-            }
-        ];
+  {
+    "id": 1,
+    "name": "3DR, Inc",
+    "boothNumber": "31019",
+    "description": "3DR is a leading provider of drone data platforms, best known for Site Scan, an enterprise-grade drone mapping and analytics solution for construction and engineering. Their platform enables automated flight planning, reality capture, and geospatial analysis at scale.",
+    "website": "https://www.3dr.com"
+  },
+  {
+    "id": 2,
+    "name": "ABCorp 3D",
+    "boothNumber": "28028",
+    "description": "ABCorp 3D specializes in advanced 3D printing and additive manufacturing solutions for the aerospace and defense sectors. They provide rapid prototyping and production-grade parts for uncrewed systems.",
+    "website": "https://www.abcorp3d.com"
+  },
+  {
+    "id": 3,
+    "name": "Acutronic Group",
+    "boothNumber": "25016",
+    "description": "Acutronic Group is a global leader in motion simulation and test solutions for aerospace and defense applications. They provide high-precision flight motion simulators and inertial test systems for UAV development and qualification.",
+    "website": "https://www.acutronic.com"
+  },
+  {
+    "id": 4,
+    "name": "ADVANCED Motion Controls",
+    "boothNumber": "15005",
+    "description": "ADVANCED Motion Controls designs and manufactures servo drives and motion control systems for robotics and uncrewed platforms. Their compact, high-performance drives are widely used in autonomous systems and industrial automation.",
+    "website": "https://www.a-m-c.com"
+  },
+  {
+    "id": 5,
+    "name": "Advanced Navigation Pty Ltd",
+    "boothNumber": "18017",
+    "description": "Advanced Navigation develops cutting-edge navigation and inertial sensing technology for autonomous systems. Their products include INS, GNSS, FOG, and AHRS solutions used in UAVs, AUVs, and robotics worldwide.",
+    "website": "https://www.advancednavigation.com"
+  },
+  {
+    "id": 6,
+    "name": "Advanced Powerplant Solutions, LLC",
+    "boothNumber": "34017",
+    "description": "Advanced Powerplant Solutions provides hybrid-electric propulsion systems and power management solutions for uncrewed aircraft. They focus on extending flight endurance and payload capacity through innovative powertrain designs.",
+    "website": "https://www.advancedpowerplant.com"
+  },
+  {
+    "id": 7,
+    "name": "Aeronix, Inc.",
+    "boothNumber": "35007",
+    "description": "Aeronix is a defense contractor specializing in secure communications, electronic warfare, and ISR systems for uncrewed platforms. They develop mission-critical radio frequency and digital solutions for military UAS applications.",
+    "website": "https://www.aeronix.com"
+  },
+  {
+    "id": 8,
+    "name": "Allied Vision Technologies, Inc.",
+    "boothNumber": "27002",
+    "description": "Allied Vision is a leading manufacturer of industrial and machine vision cameras used in uncrewed systems. Their compact, high-resolution cameras are deployed in UAVs for inspection, surveillance, and precision agriculture.",
+    "website": "https://www.alliedvision.com"
+  },
+  {
+    "id": 9,
+    "name": "Allocortech inc.",
+    "boothNumber": "32032",
+    "description": "Allocortech provides advanced composite materials and structural components for aerospace and uncrewed systems. Their lightweight, high-strength solutions are engineered for performance in demanding flight environments.",
+    "website": "https://www.allocortech.com"
+  },
+  {
+    "id": 10,
+    "name": "Amazon Prime Air",
+    "boothNumber": "38000",
+    "description": "Amazon Prime Air is Amazon's drone delivery service developing autonomous aerial vehicles capable of delivering packages to customers in under 30 minutes. The program represents one of the most ambitious commercial drone delivery operations in the world.",
+    "website": "https://www.amazon.com/primeair"
+  },
+  {
+    "id": 11,
+    "name": "Amicell - Amit Industries Ltd",
+    "boothNumber": "17003",
+    "description": "Amicell specializes in high-performance battery and power management solutions for uncrewed systems. They provide custom lithium-ion battery packs designed for extended flight times and harsh environmental conditions.",
+    "website": "https://www.amicell.com"
+  },
+  {
+    "id": 12,
+    "name": "Amprius Technologies",
+    "boothNumber": "33017",
+    "description": "Amprius Technologies manufactures high-energy-density lithium-ion batteries using silicon nanowire anode technology. Their batteries deliver industry-leading energy density, making them ideal for extended-flight UAV applications.",
+    "website": "https://www.amprius.com"
+  },
+  {
+    "id": 13,
+    "name": "ASX",
+    "boothNumber": "36035",
+    "description": "ASX provides advanced electronic components and subsystems for aerospace and defense applications. Their product portfolio includes high-reliability connectors, cabling, and power distribution solutions for uncrewed platforms.",
+    "website": "https://www.asx.com"
+  },
+  {
+    "id": 14,
+    "name": "Athule",
+    "boothNumber": "17030",
+    "description": "Athule develops innovative drone-based inspection and data analytics solutions for critical infrastructure. Their platform combines autonomous flight with AI-powered defect detection for industries like energy and telecommunications.",
+    "website": "https://www.athule.com"
+  },
+  {
+    "id": 15,
+    "name": "Automation Alley",
+    "boothNumber": "38036",
+    "description": "Automation Alley is a Michigan-based technology business association that supports the aerospace, defense, and autonomous systems ecosystem. They connect companies with resources, talent, and funding opportunities to accelerate innovation.",
+    "website": "https://www.automationalley.com"
+  },
+  {
+    "id": 16,
+    "name": "Avidrone Aerospace Incorporated",
+    "boothNumber": "18026",
+    "description": "Avidrone Aerospace designs and manufactures heavy-lift cargo drones and autonomous logistics solutions for commercial and defense applications. Their aircraft are engineered for reliable beyond-visual-line-of-sight (BVLOS) operations.",
+    "website": "https://www.avidrone.com"
+  },
+  {
+    "id": 17,
+    "name": "Calian",
+    "boothNumber": "17017",
+    "description": "Calian provides advanced technology solutions and services for defense, satellite communications, and autonomous systems. Their expertise includes GNSS testing, spectrum management, and secure communications for UAS operations.",
+    "website": "https://www.calian.com"
+  },
+  {
+    "id": 18,
+    "name": "Censys Technologies",
+    "boothNumber": "38010",
+    "description": "Censys Technologies develops long-endurance, BVLOS-capable UAS for precision agriculture, survey, and inspection applications. Their Sentaero platform is known for its extended flight time and multi-sensor payload integration.",
+    "website": "https://www.censys.com"
+  },
+  {
+    "id": 19,
+    "name": "Cherokee Federal",
+    "boothNumber": "44030",
+    "description": "Cherokee Federal provides mission support services to U.S. federal agencies including defense, intelligence, and civil sectors. They deliver expertise in UAS operations, training, and systems integration for government clients.",
+    "website": "https://www.cherokeefederal.com"
+  },
+  {
+    "id": 20,
+    "name": "Cincinnati Sub-Zero",
+    "boothNumber": "22032",
+    "description": "Cincinnati Sub-Zero manufactures temperature control and thermal testing solutions for aerospace and defense applications. Their products include thermal chambers and temperature management systems used in UAV component testing.",
+    "website": "https://www.cszproducts.com"
+  },
+  {
+    "id": 21,
+    "name": "Cincon Electronics Co., Ltd.",
+    "boothNumber": "24031",
+    "description": "Cincon Electronics is a leading manufacturer of DC-DC converters, AC-DC power supplies, and LED drivers for industrial and defense applications. Their rugged power solutions are deployed in uncrewed systems requiring reliable power conversion.",
+    "website": "https://www.cincon.com"
+  },
+  {
+    "id": 22,
+    "name": "Civil-Military Innovation Institute, Inc.",
+    "boothNumber": "24035",
+    "description": "The Civil-Military Innovation Institute (CMI2) accelerates dual-use technology development by connecting startups and researchers with defense applications. They focus on bridging the gap between commercial innovation and military needs in autonomous systems.",
+    "website": "https://www.cmi2.org"
+  },
+  {
+    "id": 23,
+    "name": "Connect Tech Inc.",
+    "boothNumber": "30027",
+    "description": "Connect Tech designs and manufactures embedded computing solutions for autonomous systems, including NVIDIA Jetson-based platforms. Their rugged single-board computers and carrier boards power AI-enabled drones and robotics.",
+    "website": "https://www.connecttech.com"
+  },
+  {
+    "id": 24,
+    "name": "CR Systems",
+    "boothNumber": "39004",
+    "description": "CR Systems delivers advanced radar and electronic warfare systems for defense and security applications. Their sensor solutions are integrated into uncrewed platforms for surveillance, target detection, and threat identification.",
+    "website": "https://www.crsystems.com"
+  },
+  {
+    "id": 25,
+    "name": "CubePilot Global Pty. Ltd.",
+    "boothNumber": "18000",
+    "description": "CubePilot is the hardware partner and manufacturer of the Pixhawk series of open-source flight controllers. Their autopilot hardware powers thousands of drone projects worldwide, from research platforms to commercial UAVs.",
+    "website": "https://www.cubepilot.com"
+  },
+  {
+    "id": 26,
+    "name": "Custom Power",
+    "boothNumber": "26026",
+    "description": "Custom Power provides tailored battery and power management solutions for mission-critical uncrewed systems. They engineer custom lithium battery packs with integrated BMS for optimized performance across diverse UAV platforms.",
+    "website": "https://www.custompower.com"
+  },
+  {
+    "id": 27,
+    "name": "DESTINUS",
+    "boothNumber": "26022",
+    "description": "DESTINUS manufactures advanced composite airframes and components for the uncrewed aerial systems market. Their lightweight, modular designs enable rapid prototyping and production of custom UAV platforms.",
+    "website": "https://www.destinus.com"
+  },
+  {
+    "id": 28,
+    "name": "DEXA",
+    "boothNumber": "44018",
+    "description": "DEXA provides data analytics and AI-powered software solutions for autonomous systems operations. Their platform ingests, processes, and visualizes sensor data from uncrewed platforms for actionable insights.",
+    "website": "https://www.dexa.com"
+  },
+  {
+    "id": 29,
+    "name": "DMR Technologies Inc",
+    "boothNumber": "40023",
+    "description": "DMR Technologies specializes in advanced manufacturing services for aerospace and uncrewed systems components. They offer precision machining, 3D printing, and assembly services for prototype and production volumes.",
+    "website": "https://www.dmrtech.com"
+  },
+  {
+    "id": 30,
+    "name": "Doodle Labs",
+    "boothNumber": "32000",
+    "description": "Doodle Labs designs and manufactures high-performance wireless mesh networking radios for robotics and IoT applications. Their Smart Radios provide resilient, long-range connectivity for multi-drone operations and mobile robotics.",
+    "website": "https://www.doodlelabs.com"
+  },
+  {
+    "id": 31,
+    "name": "Drone Dominance Program (DDP) - Department of War",
+    "boothNumber": "18039",
+    "description": "The Drone Dominance Program is a government initiative focused on advancing uncrewed systems capabilities for national defense. The program funds research, development, and fielding of next-generation military drone technologies.",
+    "website": "https://www.ddp.mil"
+  },
+  {
+    "id": 32,
+    "name": "Droneforce",
+    "boothNumber": "20039",
+    "description": "Droneforce develops heavy-lift cargo drones and advanced propulsion systems for commercial logistics and defense logistics applications. Their platforms are designed for rapid deployment and autonomous cargo delivery in challenging environments.",
+    "website": "https://www.droneforce.com"
+  },
+  {
+    "id": 33,
+    "name": "DroneSpotter, Inc.",
+    "boothNumber": "19022",
+    "description": "DroneSpotter provides drone detection, tracking, and identification systems for counter-UAS and airspace security applications. Their sensor fusion technology combines radar, RF, and optical detection for comprehensive threat awareness.",
+    "website": "https://www.dronespotter.com"
+  },
+  {
+    "id": 34,
+    "name": "Echodyne",
+    "boothNumber": "30013",
+    "description": "Echodyne develops compact, solid-state radar systems using metamaterial electronically scanning array (MESA) technology. Their radars are designed for drone detection, autonomous navigation, and airspace security applications.",
+    "website": "https://www.echodyne.com"
+  },
+  {
+    "id": 35,
+    "name": "EOS North America",
+    "boothNumber": "29030",
+    "description": "EOS North America is a leading provider of industrial 3D printing solutions for aerospace and defense manufacturing. Their additive manufacturing technologies enable rapid production of complex UAV components and end-use parts.",
+    "website": "https://www.eos-na.com"
+  },
+  {
+    "id": 36,
+    "name": "ESRI",
+    "boothNumber": "24017",
+    "description": "ESRI is the global leader in geographic information system (GIS) software and spatial analytics. Their ArcGIS platform is widely used for drone data processing, mapping, and geospatial intelligence across industries.",
+    "website": "https://www.esri.com"
+  },
+  {
+    "id": 37,
+    "name": "Ewing Aerospace",
+    "boothNumber": "30039",
+    "description": "Ewing Aerospace develops advanced propulsion systems and power generation solutions for uncrewed aerial vehicles. Their hybrid-electric powertrains are designed to extend flight endurance and enable new mission capabilities.",
+    "website": "https://www.ewingaero.com"
+  },
+  {
+    "id": 38,
+    "name": "EX International Engine Company Limited",
+    "boothNumber": "37023",
+    "description": "EX International Engine Company manufactures high-performance internal combustion engines for uncrewed aircraft. Their lightweight, fuel-efficient engines are used in long-endurance UAVs requiring reliable propulsion.",
+    "website": "https://www.ex-international.com"
+  },
+  {
+    "id": 39,
+    "name": "Factorial",
+    "boothNumber": "22036",
+    "description": "Factorial develops next-generation solid-state battery technology for electric aviation and uncrewed systems. Their proprietary solid-state electrolyte enables higher energy density and improved safety compared to conventional lithium-ion batteries.",
+    "website": "https://www.factorial.com"
+  },
+  {
+    "id": 40,
+    "name": "Fathom Manufacturing",
+    "boothNumber": "33032",
+    "description": "Fathom Manufacturing provides on-demand digital manufacturing services including 3D printing, CNC machining, injection molding, and sheet metal fabrication. They serve the aerospace and uncrewed systems industry with rapid prototyping and production.",
+    "website": "https://www.fathommfg.com"
+  },
+  {
+    "id": 41,
+    "name": "Forecr",
+    "boothNumber": "30024",
+    "description": "Forecr develops autonomous surface vessels and marine robotics for environmental monitoring, hydrographic survey, and defense applications. Their uncrewed platforms operate in challenging maritime environments with advanced autonomy.",
+    "website": "https://www.forecr.com"
+  },
+  {
+    "id": 42,
+    "name": "Frontier Precision",
+    "boothNumber": "24000",
+    "description": "Frontier Precision is a distributor and integrator of surveying, mapping, and GIS equipment including drone-based solutions. They provide end-to-end support for UAS mapping programs from hardware selection to data processing workflows.",
+    "website": "https://www.frontierprecision.com"
+  },
+  {
+    "id": 43,
+    "name": "Glenair, Inc.",
+    "boothNumber": "36000",
+    "description": "Glenair is a leading manufacturer of interconnect solutions and cable assemblies for aerospace and defense applications. Their rugged connectors and wiring systems are designed to withstand the harsh environments of uncrewed flight.",
+    "website": "https://www.glenair.com"
+  },
+  {
+    "id": 44,
+    "name": "Goodridge",
+    "boothNumber": "20030",
+    "description": "Goodridge manufactures high-performance fluid transfer systems and hose assemblies for aerospace and motorsport applications. Their lightweight, durable hose solutions are used in UAV fuel and hydraulic systems.",
+    "website": "https://www.goodridge.com"
+  },
+  {
+    "id": 45,
+    "name": "Greenlight Optics",
+    "boothNumber": "22026",
+    "description": "Greenlight Optics designs and manufactures precision optical components and assemblies for defense and aerospace applications. Their custom lenses and optical systems are integrated into electro-optical sensor payloads for uncrewed platforms.",
+    "website": "https://www.greenlightoptics.com"
+  },
+  {
+    "id": 46,
+    "name": "Hascall-Denke",
+    "boothNumber": "30019",
+    "description": "Hascall-Denke specializes in electromagnetic compatibility (EMC) and environmental testing services for aerospace and defense equipment. Their testing facilities ensure that UAS components meet rigorous military and commercial standards.",
+    "website": "https://www.hascall-denke.com"
+  },
+  {
+    "id": 47,
+    "name": "Hitec Commercial Solutions",
+    "boothNumber": "19020",
+    "description": "Hitec Commercial Solutions provides high-performance servo motors, actuators, and control systems for uncrewed platforms. Their precision motion control products are used in UAV flight controls, gimbals, and robotic systems.",
+    "website": "https://www.hiteccs.com"
+  },
+  {
+    "id": 48,
+    "name": "Hollyway Group Pte. Ltd.",
+    "boothNumber": "30000",
+    "description": "Hollyway Group is a global manufacturer of advanced composite materials and components for the aerospace industry. Their lightweight, high-strength composites are used in airframe structures for commercial and defense UAVs.",
+    "website": "https://www.hollyway.com"
+  },
+  {
+    "id": 49,
+    "name": "Honeywell",
+    "boothNumber": "24010",
+    "description": "Honeywell is a Fortune 500 industrial conglomerate providing avionics, propulsion systems, and connectivity solutions for the aerospace industry. Their UAS offerings include flight management systems, satellite communications, and detect-and-avoid technologies.",
+    "website": "https://www.honeywell.com"
+  },
+  {
+    "id": 50,
+    "name": "Hoverfly Technologies Inc.",
+    "boothNumber": "14017",
+    "description": "Hoverfly Technologies designs and manufactures tethered drone platforms that provide persistent aerial surveillance and communications. Their tethered UAVs offer unlimited flight endurance for security, public safety, and defense applications.",
+    "website": "https://www.hoverflytech.com"
+  },
+  {
+    "id": 51,
+    "name": "Hybrid Project, LLC",
+    "boothNumber": "12026",
+    "description": "Hybrid Project specializes in hybrid-electric propulsion systems for uncrewed aerial vehicles. Their innovative powertrain solutions combine internal combustion engines with electric motors for extended endurance and reduced emissions.",
+    "website": "https://www.hybridproject.com"
+  },
+  {
+    "id": 52,
+    "name": "Hylio Inc.",
+    "boothNumber": "30036",
+    "description": "Hylio develops autonomous drone swarms for precision agriculture and industrial applications. Their platform enables multiple coordinated drones to operate simultaneously, significantly increasing coverage area for spraying and surveying missions.",
+    "website": "https://www.hylio.com"
+  },
+  {
+    "id": 53,
+    "name": "I-PEX USA LLC",
+    "boothNumber": "34026",
+    "description": "I-PEX is a leading manufacturer of precision connectors, cable assemblies, and RF components for electronic devices and wireless systems. Their miniaturized interconnect solutions are essential for compact UAV electronics and sensor modules.",
+    "website": "https://www.i-pex.com"
+  },
+  {
+    "id": 54,
+    "name": "Indiana Pavilion",
+    "boothNumber": "28013",
+    "description": "The Indiana Pavilion showcases the state's aerospace and defense ecosystem, featuring companies and organizations driving innovation in uncrewed systems. It highlights Indiana's growing role as a hub for UAS manufacturing and technology development.",
+    "website": "https://www.indianapavilion.com"
+  },
+  {
+    "id": 55,
+    "name": "JDK Fly World Private Limited",
+    "boothNumber": "35031",
+    "description": "JDK Fly World provides drone-based solutions for agriculture, mapping, and infrastructure inspection across Asia-Pacific markets. They offer integrated hardware, software, and training services for commercial drone operations.",
+    "website": "https://www.jdkflyworld.com"
+  },
+  {
+    "id": 56,
+    "name": "K-Tec Systems",
+    "boothNumber": "37037",
+    "description": "K-Tec Systems designs and manufactures custom electronic systems and embedded computing solutions for aerospace applications. Their ruggedized computers and data acquisition systems are deployed in uncrewed platforms for mission-critical operations.",
+    "website": "https://www.ktecsys.com"
+  },
+  {
+    "id": 57,
+    "name": "KBR",
+    "boothNumber": "19034",
+    "description": "KBR is a global government services contractor providing engineering, technology, and mission support solutions. Their work includes UAS integration, testing, and operational support for defense and civil government agencies.",
+    "website": "https://www.kbr.com"
+  },
+  {
+    "id": 58,
+    "name": "Kongsberg",
+    "boothNumber": "34013",
+    "description": "Kongsberg is a Norwegian defense and aerospace company developing advanced sensor systems, communications, and autonomous solutions. Their products include maritime and aerial uncrewed systems for defense and commercial applications.",
+    "website": "https://www.kongsberg.com"
+  },
+  {
+    "id": 59,
+    "name": "L&L Products",
+    "boothNumber": "28026",
+    "description": "L&L Products provides engineered sealing, bonding, and acoustical solutions for aerospace and automotive applications. Their lightweight structural adhesives and sealants improve the performance and durability of uncrewed aircraft.",
+    "website": "https://www.llproducts.com"
+  },
+  {
+    "id": 60,
+    "name": "LEMO USA",
+    "boothNumber": "26000",
+    "description": "LEMO is a global leader in precision push-pull connectors for demanding applications in medical, industrial, and aerospace markets. Their rugged, high-reliability circular connectors are widely used in UAV sensor payloads and ground control systems.",
+    "website": "https://www.lemo.com"
+  },
+  {
+    "id": 61,
+    "name": "Maquoketa Research",
+    "boothNumber": "28017",
+    "description": "Maquoketa Research provides applied research and development services in autonomous systems, sensor integration, and data analytics. They support government and commercial clients in advancing UAS capabilities through innovative engineering.",
+    "website": "https://www.maquoketaresearch.com"
+  },
+  {
+    "id": 62,
+    "name": "Mentium Technologies Inc.",
+    "boothNumber": "32031",
+    "description": "Mentium Technologies develops advanced RF and microwave components for defense and aerospace communications systems. Their high-performance amplifiers and transceivers are integrated into uncrewed platforms for secure, resilient connectivity.",
+    "website": "https://www.mentiumtech.com"
+  },
+  {
+    "id": 63,
+    "name": "Mobile Power Solutions",
+    "boothNumber": "18034",
+    "description": "Mobile Power Solutions provides portable power generation and battery charging systems for field-deployed uncrewed systems. Their solutions support extended UAS operations in remote locations with reliable mobile power infrastructure.",
+    "website": "https://www.mobilepowersolutions.com"
+  },
+  {
+    "id": 64,
+    "name": "Mobilicom",
+    "boothNumber": "34035",
+    "description": "Mobilicom provides secure, mission-critical communication systems and cybersecurity solutions for uncrewed platforms. Their end-to-end solutions include datalinks, mesh networking, and anti-jamming technologies for defense and commercial UAS.",
+    "website": "https://www.mobilicom.com"
+  },
+  {
+    "id": 65,
+    "name": "Neousys Technology",
+    "boothNumber": "16011",
+    "description": "Neousys Technology manufactures rugged embedded computing platforms for edge AI, autonomous vehicles, and industrial IoT applications. Their fanless computers and GPU-accelerated systems power drone-based perception and processing payloads.",
+    "website": "https://www.neousys-tech.com"
+  },
+  {
+    "id": 66,
+    "name": "Neros Technologies",
+    "boothNumber": "15031",
+    "description": "Neros Technologies specializes in advanced antenna systems and RF engineering for UAS datalink and communication applications. Their custom antenna solutions optimize range, bandwidth, and reliability for uncrewed platform connectivity.",
+    "website": "https://www.nerostech.com"
+  },
+  {
+    "id": 67,
+    "name": "New York Pavilion",
+    "boothNumber": "38026",
+    "description": "The New York Pavilion highlights the state's uncrewed systems industry, featuring companies, academic institutions, and test sites from the Empire State. It showcases New York's growing ecosystem for UAS research, development, and operations.",
+    "website": "https://www.newyorkpavilion.com"
+  },
+  {
+    "id": 68,
+    "name": "New York UAS Test Site",
+    "boothNumber": "40026",
+    "description": "The New York UAS Test Site provides airspace, facilities, and expertise for testing and evaluating uncrewed systems. It supports BVLOS operations, sensor integration, and certification testing for government and commercial UAS developers.",
+    "website": "https://www.nyuastestsite.com"
+  },
+  {
+    "id": 69,
+    "name": "Nicomatic USA",
+    "boothNumber": "34010",
+    "description": "Nicomatic designs and manufactures high-density circular connectors and interconnect solutions for aerospace, defense, and industrial applications. Their lightweight, rugged connectors are trusted for use in critical uncrewed systems.",
+    "website": "https://www.nicomatic.com"
+  },
+  {
+    "id": 70,
+    "name": "North Dakota Department of Commerce",
+    "boothNumber": "13021",
+    "description": "The North Dakota Department of Commerce supports the state's growing uncrewed systems industry through economic development initiatives. North Dakota is home to the Northern Plains UAS Test Site and a thriving ecosystem for UAS research and operations.",
+    "website": "https://www.commerce.nd.gov"
+  },
+  {
+    "id": 71,
+    "name": "Northwest UAV",
+    "boothNumber": "38022",
+    "description": "Northwest UAV designs and manufactures heavy-fuel engines and propulsion systems for professional and military unmanned aircraft. Their fuel-injected engines are engineered for reliability, efficiency, and compatibility with JP-8 and other heavy fuels.",
+    "website": "https://www.nwuav.com"
+  },
+  {
+    "id": 72,
+    "name": "NTI Systems Inc.",
+    "boothNumber": "33039",
+    "description": "NTI Systems provides advanced electronics manufacturing and assembly services for defense and aerospace customers. They specialize in build-to-print and design-for-manufacturing services for complex UAS electronic subsystems.",
+    "website": "https://www.ntisystems.com"
+  },
+  {
+    "id": 73,
+    "name": "Ohio Pavilion",
+    "boothNumber": "20026",
+    "description": "The Ohio Pavilion showcases the state's robust aerospace and defense manufacturing ecosystem. Ohio offers a rich network of suppliers, research institutions, and workforce development programs supporting the uncrewed systems industry.",
+    "website": "https://www.ohiopavilion.com"
+  },
+  {
+    "id": 74,
+    "name": "OKSI",
+    "boothNumber": "14015",
+    "description": "OKSI provides engineering consulting and design services for aerospace, defense, and autonomous systems. Their expertise spans systems engineering, sensor integration, and certification support for UAS development programs.",
+    "website": "https://www.oksi.com"
+  },
+  {
+    "id": 75,
+    "name": "Osiris Inc.",
+    "boothNumber": "33040",
+    "description": "Osiris Inc. develops advanced electro-optical/infrared (EO/IR) sensor systems and targeting solutions for defense UAS platforms. Their compact, stabilized payloads deliver persistent surveillance and targeting capabilities for tactical missions.",
+    "website": "https://www.osirisinc.com"
+  },
+  {
+    "id": 76,
+    "name": "Packaging Strategies, Inc.",
+    "boothNumber": "25032",
+    "description": "Packaging Strategies provides specialized packaging and logistics solutions for shipping sensitive aerospace components and uncrewed systems. They design custom protective packaging for safe transport of drones and payloads worldwide.",
+    "website": "https://www.packagingstrategies.com"
+  },
+  {
+    "id": 77,
+    "name": "Parallel Flight Technologies",
+    "boothNumber": "34039",
+    "description": "Parallel Flight Technologies develops heavy-lift, long-endurance drones using their patented hybrid-electric propulsion system. Their aircraft are designed for cargo delivery, firefighting, and disaster response missions requiring extended flight duration.",
+    "website": "https://www.parallelflight.com"
+  },
+  {
+    "id": 78,
+    "name": "Phoenix Flight Industries, Inc.",
+    "boothNumber": "35016",
+    "description": "Phoenix Flight Industries manufactures advanced composite propellers, rotors, and airframe components for uncrewed systems. Their precision-crafted propellers are used on professional and military UAVs requiring optimal aerodynamic performance.",
+    "website": "https://www.phoenixflight.com"
+  },
+  {
+    "id": 79,
+    "name": "ProximaVision Aerospace",
+    "boothNumber": "12014",
+    "description": "ProximaVision Aerospace specializes in high-resolution EO/IR camera systems and stabilized gimbal payloads for uncrewed aerial platforms. Their sensor solutions provide exceptional image quality for surveillance, reconnaissance, and inspection missions.",
+    "website": "https://www.proximavision.com"
+  },
+  {
+    "id": 80,
+    "name": "QUICKSET DEFENSE TECHNOLOGIES, LLC",
+    "boothNumber": "16035",
+    "description": "Quickset Defense Technologies designs and manufactures precision pan-tilt positioning systems and stabilized mounts for military sensors and weapons. Their rugged positioning systems are deployed on uncrewed platforms requiring accurate and reliable pointing solutions.",
+    "website": "https://www.quicksetdefense.com"
+  },
+  {
+    "id": 81,
+    "name": "Range",
+    "boothNumber": "16010",
+    "description": "Range develops advanced software-defined radio and RF payload systems for defense and commercial UAS applications. Their reconfigurable radio platforms provide secure, resilient communications in contested electromagnetic environments.",
+    "website": "https://www.rangeproject.com"
+  },
+  {
+    "id": 82,
+    "name": "Regal Rexnord Aerospace & Defense Solutions",
+    "boothNumber": "36023",
+    "description": "Regal Rexnord is a leading manufacturer of high-performance motion control, power transmission, and actuation solutions for aerospace and defense. Their products include servo motors, gearboxes, and actuators for uncrewed platforms.",
+    "website": "https://www.regalrexnord.com"
+  },
+  {
+    "id": 83,
+    "name": "Robinson Unmanned",
+    "boothNumber": "18030",
+    "description": "Robinson Unmanned provides pilot training, certification, and operational support services for commercial and government UAS programs. They offer comprehensive training solutions covering remote pilot certification and advanced mission planning.",
+    "website": "https://www.robinsonunmanned.com"
+  },
+  {
+    "id": 84,
+    "name": "RRC Power Solutions, Inc.",
+    "boothNumber": "23021",
+    "description": "RRC Power Solutions designs and manufactures smart battery packs, charging systems, and power management solutions for portable electronics and uncrewed systems. Their intelligent battery solutions incorporate advanced BMS and safety features.",
+    "website": "https://www.rrc-ps.com"
+  },
+  {
+    "id": 85,
+    "name": "SAE International",
+    "boothNumber": "37032",
+    "description": "SAE International is a professional association and standards development organization for aerospace, automotive, and commercial vehicle industries. They develop technical standards and certifications critical to UAS safety and interoperability.",
+    "website": "https://www.sae.org"
+  },
+  {
+    "id": 86,
+    "name": "Septentrio NV",
+    "boothNumber": "37030",
+    "description": "Septentrio designs and manufactures high-precision GNSS receivers for demanding applications including autonomous navigation and drone positioning. Their multi-frequency, multi-constellation receivers provide centimeter-level accuracy for uncrewed platforms.",
+    "website": "https://www.septentrio.com"
+  },
+  {
+    "id": 87,
+    "name": "SightLine Intelligence",
+    "boothNumber": "20019",
+    "description": "SightLine Intelligence provides AI-powered geospatial intelligence and data analysis software for drone-collected imagery. Their platform automates object detection, change detection, and pattern analysis from aerial sensor data.",
+    "website": "https://www.sightline.com"
+  },
+  {
+    "id": 88,
+    "name": "Sila Nanotechnologies",
+    "boothNumber": "29033",
+    "description": "Sila Nanotechnologies develops next-generation lithium-ion battery materials that dramatically increase energy density. Their silicon-anode technology enables longer flight times for electric UAVs and eVTOL aircraft.",
+    "website": "https://www.silanano.com"
+  },
+  {
+    "id": 89,
+    "name": "SiLC Technologies, Inc.",
+    "boothNumber": "22013",
+    "description": "SiLC Technologies develops integrated silicon photonics LiDAR sensors and 4D vision systems for autonomous applications. Their chip-scale FMCW LiDAR technology provides long-range, eye-safe 3D sensing for collision avoidance and navigation.",
+    "website": "https://www.silc.com"
+  },
+  {
+    "id": 90,
+    "name": "Silicon Designs, Inc.",
+    "boothNumber": "17035",
+    "description": "Silicon Designs manufactures high-performance MEMS accelerometers and inertial sensors for aerospace, defense, and industrial applications. Their precision sensors are used in UAV flight control systems and IMUs for accurate navigation.",
+    "website": "https://www.silicondesigns.com"
+  },
+  {
+    "id": 91,
+    "name": "Sky Power GmbH",
+    "boothNumber": "26010",
+    "description": "Sky Power GmbH is a leading manufacturer of two-stroke and heavy-fuel engines for unmanned aerial vehicles. Their propulsion systems are engineered for reliability, low vibration, and compatibility with various fuel types including JP-8.",
+    "website": "https://www.sky-power.com"
+  },
+  {
+    "id": 92,
+    "name": "Somewear Labs",
+    "boothNumber": "17032",
+    "description": "Somewear Labs provides global satellite communication platforms for remote connectivity and situational awareness. Their compact satellite terminals enable voice and data communications for field-deployed UAS teams operating beyond cellular coverage.",
+    "website": "https://www.somewear.com"
+  },
+  {
+    "id": 93,
+    "name": "SpiderOak",
+    "boothNumber": "31031",
+    "description": "SpiderOak delivers cyber-secure communication and data management solutions for space and autonomous systems. Their OrbitSecure platform provides zero-trust cybersecurity for satellite and uncrewed systems operations.",
+    "website": "https://www.spideroak.com"
+  },
+  {
+    "id": 94,
+    "name": "Starling Inc",
+    "boothNumber": "12006",
+    "description": "Starling develops autonomous surveillance and security drone systems for perimeter protection and facility monitoring. Their AI-driven detection, tracking, and response capabilities provide turnkey security solutions for critical infrastructure.",
+    "website": "https://www.starling.com"
+  },
+  {
+    "id": 95,
+    "name": "STM",
+    "boothNumber": "16000",
+    "description": "STM is a leading manufacturer of electronic components and embedded processing solutions for autonomous systems. Their microcontrollers, sensors, and power management ICs are widely used in drone flight controllers and payload electronics.",
+    "website": "https://www.st.com"
+  },
+  {
+    "id": 96,
+    "name": "Stratasys, Inc",
+    "boothNumber": "41035",
+    "description": "Stratasys is a global leader in additive manufacturing and 3D printing solutions for aerospace and defense applications. Their industrial-grade printers produce end-use UAV components, tools, and prototypes from advanced engineering thermoplastics.",
+    "website": "https://www.stratasys.com"
+  },
+  {
+    "id": 97,
+    "name": "SUBSEA 20/20, Inc.",
+    "boothNumber": "31000",
+    "description": "Subsea 20/20 develops autonomous underwater vehicles (AUVs) and uncrewed surface vessels for ocean exploration and subsea inspection. Their systems perform deep-water surveys, pipeline inspection, and environmental monitoring below the surface.",
+    "website": "https://www.subsea2020.com"
+  },
+  {
+    "id": 98,
+    "name": "Suter Industries AG",
+    "boothNumber": "17010",
+    "description": "Suter Industries manufactures high-performance engines and powertrains for aerospace applications including unmanned aircraft. Their Swiss-engineered propulsion systems are known for exceptional power-to-weight ratios and reliability.",
+    "website": "https://www.suterindustries.com"
+  },
+  {
+    "id": 99,
+    "name": "Taisync Technology Inc.",
+    "boothNumber": "33005",
+    "description": "Taisync Technology develops advanced RF communication solutions and datalinks for unmanned systems. Their high-bandwidth, long-range data transmission technology supports real-time video and telemetry streaming for drone operations.",
+    "website": "https://www.taisync.com"
+  },
+  {
+    "id": 100,
+    "name": "TECO-Westinghouse",
+    "boothNumber": "27026",
+    "description": "TECO-Westinghouse manufactures electric motors, generators, and power systems for industrial and aerospace applications. Their motion control solutions support the growing demand for electric propulsion in uncrewed systems.",
+    "website": "https://www.tecowestinghouse.com"
+  },
+  {
+    "id": 101,
+    "name": "Teradar",
+    "boothNumber": "12017",
+    "description": "Teradar develops ground-penetrating radar (GPR) systems and underground sensing technology for uncrewed platforms. Their sensors enable buried object detection and subsurface mapping for construction, archaeological, and defense applications.",
+    "website": "https://www.teradar.com"
+  },
+  {
+    "id": 102,
+    "name": "ThinkOrbital",
+    "boothNumber": "41032",
+    "description": "ThinkOrbital develops in-space assembly, servicing, and manufacturing technologies for orbital platforms. Their innovative concepts enable large-scale space structures and uncrewed orbital operations for future space missions.",
+    "website": "https://www.thinkorbital.com"
+  },
+  {
+    "id": 103,
+    "name": "Trakka Systems",
+    "boothNumber": "16019",
+    "description": "Trakka Systems designs and manufactures advanced airborne surveillance and targeting systems for defense and law enforcement aircraft. Their multi-sensor turrets and gimbal systems provide mission-critical ISR capabilities from uncrewed platforms.",
+    "website": "https://www.trakka.com"
+  },
+  {
+    "id": 104,
+    "name": "TrellisWare Technologies Inc",
+    "boothNumber": "17006",
+    "description": "TrellisWare Technologies develops resilient wireless communications systems for defense and public safety applications. Their waveform technology and mesh networking solutions deliver secure, reliable connectivity for uncrewed operations in contested environments.",
+    "website": "https://www.trellisware.com"
+  },
+  {
+    "id": 105,
+    "name": "Triad RF Systems",
+    "boothNumber": "18023",
+    "description": "Triad RF Systems designs and manufactures high-performance RF amplifiers and radio frequency subsystems for UAS datalinks. Their lightweight, efficient amplifiers extend communication range and improve signal reliability for drone operations.",
+    "website": "https://www.triadrf.com"
+  },
+  {
+    "id": 106,
+    "name": "Trillium Engineering",
+    "boothNumber": "MR1",
+    "description": "Trillium Engineering designs and builds high-performance EO/IR imaging payloads and gimbal systems for small and medium UAS. Their HD50 and HD80 gimbal families are widely deployed on military, public safety, and industrial drones.",
+    "website": "https://www.trilliumeng.com"
+  },
+  {
+    "id": 107,
+    "name": "Tsang Yow Industrial Co Ltd",
+    "boothNumber": "32037",
+    "description": "Tsang Yow Industrial is a precision manufacturer of servo motors, actuators, and motion control components for automation and robotics. Their high-torque, compact motors are used in UAV control surfaces and payload positioning systems.",
+    "website": "https://www.tsangyow.com"
+  },
+  {
+    "id": 108,
+    "name": "Tulip Tech",
+    "boothNumber": "33036",
+    "description": "Tulip Tech provides manufacturing operations software and IoT solutions for factory floor visibility and process optimization. Their platform helps aerospace and UAS manufacturers streamline production and improve quality control.",
+    "website": "https://www.tuliptech.com"
+  },
+  {
+    "id": 109,
+    "name": "U.S. Department of Transportation (USDOT)",
+    "boothNumber": "42020",
+    "description": "The U.S. Department of Transportation oversees the integration of uncrewed aircraft systems into the national airspace. USDOT programs like the BEYOND and UAS Integration Pilot programs advance BVLOS operations and regulatory frameworks.",
+    "website": "https://www.transportation.gov"
+  },
+  {
+    "id": 110,
+    "name": "UAV Navigation-Grupo Oes\u00eda",
+    "boothNumber": "16036",
+    "description": "UAV Navigation develops autopilot systems, flight controllers, and navigation solutions for uncrewed aerial vehicles. Their proven flight control technology is deployed in military and civil UAVs across multiple platforms and mission profiles.",
+    "website": "https://www.uavnavigation.com"
+  },
+  {
+    "id": 111,
+    "name": "UAV Propulsion Tech",
+    "boothNumber": "17009",
+    "description": "UAV Propulsion Tech supplies high-performance engines, propellers, and power systems exclusively for the unmanned aircraft market. Their propulsion solutions are optimized for maximum thrust, efficiency, and reliability across diverse UAV platforms.",
+    "website": "https://www.uavpropulsiontech.com"
+  },
+  {
+    "id": 112,
+    "name": "Uncrewed Systems Technology Magazine",
+    "boothNumber": "26005",
+    "description": "Uncrewed Systems Technology Magazine is a leading publication covering the latest innovations in drone and autonomous systems technology. The magazine features in-depth technical articles, product reviews, and industry analysis for UAS professionals.",
+    "website": "https://www.unmannedsystemstechnology.com"
+  },
+  {
+    "id": 113,
+    "name": "Unmanned Systems Technology",
+    "boothNumber": "30033",
+    "description": "Unmanned Systems Technology is an online resource and marketplace connecting buyers with suppliers across the uncrewed systems industry. The platform provides product information, technical specifications, and supplier directories for UAS components.",
+    "website": "https://www.unmannedsystemstechnology.com"
+  },
+  {
+    "id": 114,
+    "name": "Unusual Machines, Inc.",
+    "boothNumber": "20013",
+    "description": "Unusual Machines manufactures drone components and accessories including FPV cameras, video transmitters, and antenna systems. They serve both the consumer FPV drone racing market and commercial drone operators with high-quality video solutions.",
+    "website": "https://www.unusualmachines.com"
+  },
+  {
+    "id": 115,
+    "name": "UVIFY",
+    "boothNumber": "15036",
+    "description": "UVIFY specializes in UV-C disinfection drone systems for sanitizing large public spaces and critical infrastructure. Their autonomous aerial platforms deliver targeted ultraviolet disinfection for healthcare, transportation, and commercial facilities.",
+    "website": "https://www.uvify.com"
+  },
+  {
+    "id": 116,
+    "name": "UXV Technologies",
+    "boothNumber": "25030",
+    "description": "UXV Technologies develops autonomous surface and underwater vehicle systems for defense, security, and commercial maritime applications. Their uncrewed vessels perform surveillance, hydrographic survey, and environmental monitoring missions.",
+    "website": "https://www.uxv.com"
+  },
+  {
+    "id": 117,
+    "name": "VectorNav Technologies",
+    "boothNumber": "24004",
+    "description": "VectorNav is a leading provider of high-performance inertial navigation systems (INS) and GNSS-aided attitude and heading reference systems. Their miniature, tactical-grade sensors are widely integrated into UAVs, UGVs, and AUVs for precise navigation.",
+    "website": "https://www.vectornav.com"
+  },
+  {
+    "id": 118,
+    "name": "VersaLogic Corp.",
+    "boothNumber": "22016",
+    "description": "VersaLogic manufactures rugged, embedded single-board computers for mission-critical applications in aerospace, defense, and medical markets. Their extended-temperature SBCs are designed for deployment in harsh-environment uncrewed platforms.",
+    "website": "https://www.versalogic.com"
+  },
+  {
+    "id": 119,
+    "name": "Videosoft Global Ltd",
+    "boothNumber": "16020",
+    "description": "Videosoft Global provides real-time video encoding, streaming, and management solutions for drone operations. Their video transmission technology delivers low-latency, high-quality video from uncrewed platforms to command centers anywhere in the world.",
+    "website": "https://www.videosoftglobal.com"
+  },
+  {
+    "id": 120,
+    "name": "Visionair",
+    "boothNumber": "33030",
+    "description": "Visionair develops AI-based computer vision and object recognition software for real-time drone data analysis. Their platform transforms aerial video into actionable intelligence for surveillance, inspection, and situational awareness applications.",
+    "website": "https://www.visionair.com"
+  },
+  {
+    "id": 121,
+    "name": "Volz Servos",
+    "boothNumber": "29010",
+    "description": "Volz Servos manufactures high-precision servo actuators and motion control systems for aerospace, defense, and industrial applications. Their compact, powerful servos are trusted for flight control actuation in demanding uncrewed platform environments.",
+    "website": "https://www.volz-servos.com"
+  },
+  {
+    "id": 122,
+    "name": "Xmobots",
+    "boothNumber": "43021",
+    "description": "Xmobots is a Brazilian manufacturer of multirotor and fixed-wing drones for precision agriculture, mapping, and inspection applications. They provide integrated aerial solutions with a focus on the Latin American agricultural market.",
+    "website": "https://www.xmobots.com"
+  },
+  {
+    "id": 123,
+    "name": "Xsens",
+    "boothNumber": "31003",
+    "description": "Xsens develops 3D motion tracking and inertial navigation technology for autonomous systems and robotics. Their MTi sensor modules and AHRS/INS solutions provide reliable orientation and position data for UAV flight control and navigation.",
+    "website": "https://www.xsens.com"
+  },
+  {
+    "id": 124,
+    "name": "Z3 Technology, LLC",
+    "boothNumber": "14009",
+    "description": "Z3 Technology delivers embedded video encoding, decoding, and streaming solutions for broadcast, defense, and drone applications. Their compact H.264/H.265 encoders enable high-quality video transmission from uncrewed platforms over limited bandwidth.",
+    "website": "https://www.z3technology.com"
+  },
+  {
+    "id": 125,
+    "name": "ZenaDrone, Inc.",
+    "boothNumber": "36019",
+    "description": "ZenaDrone develops AI-powered autonomous drones for industrial inspection, agriculture, and security applications. Their multifunctional drone platforms integrate advanced sensors and machine learning for real-time data collection and analysis.",
+    "website": "https://www.zenadrone.com"
+  },
+  {
+    "id": 126,
+    "name": "AA Portable Power Corp.",
+    "boothNumber": "25037",
+    "description": "AA Portable Power Corp. provides battery packs, charging solutions, and power management systems for portable electronic devices and uncrewed systems. Their custom battery solutions support extended drone operations in the field.",
+    "website": "https://www.batteryspace.com"
+  },
+  {
+    "id": 127,
+    "name": "Accipiter Radar",
+    "boothNumber": "21039",
+    "description": "Accipiter Radar supplies compact, high-performance radar systems for drone detection and airspace surveillance. Their solid-state radars provide persistent tracking of uncrewed aircraft for security and airspace management applications.",
+    "website": "https://www.accipiterradar.com"
+  },
+  {
+    "id": 128,
+    "name": "ACDi",
+    "boothNumber": "15028",
+    "description": "ACDi provides engineering, manufacturing, and integration services for complex electronic systems in aerospace and defense. Their capabilities include design, assembly, and testing of UAS electronic subsystems and mission computers.",
+    "website": "https://www.acdi.com"
+  },
+  {
+    "id": 129,
+    "name": "ADLINK Technology, Inc.",
+    "boothNumber": "32033",
+    "description": "ADLINK Technology is a global leader in edge computing, embedded boards, and industrial IoT solutions for autonomous systems. Their high-performance computing platforms power AI inference and sensor fusion for advanced drone applications.",
+    "website": "https://www.adlinktech.com"
+  },
+  {
+    "id": 130,
+    "name": "Aero Tec Laboratories (ATL)",
+    "boothNumber": "31026",
+    "description": "Aero Tec Laboratories manufactures flexible fuel tanks, bladders, and fluid containment systems for aerospace and defense applications. Their crash-resistant fuel cells are used in uncrewed aircraft for safe fuel storage in demanding conditions.",
+    "website": "https://www.aeroteclabs.com"
+  },
+  {
+    "id": 131,
+    "name": "Aerodine Composites",
+    "boothNumber": "15026",
+    "description": "Aerodine Composites designs and manufactures advanced composite structures and components for the aerospace and uncrewed systems markets. Their lightweight carbon fiber parts are used in UAV airframes, propellers, and payload housings.",
+    "website": "https://www.aerodinecomposites.com"
+  },
+  {
+    "id": 132,
+    "name": "Aeroprobe Corporation",
+    "boothNumber": "15013",
+    "description": "Aeroprobe Corporation develops air data systems and multi-hole probe technology for atmospheric sensing on uncrewed platforms. Their sensors measure airspeed, angle of attack, and airflow for improved flight performance and scientific data collection.",
+    "website": "https://www.aeroprobe.com"
+  },
+  {
+    "id": 133,
+    "name": "Aerospace Industrial Development Corporation",
+    "boothNumber": "40013",
+    "description": "Aerospace Industrial Development Corporation (AIDC) is Taiwan's premier aerospace manufacturer providing airframe components, avionics, and aircraft maintenance services. They serve both manned and uncrewed aircraft programs.",
+    "website": "https://www.aidc.com.tw"
+  },
+  {
+    "id": 134,
+    "name": "Aerospace Industry Association of Michigan",
+    "boothNumber": "20000",
+    "description": "The Aerospace Industry Association of Michigan promotes and supports the state's aerospace and defense manufacturing ecosystem. They connect companies, universities, and government resources to grow Michigan's aerospace industry.",
+    "website": "https://www.aiamichigan.com"
+  },
+  {
+    "id": 135,
+    "name": "Aerostar International - Tillamook UAS Test Range",
+    "boothNumber": "28000",
+    "description": "Aerostar International operates the Tillamook UAS Test Range in Oregon, providing airspace and facilities for uncrewed aircraft testing. The range supports BVLOS operations, sensor evaluation, and flight training for commercial and government clients.",
+    "website": "https://www.aerostar.com"
+  },
+  {
+    "id": 136,
+    "name": "Aerovironment (AV)",
+    "boothNumber": "12009",
+    "description": "AeroVironment is a global leader in tactical uncrewed aircraft systems for defense and government applications. Their small UAS platforms including the Raven, Puma, and Switchblade are widely deployed by military forces worldwide for ISR and precision strike missions.",
+    "website": "https://www.avinc.com"
+  },
+  {
+    "id": 137,
+    "name": "AEVEX",
+    "boothNumber": "18021",
+    "description": "AEVEX provides engineering and technical services for defense, aerospace, and intelligence communities. Their expertise includes UAS integration, sensor payload development, and mission planning support for government programs.",
+    "website": "https://www.aevex.com"
+  },
+  {
+    "id": 138,
+    "name": "AEye",
+    "boothNumber": "14037",
+    "description": "AEye develops intelligent, solid-state LiDAR sensors for autonomous vehicle and drone navigation applications. Their adaptive LiDAR platform delivers long-range 3D perception for collision avoidance and safe autonomous operations.",
+    "website": "https://www.aeye.com"
+  },
+  {
+    "id": 139,
+    "name": "AG3 Labs",
+    "boothNumber": "40036",
+    "description": "AG3 Labs provides research and development services for advanced sensing, data analytics, and autonomous systems technologies. They work with government and commercial clients to prototype and field innovative uncrewed solutions.",
+    "website": "https://www.ag3labs.com"
+  },
+  {
+    "id": 140,
+    "name": "Ainstein",
+    "boothNumber": "30022",
+    "description": "Ainstein develops compact, 4D imaging radar sensors for drone navigation, collision avoidance, and autonomous landing. Their AI-powered radar technology provides robust perception in GPS-denied and low-visibility environments.",
+    "website": "https://www.ainstein.com"
+  },
+  {
+    "id": 141,
+    "name": "AIRBILITY INC.",
+    "boothNumber": "32026",
+    "description": "AIRBILITY INC. develops advanced air mobility solutions including drone delivery systems and urban air logistics platforms. Their technology focuses on safe, efficient autonomous flight for last-mile delivery and medical transport.",
+    "website": "https://www.airbility.com"
+  },
+  {
+    "id": 142,
+    "name": "AIRO",
+    "boothNumber": "18013",
+    "description": "AIRO develops AI-powered autonomous drone platforms for industrial inspection, public safety, and defense applications. Their systems combine edge AI processing with advanced flight autonomy for real-time data collection and analysis.",
+    "website": "https://www.airo.com"
+  },
+  {
+    "id": 143,
+    "name": "Airspace Link",
+    "boothNumber": "20008",
+    "description": "Airspace Link provides a digital airspace management platform for safe drone integration into low-altitude airspace. Their solutions enable local governments and drone operators to manage airspace notifications, risk assessment, and flight approvals.",
+    "website": "https://www.airspacelink.com"
+  },
+  {
+    "id": 144,
+    "name": "AirWise Solutions, Inc.",
+    "boothNumber": "36010",
+    "description": "AirWise Solutions develops weather intelligence and atmospheric sensing technology for uncrewed aircraft operations. Their real-time weather data and forecasting tools help operators make safe flight decisions and plan BVLOS missions.",
+    "website": "https://www.airwisesolutions.com"
+  },
+  {
+    "id": 145,
+    "name": "AlarisPro, Inc.",
+    "boothNumber": "27005",
+    "description": "AlarisPro provides fleet management and operations software for commercial drone programs. Their SaaS platform helps organizations manage aircraft, pilots, maintenance, and compliance across their entire UAS fleet operations.",
+    "website": "https://www.alarispro.com"
+  },
+  {
+    "id": 146,
+    "name": "All Flex Solutions, Inc.",
+    "boothNumber": "14003",
+    "description": "All Flex Solutions manufactures flexible circuits, heaters, and interconnect assemblies for aerospace and defense electronics. Their flexible printed circuit solutions enable compact, reliable wiring for space-constrained uncrewed systems.",
+    "website": "https://www.allflexinc.com"
+  },
+  {
+    "id": 147,
+    "name": "Allient",
+    "boothNumber": "25043",
+    "description": "Allient designs and manufactures precision motion control products including servo motors, drives, and actuators for aerospace and industrial applications. Their motion solutions are integrated into UAV gimbals, landing gear, and flight control systems.",
+    "website": "https://www.allient.com"
+  },
+  {
+    "id": 148,
+    "name": "Amphenol MIlitary & Aerospace",
+    "boothNumber": "16023",
+    "description": "Amphenol Military & Aerospace is a leading manufacturer of high-reliability connectors and interconnect systems for defense and aerospace applications. Their rugged connectors are essential components in uncrewed platform electronics and sensor systems.",
+    "website": "https://www.amphenol-mil-aero.com"
+  },
+  {
+    "id": 149,
+    "name": "Analog Devices, Inc.",
+    "boothNumber": "20040",
+    "description": "Analog Devices is a global semiconductor leader providing precision sensors, signal processing, and power management ICs for autonomous systems. Their MEMS inertial sensors, radar ICs, and power solutions are widely used in drone electronics.",
+    "website": "https://www.analog.com"
+  },
+  {
+    "id": 150,
+    "name": "ANELLO Photonics",
+    "boothNumber": "15009",
+    "description": "ANELLO Photonics develops silicon photonic gyroscopes and integrated navigation systems for autonomous platforms. Their chip-scale optical gyro technology delivers high-precision navigation without the size, weight, and cost of conventional fiber-optic gyros.",
+    "website": "https://www.anellophotonics.com"
+  },
+  {
+    "id": 151,
+    "name": "Angel Aerial Systems",
+    "boothNumber": "40019",
+    "description": "Angel Aerial Systems provides drone-based data collection and analytics services for telecommunications, energy, and infrastructure industries. Their inspection and mapping solutions help clients assess asset condition and plan maintenance activities.",
+    "website": "https://www.angelaerial.com"
+  },
+  {
+    "id": 152,
+    "name": "Antigravity (U.S.) LLC",
+    "boothNumber": "24042",
+    "description": "Antigravity manufactures lightweight lithium-ion batteries and jump-start power systems for automotive and powersports applications. Their compact, high-discharge battery technology is also used in small uncrewed systems requiring lightweight power sources.",
+    "website": "https://www.antigravitybatteries.com"
+  },
+  {
+    "id": 153,
+    "name": "Applied Navigation LLC",
+    "boothNumber": "22018",
+    "description": "Applied Navigation provides inertial navigation systems, GPS receivers, and sensor fusion solutions for autonomous platforms. Their navigation technology enables precise positioning for UAVs operating in GPS-challenged environments.",
+    "website": "https://www.appliednavigation.com"
+  },
+  {
+    "id": 154,
+    "name": "Arete",
+    "boothNumber": "16017",
+    "description": "Arete delivers advanced analytics, engineering, and technology solutions for national security missions. Their work includes computer vision, sensor development, and data exploitation for uncrewed ISR platforms.",
+    "website": "https://www.arete.com"
+  },
+  {
+    "id": 155,
+    "name": "ARI - FAA UAS Test Site",
+    "boothNumber": "28013",
+    "description": "The ARI FAA UAS Test Site provides designated airspace and test infrastructure for uncrewed aircraft system research and development. The site supports certification testing, BVLOS operations validation, and advanced UAS technology demonstrations.",
+    "website": "https://www.aritestsite.com"
+  },
+  {
+    "id": 156,
+    "name": "ASA (Aviation Supplies & Academics, Inc.)",
+    "boothNumber": "37005",
+    "description": "ASA publishes aviation training materials, reference books, and test preparation tools for pilots and UAS operators. Their comprehensive resources support remote pilot certification and professional development in the uncrewed aircraft industry.",
+    "website": "https://www.asa2fly.com"
+  },
+  {
+    "id": 157,
+    "name": "Aurelia Aerospace",
+    "boothNumber": "14026",
+    "description": "Aurelia Aerospace develops high-altitude, long-endurance (HALE) drone systems for stratospheric communications and surveillance. Their solar-electric platforms provide persistent aerial presence for months at a time above commercial air traffic.",
+    "website": "https://www.aurelia-aero.com"
+  },
+  {
+    "id": 158,
+    "name": "B.E. MEYERS & CO. INC.",
+    "boothNumber": "43024",
+    "description": "B.E. Meyers & Co. manufactures electro-optical systems, lasers, and tactical illumination products for defense and security applications. Their mission-ready optical systems are integrated into uncrewed platforms for targeting and surveillance.",
+    "website": "https://www.bemeyers.com"
+  },
+  {
+    "id": 159,
+    "name": "BAE Systems",
+    "boothNumber": "17026",
+    "description": "BAE Systems is a global defense, aerospace, and security company developing advanced electronics, intelligence, and cyber solutions. Their uncrewed systems portfolio includes autonomous platforms, electronic warfare systems, and secure communications for military applications.",
+    "website": "https://www.baesystems.com"
+  },
+  {
+    "id": 160,
+    "name": "Barfield Inc.",
+    "boothNumber": "35019",
+    "description": "Barfield provides MRO (maintenance, repair, and overhaul) services and test equipment for aerospace avionics and components. They support UAS operators with calibration and repair services for flight-critical instrumentation and electronics.",
+    "website": "https://www.barfield.com"
+  },
+  {
+    "id": 161,
+    "name": "Battle Creek Unlimited",
+    "boothNumber": "38039",
+    "description": "Battle Creek Unlimited is an economic development organization supporting aerospace, defense, and advanced manufacturing in Battle Creek, Michigan. They provide resources for companies looking to establish operations in the region's growing aerospace corridor.",
+    "website": "https://www.bcunlimited.org"
+  },
+  {
+    "id": 162,
+    "name": "Blue Marble Geographics",
+    "boothNumber": "17011",
+    "description": "Blue Marble Geographics develops geospatial data processing and analysis software widely used in drone mapping workflows. Their Geographic Calculator and Global Mapper products enable precise coordinate conversion, terrain analysis, and 3D model generation from UAS data.",
+    "website": "https://www.bluemarblegeo.com"
+  },
+  {
+    "id": 163,
+    "name": "blueflite inc.",
+    "boothNumber": "38036",
+    "description": "blueflite develops autonomous drone logistics and delivery solutions for commercial and humanitarian applications. Their platform integrates software, hardware, and operational services to enable reliable beyond-visual-line-of-sight cargo delivery.",
+    "website": "https://www.blueflite.com"
+  },
+  {
+    "id": 164,
+    "name": "Broadcom",
+    "boothNumber": "30001",
+    "description": "Broadcom is a global technology leader providing semiconductor and infrastructure software solutions for aerospace and defense. Their wireless connectivity, GNSS positioning, and networking chips are foundational components in modern uncrewed systems.",
+    "website": "https://www.broadcom.com"
+  },
+  {
+    "id": 165,
+    "name": "CAL Analytics",
+    "boothNumber": "20026",
+    "description": "CAL Analytics provides research and development services in autonomy, AI, and data analytics for uncrewed systems. Their work focuses on advancing UAS detect-and-avoid, flight safety, and autonomous decision-making for integration into the national airspace.",
+    "website": "https://www.calanalytics.com"
+  },
+  {
+    "id": 166,
+    "name": "Cambridge Sensoriis",
+    "boothNumber": "33033",
+    "description": "Cambridge Sensoriis develops RF sensing and signal processing technology for next-generation radar and communications systems. Their digital beamforming solutions enhance the sensing capabilities of autonomous platforms in contested spectrum environments.",
+    "website": "https://www.cambridgesensoriis.com"
+  },
+  {
+    "id": 167,
+    "name": "Canadian UAVs",
+    "boothNumber": "30030",
+    "description": "Canadian UAVs provides drone services, training, and technology solutions for industries including mining, energy, and infrastructure. They offer end-to-end UAS programs from regulatory compliance to data collection and processing.",
+    "website": "https://www.canadianuavs.com"
+  },
+  {
+    "id": 168,
+    "name": "Carahsoft Technology Corporation",
+    "boothNumber": "34022",
+    "description": "Carahsoft is a leading government IT solutions provider and reseller of cybersecurity, AI, and geospatial technologies. They serve as a key procurement channel for UAS software and services sold to federal, state, and local government agencies.",
+    "website": "https://www.carahsoft.com"
+  },
+  {
+    "id": 169,
+    "name": "Central UAS Technologies",
+    "boothNumber": "24007",
+    "description": "Central UAS Technologies provides consulting, training, and operational support services for organizations implementing uncrewed aircraft programs. Their expertise spans regulatory compliance, safety management, and mission planning for complex UAS operations.",
+    "website": "https://www.centraluas.com"
+  },
+  {
+    "id": 170,
+    "name": "Chin Poon Industrial Co., Ltd.",
+    "boothNumber": "38013",
+    "description": "Chin Poon Industrial is a leading manufacturer of printed circuit boards (PCBs) for aerospace, automotive, and industrial applications. Their high-reliability PCBs are used in UAV flight controllers, sensor modules, and communication systems.",
+    "website": "https://www.chinpoon.com"
+  },
+  {
+    "id": 171,
+    "name": "Circle Optics",
+    "boothNumber": "38026",
+    "description": "Circle Optics develops 360-degree panoramic camera systems and real-time video stitching software for immersive aerial imaging. Their camera technology captures full-spherical imagery from drones for mapping, surveillance, and virtual reality applications.",
+    "website": "https://www.circleoptics.com"
+  },
+  {
+    "id": 172,
+    "name": "Cobra AERO, LLC",
+    "boothNumber": "14013",
+    "description": "Cobra AERO provides engineering services and consulting for aircraft design, certification, and modification including uncrewed systems. Their team brings deep expertise in aerospace structures, avionics integration, and FAA certification processes.",
+    "website": "https://www.cobraaero.com"
+  },
+  {
+    "id": 173,
+    "name": "Cofactr",
+    "boothNumber": "30026",
+    "description": "Cofactr provides supply chain management and procurement software for electronics manufacturing. Their platform helps UAS hardware companies manage component sourcing, inventory, and production logistics with greater efficiency.",
+    "website": "https://www.cofactr.com"
+  },
+  {
+    "id": 174,
+    "name": "Commercial UAV News",
+    "boothNumber": "43023",
+    "description": "Commercial UAV News is an online publication covering news, analysis, and insights for the commercial drone industry. Their editorial content covers regulations, technology trends, business developments, and case studies across drone markets.",
+    "website": "https://www.commercialuavnews.com"
+  },
+  {
+    "id": 175,
+    "name": "Coretronic Intelligent Robotics Corporation (CIRC)",
+    "boothNumber": "36013",
+    "description": "Coretronic Intelligent Robotics develops autonomous drone solutions for industrial inspection, surveillance, and public safety applications. Their AI-powered platforms integrate advanced sensor payloads for automated data collection and analysis.",
+    "website": "https://www.circ.com"
+  },
+  {
+    "id": 176,
+    "name": "CRP USA",
+    "boothNumber": "16031",
+    "description": "CRP USA manufactures advanced composite materials and 3D printing filaments for high-performance aerospace applications. Their Windform and Firebird materials are used for additive manufacturing of end-use UAV components and production parts.",
+    "website": "https://www.crp-usa.com"
+  },
+  {
+    "id": 177,
+    "name": "Deep Trekker Inc.",
+    "boothNumber": "17019",
+    "description": "Deep Trekker manufactures portable underwater remotely operated vehicles (ROVs) and inspection cameras for maritime applications. Their rugged submersible systems are used for hull inspection, aquaculture, and underwater infrastructure assessment.",
+    "website": "https://www.deeptrekker.com"
+  },
+  {
+    "id": 178,
+    "name": "DeltaHawk Engines",
+    "boothNumber": "22023",
+    "description": "DeltaHawk Engines develops and manufactures lightweight, heavy-fuel piston engines for aerospace applications. Their fuel-injected, turbocharged engines are designed for uncrewed aircraft requiring reliable, efficient propulsion on JP-8 and diesel fuels.",
+    "website": "https://www.deltahawkengines.com"
+  },
+  {
+    "id": 179,
+    "name": "DeTect Inc",
+    "boothNumber": "36027",
+    "description": "DeTect Inc is a leader in advanced radar systems for drone detection, air traffic control, and weather monitoring. Their HARRIER drone detection systems provide counter-UAS capabilities for military, government, and critical infrastructure security.",
+    "website": "https://www.detect-inc.com"
+  },
+  {
+    "id": 180,
+    "name": "Dewesoft",
+    "boothNumber": "32017",
+    "description": "Dewesoft develops data acquisition systems and test instrumentation for aerospace, automotive, and engineering applications. Their measurement solutions are used in UAV development testing for flight dynamics, structural loads, and propulsion performance analysis.",
+    "website": "https://www.dewesoft.com"
+  },
+  {
+    "id": 181,
+    "name": "Divergent Technologies",
+    "boothNumber": "15010",
+    "description": "Divergent Technologies provides end-to-end digital manufacturing solutions for complex aerospace and defense structures. Their Divergent Adaptive Production System (DAPS) uses generative design and additive manufacturing to produce lightweight UAV airframes.",
+    "website": "https://www.divergent3d.com"
+  },
+  {
+    "id": 182,
+    "name": "Drone Rescue Systems",
+    "boothNumber": "22027",
+    "description": "Drone Rescue Systems develops ballistic parachute recovery systems for uncrewed aircraft. Their lightweight, pyrotechnic-deployed parachutes provide emergency descent capability for drones, protecting people and property on the ground.",
+    "website": "https://www.dronerescuesystems.com"
+  },
+  {
+    "id": 183,
+    "name": "DroneShield",
+    "boothNumber": "16026",
+    "description": "DroneShield is a global leader in counter-uncrewed aerial system (C-UAS) technology for military, government, and critical infrastructure protection. Their multi-sensor detection and mitigation solutions combine RF, radar, acoustic, and optical sensors.",
+    "website": "https://www.droneshield.com"
+  },
+  {
+    "id": 184,
+    "name": "DTC | A Codan Company",
+    "boothNumber": "14027",
+    "description": "DTC (A Codan Company) manufactures military-grade data links and communication systems for uncrewed platforms. Their low-SWaP (size, weight, and power) radios provide secure, resilient command and control links for tactical UAS operations.",
+    "website": "https://www.dtccom.com"
+  },
+  {
+    "id": 185,
+    "name": "Edge Vision Systems",
+    "boothNumber": "17020",
+    "description": "Edge Vision Systems develops rugged embedded vision cameras and imaging systems for autonomous robots and uncrewed platforms. Their compact, industrial-grade cameras provide reliable visual perception in challenging environmental conditions.",
+    "website": "https://www.edgevisionsystems.com"
+  },
+  {
+    "id": 186,
+    "name": "ELGENS Co., Ltd",
+    "boothNumber": "29039",
+    "description": "ELGENS is a Korean manufacturer of precision motors, generators, and motion control components for industrial and robotic applications. Their compact, high-torque motors are used in UAV actuation and gimbal positioning systems.",
+    "website": "https://www.elgens.com"
+  },
+  {
+    "id": 187,
+    "name": "Elsight",
+    "boothNumber": "24037",
+    "description": "Elsight provides multi-operator, bonded connectivity solutions for mission-critical BVLOS drone operations. Their Halo platform aggregates multiple communication links into one resilient connection, enabling reliable beyond-visual-line-of-sight drone control and data streaming.",
+    "website": "https://www.elsight.com"
+  },
+  {
+    "id": 188,
+    "name": "Embention",
+    "boothNumber": "26007",
+    "description": "Embention develops autopilots, flight controllers, and critical avionics for professional and military unmanned vehicles. Their Veronte autopilot product line powers drones, eVTOLs, and autonomous surface vessels with certified flight control solutions.",
+    "website": "https://www.embention.com"
+  },
+  {
+    "id": 189,
+    "name": "Embry-Riddle Aeronautical University",
+    "boothNumber": "23020",
+    "description": "Embry-Riddle Aeronautical University is the world's premier aviation and aerospace university, offering degrees in uncrewed aircraft systems. Their research programs advance UAS autonomy, safety, and airspace integration through cutting-edge academic work.",
+    "website": "https://www.erau.edu"
+  },
+  {
+    "id": 190,
+    "name": "Energy Full Electronics.,LTD",
+    "boothNumber": "31008",
+    "description": "Energy Full Electronics manufactures Li-ion battery packs, chargers, and power management systems for consumer and industrial applications. Their battery solutions provide reliable power storage for uncrewed systems and portable electronics.",
+    "website": "https://www.energyfull.com"
+  },
+  {
+    "id": 191,
+    "name": "Ensinger Inc.",
+    "boothNumber": "26030",
+    "description": "Ensinger manufactures high-performance engineering plastic stock shapes and machined components for aerospace and industrial applications. Their lightweight, durable plastic materials are used in UAV structural components and payload housings.",
+    "website": "https://www.ensingerplastics.com"
+  },
+  {
+    "id": 192,
+    "name": "Epson America, Inc.",
+    "boothNumber": "34007",
+    "description": "Epson America is known for their precision MEMS sensors including gyroscopes and accelerometers used in robotic and uncrewed systems. Their quartz-based sensing technology provides high-accuracy motion detection for UAV flight stabilization and navigation.",
+    "website": "https://www.epson.com"
+  },
+  {
+    "id": 193,
+    "name": "Eureka Dynamics",
+    "boothNumber": "40031",
+    "description": "Eureka Dynamics provides AI-based solutions for drone detection, classification, and countermeasure operations. Their software and sensor integration platforms enhance airspace security through automated identification of uncrewed aircraft threats.",
+    "website": "https://www.eurekadynamics.com"
+  },
+  {
+    "id": 194,
+    "name": "Event 38 Unmanned Systems, Inc.",
+    "boothNumber": "20033",
+    "description": "Event 38 Unmanned Systems designs and manufactures fixed-wing drone platforms for mapping and surveying applications. Their long-range, rugged airframes are optimized for aerial data collection in agriculture, mining, and environmental monitoring.",
+    "website": "https://www.event38.com"
+  },
+  {
+    "id": 195,
+    "name": "EVETAR (Xiamen Leading Optics Co., Ltd.)",
+    "boothNumber": "29007",
+    "description": "EVETAR manufactures precision optical lenses and imaging systems for security, automotive, and drone applications. Their high-quality optical components are used in EO/IR camera payloads and gimbal systems for uncrewed platforms.",
+    "website": "https://www.evetar.com"
+  },
+  {
+    "id": 196,
+    "name": "EXOSENS",
+    "boothNumber": "14030",
+    "description": "EXOSENS develops advanced gas sensing and environmental monitoring technology for integration on uncrewed platforms. Their miniature chemical sensors enable drones to detect and map airborne pollutants, industrial emissions, and hazardous materials.",
+    "website": "https://www.exosens.com"
+  },
+  {
+    "id": 197,
+    "name": "Federal Aviation Administration",
+    "boothNumber": "43016",
+    "description": "The Federal Aviation Administration (FAA) regulates all aspects of civil aviation including uncrewed aircraft operations. Their UAS integration office develops rules, guidance, and approvals for commercial drone flights including Part 107 waivers and type certifications.",
+    "website": "https://www.faa.gov/uas"
+  },
+  {
+    "id": 198,
+    "name": "FIBERPRO INC",
+    "boothNumber": "32010",
+    "description": "FIBERPRO manufactures high-precision fiber optic components, test instruments, and polishing solutions for photonics applications. Their precision optics are used in fiber-optic gyroscopes and LiDAR sensors for autonomous navigation.",
+    "website": "https://www.fiberpro.com"
+  },
+  {
+    "id": 199,
+    "name": "Firefly Drone Systems",
+    "boothNumber": "38034",
+    "description": "Firefly Drone Systems develops custom UAS platforms for defense and special mission applications. They design and build specialized drones for electronic warfare, ISR, and kinetic effects in contested operational environments.",
+    "website": "https://www.fireflydrones.com"
+  },
+  {
+    "id": 200,
+    "name": "FlexSys",
+    "boothNumber": "13015",
+    "description": "FlexSys develops morphing wing structures and adaptive aerostructures for aerospace applications. Their flexible trailing edge technology improves aerodynamic efficiency across flight conditions, with applications for uncrewed and eVTOL aircraft.",
+    "website": "https://www.flexsys.com"
+  },
+  {
+    "id": 201,
+    "name": "FlytBase, Inc.",
+    "boothNumber": "30009",
+    "description": "FlytBase provides a cloud-based drone operations and automation platform for enterprise drone programs. Their software enables remote drone station management, autonomous mission scheduling, and integration with business workflows.",
+    "website": "https://www.flytbase.com"
+  },
+  {
+    "id": 202,
+    "name": "Fotokite",
+    "boothNumber": "16028",
+    "description": "Fotokite provides tethered, persistent aerial surveillance systems for public safety and security applications. Their actively stabilized tethered drone platform delivers unlimited flight endurance for real-time situational awareness at events, emergencies, and perimeters.",
+    "website": "https://www.fotokite.com"
+  },
+  {
+    "id": 203,
+    "name": "Frsky RC Inc",
+    "boothNumber": "36032",
+    "description": "FrSky RC is a leading manufacturer of radio control systems, receivers, and telemetry equipment for RC aircraft and drones. Their advanced RC link technology is widely used in FPV racing, hobbyist, and commercial drone applications.",
+    "website": "https://www.frsky-rc.com"
+  },
+  {
+    "id": 204,
+    "name": "Fuel Safe Systems",
+    "boothNumber": "14007",
+    "description": "Fuel Safe Systems manufactures crash-resistant fuel cells, bladders, and fluid containment systems for aerospace and motorsports applications. Their safety-certified fuel tanks are used in uncrewed aircraft requiring robust, leak-proof fuel storage.",
+    "website": "https://www.fuelsafe.com"
+  },
+  {
+    "id": 205,
+    "name": "Fullymax Battery Co., Ltd",
+    "boothNumber": "23028",
+    "description": "Fullymax Battery manufactures high-performance lithium polymer and lithium-ion batteries for RC hobby, drone, and industrial applications. Their rechargeable battery solutions provide high discharge rates and reliable energy storage for UAS platforms.",
+    "website": "https://www.fullymax.com"
+  },
+  {
+    "id": 206,
+    "name": "Fuse Integration, Inc.",
+    "boothNumber": "13030",
+    "description": "Fuse Integration delivers advanced networking and digital interoperability solutions for military and government uncrewed systems. Their technology enables secure, standards-based data sharing across disparate command and control architectures.",
+    "website": "https://www.fuseintegration.com"
+  },
+  {
+    "id": 207,
+    "name": "Futaba Corporation of America",
+    "boothNumber": "36033",
+    "description": "Futaba Corporation manufactures precision radio control systems, servos, and telemetry equipment for RC, commercial, and defense UAS applications. Their proven R/C link technology provides reliable command and control for drone operators worldwide.",
+    "website": "https://www.futabarc.com"
+  },
+  {
+    "id": 208,
+    "name": "General Dynamics Mission System",
+    "boothNumber": "13032",
+    "description": "General Dynamics Mission Systems provides secure communications, sensor processing, and mission computing solutions for uncrewed platforms. Their advanced electronics enable resilient command and control and ISR data processing for military UAS operations.",
+    "website": "https://www.gdmissionsystems.com"
+  },
+  {
+    "id": 209,
+    "name": "German Pavilion",
+    "boothNumber": "26013",
+    "description": "The German Pavilion showcases innovative German companies and technologies in the uncrewed systems sector. The pavilion highlights Germany's engineering excellence in UAS components, sensors, and propulsion technologies.",
+    "website": "https://www.germanpavilion.com"
+  },
+  {
+    "id": 210,
+    "name": "Ghost Robotics",
+    "boothNumber": "20022",
+    "description": "Ghost Robotics develops advanced legged uncrewed ground vehicles (UGVs) for defense, security, and industrial applications. Their agile, all-terrain robotic platforms complement aerial drone systems for multi-domain autonomous operations.",
+    "website": "https://www.ghostrobotics.com"
+  },
+  {
+    "id": 211,
+    "name": "Global Aerospace",
+    "boothNumber": "43032",
+    "description": "Global Aerospace is a leading provider of insurance solutions for the aviation and aerospace industry including UAS operators. They offer comprehensive liability and hull insurance policies tailored for commercial drone operations.",
+    "website": "https://www.global-aero.com"
+  },
+  {
+    "id": 212,
+    "name": "GoEngineer",
+    "boothNumber": "31001",
+    "description": "GoEngineer provides SOLIDWORKS CAD, simulation, and product data management software solutions to aerospace and manufacturing companies. Their engineering tools are used to design and analyze UAS airframes and components.",
+    "website": "https://www.goengineer.com"
+  },
+  {
+    "id": 213,
+    "name": "GREMSY",
+    "boothNumber": "23032",
+    "description": "GREMSY manufactures high-performance batteries and energy storage solutions for industrial and commercial applications. Their lithium battery packs are designed to power uncrewed systems requiring reliable, long-lasting energy in demanding environments.",
+    "website": "https://www.gremsy.com"
+  },
+  {
+    "id": 214,
+    "name": "Grepow Inc. DBA TATTU",
+    "boothNumber": "42023",
+    "description": "Grepow Inc. (TATTU) is a leading manufacturer of high-discharge LiPo and Li-ion batteries for drones and robotics. Their TATTU brand provides professional-grade battery solutions for commercial, industrial, and defense UAS applications.",
+    "website": "https://www.grepow.com"
+  },
+  {
+    "id": 215,
+    "name": "Griff Aviation",
+    "boothNumber": "26006",
+    "description": "Griff Aviation develops heavy-lift cargo drones capable of carrying payloads up to 400+ kg for logistics, construction, and defense applications. Their multirotor platforms are engineered for industrial-grade lifting and transport missions.",
+    "website": "https://www.griffaviation.com"
+  },
+  {
+    "id": 216,
+    "name": "Hargrave Technologies",
+    "boothNumber": "27005",
+    "description": "Hargraves Technologies provides aerospace engineering and manufacturing services for UAV and space system components. Their capabilities include precision machining, electro-mechanical assembly, and custom test equipment fabrication.",
+    "website": "https://www.hargrave-tech.com"
+  },
+  {
+    "id": 217,
+    "name": "Harmonic Drive LLC",
+    "boothNumber": "31034",
+    "description": "Harmonic Drive manufactures precision strain wave gear reducers and actuators for robotics, aerospace, and automation. Their zero-backlash, high-torque gearing solutions are integrated into UAV gimbal systems and robotic joints.",
+    "website": "https://www.harmonicdrive.com"
+  },
+  {
+    "id": 218,
+    "name": "Harwin",
+    "boothNumber": "23016",
+    "description": "Harwin manufactures high-reliability connectors and PCB hardware for demanding aerospace, defense, and industrial applications. Their rugged, lightweight connectors are specified for use in uncrewed systems requiring extreme reliability.",
+    "website": "https://www.harwin.com"
+  },
+  {
+    "id": 219,
+    "name": "Hexagon",
+    "boothNumber": "36030",
+    "description": "Hexagon is a global leader in digital reality, sensor, and autonomous technologies for industrial and geospatial applications. Their Leica Geosystems division provides survey-grade LiDAR and imaging sensors widely used in drone-based mapping and inspection.",
+    "website": "https://www.hexagon.com"
+  },
+  {
+    "id": 220,
+    "name": "Hextronics LLC",
+    "boothNumber": "28019",
+    "description": "Hextronics develops automated drone-in-a-box systems for persistent, remote drone operations. Their self-contained docking stations enable autonomous launch, landing, charging, and data transfer for unmanned aerial systems.",
+    "website": "https://www.hextronics.com"
+  },
+  {
+    "id": 221,
+    "name": "Himax Motors LLC",
+    "boothNumber": "32022",
+    "description": "Himax Motors manufactures high-performance electric motors and generators for aerospace, marine, and industrial applications. Their lightweight, high-efficiency motors are designed for electric propulsion in uncrewed aerial and marine vehicles.",
+    "website": "https://www.himaxmotors.com"
+  },
+  {
+    "id": 222,
+    "name": "Hirth Engines GmbH",
+    "boothNumber": "34030",
+    "description": "Hirth Engines manufactures lightweight two-stroke and four-stroke engines for ultralight, experimental, and uncrewed aircraft. Their compact, powerful engines are trusted by UAV manufacturers requiring reliable propulsion for small to medium airframes.",
+    "website": "https://www.hirth-motoren.de"
+  },
+  {
+    "id": 223,
+    "name": "Hoodman Corporation",
+    "boothNumber": "31030",
+    "description": "Hoodman Corporation manufactures camera accessories including LCD viewing aids, memory cards, and protective screens for professional imaging. Their rugged, field-ready products support drone operators using camera systems for aerial photography and inspection.",
+    "website": "https://www.hoodman.com"
+  },
+  {
+    "id": 224,
+    "name": "Inside Unmanned Systems",
+    "boothNumber": "22030",
+    "description": "Inside Unmanned Systems is a leading trade publication covering the business and technology of the global uncrewed systems industry. Their magazine and digital platforms provide news, analysis, and market intelligence for UAS professionals.",
+    "website": "https://www.insideunmannedsystems.com"
+  },
+  {
+    "id": 225,
+    "name": "Intelligent Energy",
+    "boothNumber": "26002",
+    "description": "Intelligent Energy develops lightweight hydrogen fuel cell power systems for drones and electric aviation. Their fuel cell technology dramatically extends UAV flight endurance compared to conventional batteries, enabling multi-hour missions.",
+    "website": "https://www.intelligent-energy.com"
+  },
+  {
+    "id": 226,
+    "name": "ITT Cannon",
+    "boothNumber": "15006",
+    "description": "ITT Cannon is a leading manufacturer of high-reliability circular and rectangular connectors for aerospace and defense applications. Their rugged electrical interconnect solutions are essential components in uncrewed platform wiring and power distribution systems.",
+    "website": "https://www.ittcannon.com"
+  },
+  {
+    "id": 227,
+    "name": "Jabil Inc.",
+    "boothNumber": "39039",
+    "description": "Jabil is a global manufacturing services company providing design, production, and supply chain solutions for aerospace and defense customers. Their capabilities include PCBA, system assembly, and testing services for UAS electronics.",
+    "website": "https://www.jabil.com"
+  },
+  {
+    "id": 228,
+    "name": "Jenoptik Optical Systems, LLC",
+    "boothNumber": "30003",
+    "description": "Jenoptik manufactures precision optical systems, laser components, and optical sensors for defense and aerospace applications. Their advanced optics are integrated into EO/IR payloads, targeting systems, and LiDAR sensors for uncrewed platforms.",
+    "website": "https://www.jenoptik.com"
+  },
+  {
+    "id": 229,
+    "name": "Kratos Unmanned Aerial Systems, Inc.",
+    "boothNumber": "12030",
+    "description": "Kratos Unmanned Aerial Systems is a leading provider of high-performance jet-powered drones and target drones for military applications. Their BQM-177, BQM-167, and tactical UAS products serve defense customers in training, ISR, and combat missions.",
+    "website": "https://www.kratosdefense.com"
+  },
+  {
+    "id": 230,
+    "name": "KULR",
+    "boothNumber": "25035",
+    "description": "KULR Technology provides thermal management and battery safety solutions for high-performance electronics and uncrewed systems. Their passive cooling and thermal runaway prevention technologies improve the safety and reliability of drone battery packs.",
+    "website": "https://www.kulr.com"
+  },
+  {
+    "id": 231,
+    "name": "Kutta Technologies, LLC",
+    "boothNumber": "32011",
+    "description": "Kutta Technologies provides engineering services and advanced technology development for defense UAS programs. Their expertise spans autonomy, sensor integration, RF systems, and mission planning for military uncrewed platforms.",
+    "website": "https://www.kuttatech.com"
+  },
+  {
+    "id": 232,
+    "name": "Latvia Pavilion",
+    "boothNumber": "16013",
+    "description": "The Latvia Pavilion highlights Latvian companies and technologies in the uncrewed systems and aerospace sector. The pavilion showcases Latvia's growing ecosystem of UAV component manufacturers, software developers, and drone service providers.",
+    "website": "https://www.latviapavilion.com"
+  },
+  {
+    "id": 233,
+    "name": "LightWare LiDAR Inc.",
+    "boothNumber": "22021",
+    "description": "LightWare LiDAR develops miniature, lightweight LiDAR sensors specifically designed for drone and robotics applications. Their affordable, high-performance scanners enable accurate 3D mapping, obstacle detection, and terrain following on small uncrewed platforms.",
+    "website": "https://www.lightwarelidar.com"
+  },
+  {
+    "id": 234,
+    "name": "LiquidPiston, Inc.",
+    "boothNumber": "34016",
+    "description": "LiquidPiston develops high-efficiency rotary internal combustion engines that are more compact and powerful than conventional engines. Their innovative X-Engine architecture provides exceptional power density for UAV and eVTOL propulsion applications.",
+    "website": "https://www.liquidpiston.com"
+  },
+  {
+    "id": 235,
+    "name": "MathWorks",
+    "boothNumber": "33035",
+    "description": "MathWorks develops MATLAB and Simulink, the industry-standard software platforms for modeling, simulation, and algorithm development. Their tools are widely used in the design, simulation, and deployment of autonomous flight control and navigation systems for drones.",
+    "website": "https://www.mathworks.com"
+  },
+  {
+    "id": 236,
+    "name": "maxon",
+    "boothNumber": "28010",
+    "description": "maxon is a leading developer and manufacturer of precision drive systems including DC motors, gearheads, and controllers for aerospace applications. Their high-performance motors power UAV propulsion systems, gimbals, and actuation systems on the world's most advanced drones.",
+    "website": "https://www.maxonmotor.com"
+  },
+  {
+    "id": 237,
+    "name": "Maryland Pavilion",
+    "boothNumber": "32013",
+    "description": "The Maryland Pavilion showcases the state's aerospace and defense ecosystem, including companies and research institutions advancing uncrewed systems technology. Maryland is home to major defense contractors and federal agencies driving UAS innovation.",
+    "website": "https://www.marylandpavilion.com"
+  },
+  {
+    "id": 238,
+    "name": "Michigan Pavilion",
+    "boothNumber": "20000",
+    "description": "The Michigan Pavilion highlights the state's diverse manufacturing and technology ecosystem supporting the uncrewed systems industry. Michigan's automotive and aerospace heritage provides a skilled workforce and supply chain for UAS production.",
+    "website": "https://www.michiganpavilion.com"
+  },
+  {
+    "id": 239,
+    "name": "Michigan Technological University",
+    "boothNumber": "20000",
+    "description": "Michigan Technological University offers leading research programs in autonomous systems, robotics, and uncrewed aircraft systems engineering. Their research labs advance UAS technology including swarm operations, sensing, and arctic flight capabilities.",
+    "website": "https://www.mtu.edu"
+  },
+  {
+    "id": 240,
+    "name": "Microhard Systems, Inc.",
+    "boothNumber": "31027",
+    "description": "Microhard Systems designs and manufactures industrial wireless data transceivers and OEM radio modules for mission-critical communications. Their robust, long-range radios provide reliable IP/Ethernet connectivity for drone command and control and data links.",
+    "website": "https://www.microhardcorp.com"
+  },
+  {
+    "id": 241,
+    "name": "MicroPilot",
+    "boothNumber": "33010",
+    "description": "MicroPilot is a leading manufacturer of autopilot systems for unmanned aerial vehicles, offering proven flight control solutions since 1999. Their X8, MP2128, and Stargate autopilots are used in over 500 UAV airframes worldwide.",
+    "website": "https://www.micropilot.com"
+  },
+  {
+    "id": 242,
+    "name": "Microstrain by HBK",
+    "boothNumber": "35032",
+    "description": "Microstrain by HBK develops high-precision inertial sensors, AHRS, and GNSS-aided navigation systems for robotics and autonomous platforms. Their miniature, rugged sensors provide accurate orientation and position tracking for UAV flight control.",
+    "website": "https://www.microstrain.com"
+  },
+  {
+    "id": 243,
+    "name": "MKS Servos",
+    "boothNumber": "28008",
+    "description": "MKS Servos manufactures high-torque, precision servo motors for RC, drone, and industrial applications. Their metal-gear, programmable servos provide reliable control actuation for UAV flight surfaces, camera gimbals, and robotic systems.",
+    "website": "https://www.mks-servo.com"
+  },
+  {
+    "id": 244,
+    "name": "ModalAI",
+    "boothNumber": "28005",
+    "description": "ModalAI develops open-source, AI-powered drone autopilots and computing platforms for autonomous systems development. Their VOXL and Flight Core products provide powerful onboard computing, obstacle avoidance, and indoor/outdoor navigation for small drones.",
+    "website": "https://www.modalai.com"
+  },
+  {
+    "id": 245,
+    "name": "Motorola Solutions",
+    "boothNumber": "34000",
+    "description": "Motorola Solutions provides mission-critical communications, command center software, and video security solutions for public safety. Their UAS offerings include drone detection systems, radio interoperability, and situational awareness platforms for first responders.",
+    "website": "https://www.motorolasolutions.com"
+  },
+  {
+    "id": 246,
+    "name": "MP Antenna",
+    "boothNumber": "12013",
+    "description": "MP Antenna designs and manufactures custom antenna solutions for aerospace, defense, and wireless communication applications. Their RF antenna products provide reliable connectivity for uncrewed platform datalinks and telemetry systems.",
+    "website": "https://www.mpantenna.com"
+  },
+  {
+    "id": 247,
+    "name": "NanoFlowX",
+    "boothNumber": "14000",
+    "description": "NanoFlowX develops advanced flow battery and energy storage technologies for extended-duration drone operations. Their innovative power systems aim to provide significantly longer flight endurance compared to conventional lithium battery technology.",
+    "website": "https://www.nanoflowx.com"
+  },
+  {
+    "id": 248,
+    "name": "Nanomotion Inc",
+    "boothNumber": "28022",
+    "description": "Nanomotion manufactures piezoelectric motors and actuators for precision positioning in aerospace, defense, and medical applications. Their compact, high-resolution motion solutions are used in UAV gimbal stabilization and optical payload adjustment.",
+    "website": "https://www.nanomotion.com"
+  },
+  {
+    "id": 249,
+    "name": "Near Earth Autonomy",
+    "boothNumber": "38004",
+    "description": "Near Earth Autonomy develops autonomous flight systems for uncrewed aircraft, including advanced sensors, perception software, and autonomy stacks. Their technology enables drones to operate safely in complex environments without GPS or remote piloting.",
+    "website": "https://www.nearearthautonomy.com"
+  },
+  {
+    "id": 250,
+    "name": "NextVision Stabilized Systems",
+    "boothNumber": "21033",
+    "description": "NextVision Stabilized Systems manufactures high-performance stabilized camera systems and gimbals for airborne ISR and security applications. Their gyro-stabilized payloads deliver crisp imagery from uncrewed platforms in dynamic flight conditions.",
+    "website": "https://www.nextvision.com"
+  },
+  {
+    "id": 251,
+    "name": "Neya Systems / ARA",
+    "boothNumber": "14023",
+    "description": "Neya Systems (part of ARA) develops advanced autonomy software for uncrewed ground and aerial systems including path planning, obstacle avoidance, and multi-vehicle coordination. Their modular autonomy stack enables safe navigation in complex environments.",
+    "website": "https://www.neyasystems.com"
+  },
+  {
+    "id": 252,
+    "name": "Northern Plains UAS Test Site",
+    "boothNumber": "12021",
+    "description": "The Northern Plains UAS Test Site in North Dakota is one of the FAA's original UAS test sites, providing airspace and facilities for UAS research and testing. The site supports BVLOS operations, beyond-line-of-sight flights, and sensor development programs.",
+    "website": "https://www.npumst.com"
+  },
+  {
+    "id": 253,
+    "name": "NovAtel, Inc.",
+    "boothNumber": "36030",
+    "description": "NovAtel (part of Hexagon) is a leading provider of high-precision GNSS positioning technology for autonomous systems. Their GPS/GNSS receivers and correction services provide centimeter-level positioning accuracy for UAV navigation and mapping applications.",
+    "website": "https://www.novatel.com"
+  },
+  {
+    "id": 254,
+    "name": "NSF AgTech Engine in North Dakota",
+    "boothNumber": "13027",
+    "description": "The NSF AgTech Engine is a National Science Foundation initiative advancing agricultural technology including drone-based precision agriculture. The program supports innovation in autonomous systems for crop monitoring, spraying, and yield optimization.",
+    "website": "https://www.nsfagtech.org"
+  },
+  {
+    "id": 255,
+    "name": "NUAIR",
+    "boothNumber": "38026",
+    "description": "NUAIR is a non-profit consortium advancing the safe integration of UAS and advanced air mobility into the national airspace. They manage the New York UAS Test Site and lead efforts to develop UAS traffic management (UTM) systems.",
+    "website": "https://www.nuair.com"
+  },
+  {
+    "id": 256,
+    "name": "Octane Wireless",
+    "boothNumber": "15011",
+    "description": "Octane Wireless develops rugged, military-grade wireless networking solutions for uncrewed platforms and battlefield communications. Their mesh networking technology enables resilient data sharing across drone swarms and mobile units.",
+    "website": "https://www.octanewireless.com"
+  },
+  {
+    "id": 257,
+    "name": "OMCT Solutions",
+    "boothNumber": "32008",
+    "description": "OMCT Solutions provides advanced optical measurement and calibration technology for aerospace and defense applications. Their precision testing instruments ensure quality assurance for UAS sensor systems and optical payloads.",
+    "website": "https://www.omctsolutions.com"
+  },
+  {
+    "id": 258,
+    "name": "Omnetics Connector Corporation",
+    "boothNumber": "19023",
+    "description": "Omnetics Connector Corporation manufactures miniature, high-reliability connectors and cable assemblies for harsh environment applications. Their nano and micro connectors are designed for weight-sensitive uncrewed systems requiring robust interconnect solutions.",
+    "website": "https://www.omnetics.com"
+  },
+  {
+    "id": 259,
+    "name": "Ophir / An MKS Brand",
+    "boothNumber": "14033",
+    "description": "Ophir, an MKS brand, manufactures precision laser measurement and photonic instrumentation for aerospace and defense applications. Their laser power sensors and beam profiling tools support development of LiDAR and optical systems for uncrewed platforms.",
+    "website": "https://www.ophiropt.com"
+  },
+  {
+    "id": 260,
+    "name": "Orb Aerospace",
+    "boothNumber": "38036",
+    "description": "Orb Aerospace develops hybrid and electric propulsion aircraft for cargo delivery and regional mobility. Their innovative aircraft designs combine vertical takeoff and landing capability with efficient forward flight for logistics applications.",
+    "website": "https://www.orbaerospace.com"
+  },
+  {
+    "id": 261,
+    "name": "Orqa",
+    "boothNumber": "44020",
+    "description": "Orqa develops high-definition FPV (first-person view) video systems and goggles for drone racing and professional applications. Their low-latency digital video transmission technology provides immersive piloting experiences for FPV operations.",
+    "website": "https://www.orqa.com"
+  },
+  {
+    "id": 262,
+    "name": "oToBrite Electronics, Inc.",
+    "boothNumber": "31006",
+    "description": "oToBrite Electronics develops advanced vehicle vision systems, ADAS cameras, and AI-based perception solutions for automotive and autonomous applications. Their camera technology is adapted for obstacle detection and navigation in uncrewed platforms.",
+    "website": "https://www.otobrite.com"
+  },
+  {
+    "id": 263,
+    "name": "Ouster",
+    "boothNumber": "31036",
+    "description": "Ouster manufactures high-resolution digital LiDAR sensors for autonomous vehicles, robotics, and industrial applications. Their compact, solid-state lidars provide accurate 3D perception for drone obstacle avoidance, mapping, and navigation.",
+    "website": "https://www.ouster.com"
+  },
+  {
+    "id": 264,
+    "name": "Overwatch Imaging",
+    "boothNumber": "15015",
+    "description": "Overwatch Imaging builds intelligent, multi-sensor imaging payloads for uncrewed platforms used in defense, security, and industrial applications. Their AI-powered pods integrate EO/IR cameras and onboard processing for real-time target detection and classification.",
+    "website": "https://www.overwatchimaging.com"
+  },
+  {
+    "id": 265,
+    "name": "OXTS",
+    "boothNumber": "26019",
+    "description": "OXTS designs and manufactures high-precision GPS/GNSS-aided inertial navigation systems for vehicle testing and autonomous applications. Their RT-series INS systems provide accurate position, velocity, and attitude data for UAV navigation and sensor testing.",
+    "website": "https://www.oxts.com"
+  },
+  {
+    "id": 266,
+    "name": "Packet Digital",
+    "boothNumber": "27003",
+    "description": "Packet Digital develops intelligent power management solutions and battery systems for defense and aerospace applications. Their Smart Battery and power distribution technology optimizes energy usage and extends mission duration for uncrewed platforms.",
+    "website": "https://www.packetdigital.com"
+  },
+  {
+    "id": 267,
+    "name": "Parallax Advanced Research",
+    "boothNumber": "15030",
+    "description": "Parallax Advanced Research is a nonprofit research institute advancing autonomy, AI, and uncrewed systems technology. They collaborate with government and industry partners to transition cutting-edge research into practical autonomous solutions.",
+    "website": "https://www.parallaxresearch.org"
+  },
+  {
+    "id": 268,
+    "name": "Pierce Aerospace",
+    "boothNumber": "28013",
+    "description": "Pierce Aerospace develops drone remote identification technology and airspace security solutions for government and enterprise applications. Their Remote ID transponders help integrate uncrewed aircraft into shared airspace by broadcasting identification and position data.",
+    "website": "https://www.pierceaerospace.com"
+  },
+  {
+    "id": 269,
+    "name": "Plettenberg",
+    "boothNumber": "27007",
+    "description": "Plettenberg manufactures high-performance electric motors for model aircraft, drones, and electric aviation applications. Their German-engineered outrunner motors are known for exceptional quality, efficiency, and power output.",
+    "website": "https://www.plettenberg-motors.com"
+  },
+  {
+    "id": 270,
+    "name": "Point One Navigation",
+    "boothNumber": "37003",
+    "description": "Point One Navigation provides centimeter-accurate GNSS positioning via cloud-based correction services. Their Polaris network delivers high-precision location data to drones and autonomous vehicles without the need for local base stations.",
+    "website": "https://www.pointonenav.com"
+  },
+  {
+    "id": 271,
+    "name": "Purdue University",
+    "boothNumber": "41039",
+    "description": "Purdue University is a leading research institution advancing uncrewed aircraft systems through its Aerospace and Engineering schools. Their UAS research covers propulsion, autonomy, materials, and safety for both commercial and defense applications.",
+    "website": "https://www.purdue.edu"
+  },
+  {
+    "id": 272,
+    "name": "Qualcomm Inc.",
+    "boothNumber": "23026",
+    "description": "Qualcomm is a global leader in wireless technology, providing chipsets and platforms for drones including the Qualcomm Flight series. Their processors enable AI, computer vision, and 5G connectivity for advanced autonomous drone capabilities.",
+    "website": "https://www.qualcomm.com"
+  },
+  {
+    "id": 273,
+    "name": "Raise3D Technologies",
+    "boothNumber": "27027",
+    "description": "Raise3D manufactures professional-grade 3D printers and additive manufacturing solutions for engineering and industrial applications. Their high-precision FFF printers are used to produce UAV prototypes, tooling, and end-use parts from advanced composites.",
+    "website": "https://www.raise3d.com"
+  },
+  {
+    "id": 274,
+    "name": "Real-Time Innovations",
+    "boothNumber": "18007",
+    "description": "Real-Time Innovations (RTI) provides the leading software framework for building distributed, real-time systems including autonomous vehicles and drones. Their Data Distribution Service (DDS) middleware enables reliable data sharing across complex uncrewed system architectures.",
+    "website": "https://www.rti.com"
+  },
+  {
+    "id": 275,
+    "name": "Red Cat",
+    "boothNumber": "32000",
+    "description": "Red Cat Holdings is a drone technology company integrating hardware, software, and services for military and enterprise customers. Their portfolio includes the FANG unmanned aircraft system and the acquisition of Teal Drones, serving defense and government clients globally.",
+    "website": "https://www.redcat.com"
+  },
+  {
+    "id": 276,
+    "name": "Redwire",
+    "boothNumber": "18005",
+    "description": "Redwire provides critical space infrastructure and technology for the next-generation space economy including uncrewed orbital systems. Their capabilities include space-based sensing, on-orbit assembly, and power generation for uncrewed spacecraft.",
+    "website": "https://www.redwire.space"
+  },
+  {
+    "id": 277,
+    "name": "ResilienX, Inc.",
+    "boothNumber": "38026",
+    "description": "ResilienX develops safety assurance and risk management software for beyond-visual-line-of-sight UAS operations. Their FIMS platform helps operators demonstrate safety case compliance and obtain BVLOS operational approvals from regulators.",
+    "website": "https://www.resilienx.com"
+  },
+  {
+    "id": 278,
+    "name": "Robin Radar Systems",
+    "boothNumber": "38007",
+    "description": "Robin Radar Systems develops 3D bird and drone detection radar systems for aviation, wind energy, and security applications. Their compact, solid-state radars provide accurate tracking of small uncrewed aircraft for airspace protection and situational awareness.",
+    "website": "https://www.robinradar.com"
+  },
+  {
+    "id": 279,
+    "name": "RoboNation",
+    "boothNumber": "44026",
+    "description": "RoboNation operates the RobotX Challenge and other student competitions advancing uncrewed maritime and aerial systems. Their programs build the next generation of autonomy engineers through hands-on, competition-based learning.",
+    "website": "https://www.robonation.org"
+  },
+  {
+    "id": 280,
+    "name": "Rock West Composites, Inc.",
+    "boothNumber": "12035",
+    "description": "Rock West Composites designs and manufactures advanced composite structures for aerospace, defense, and UAV applications. Their lightweight carbon fiber tubes, panels, and custom structures are used extensively in drone airframe construction.",
+    "website": "https://www.rockwestcomposites.com"
+  },
+  {
+    "id": 281,
+    "name": "Safran Defense & Space, Inc.",
+    "boothNumber": "26042",
+    "description": "Safran Defense & Space is a global leader in avionics, navigation, and optronics systems for defense and aerospace applications. Their products include flight control systems, inertial navigation, and electro-optical payloads for military uncrewed platforms.",
+    "website": "https://www.safran-group.com"
+  },
+  {
+    "id": 282,
+    "name": "Sagetech Avionics, Inc.",
+    "boothNumber": "19036",
+    "description": "Sagetech Avionics develops lightweight, low-power transponders and ADS-B solutions specifically designed for unmanned aircraft. Their micro transponders enable UAS to integrate safely into the national airspace by broadcasting position and identification.",
+    "website": "https://www.sagetech.com"
+  },
+  {
+    "id": 283,
+    "name": "Saronic Technologies",
+    "boothNumber": "34003",
+    "description": "Saronic Technologies develops autonomous surface vessels for defense and security maritime applications. Their advanced USVs provide persistent maritime surveillance, reconnaissance, and force protection capabilities for naval operations.",
+    "website": "https://www.saronics.com"
+  },
+  {
+    "id": 284,
+    "name": "SBG Systems North America",
+    "boothNumber": "19005",
+    "description": "SBG Systems designs and manufactures high-performance inertial navigation systems (INS) for autonomous platforms including drones, UAVs, and robotics. Their miniature, tactical-grade IMUs and AHRS provide accurate navigation in GPS-denied environments.",
+    "website": "https://www.sbg-systems.com"
+  },
+  {
+    "id": 285,
+    "name": "Seasats",
+    "boothNumber": "15017",
+    "description": "Seasats develops autonomous solar-powered maritime drones for ocean monitoring, security, and environmental research. Their wave-adaptive surface vehicles can operate for months at sea collecting data without crew or support vessels.",
+    "website": "https://www.seasats.com"
+  },
+  {
+    "id": 286,
+    "name": "SES AI",
+    "boothNumber": "31039",
+    "description": "SES AI is a next-generation battery developer focused on high-energy-density lithium-metal batteries for electric aviation and mobility. Their advanced battery technology promises to significantly extend the range and endurance of uncrewed aerial vehicles.",
+    "website": "https://www.ses.com"
+  },
+  {
+    "id": 287,
+    "name": "Silvus Technologies, Inc.",
+    "boothNumber": "35000",
+    "description": "Silvus Technologies is a leader in advanced MIMO wireless networking solutions for defense and public safety applications. Their patented StreamCaster radios provide resilient, high-bandwidth communication links for drone-to-ground and drone-to-drone connectivity.",
+    "website": "https://www.silvus.com"
+  },
+  {
+    "id": 288,
+    "name": "Simlat, Inc.",
+    "boothNumber": "24013",
+    "description": "Simlat provides UAS simulation and training solutions for drone operators, including mission planning, flight simulation, and payload operator training. Their realistic simulation platforms reduce training costs and improve operator proficiency for complex missions.",
+    "website": "https://www.simlat.com"
+  },
+  {
+    "id": 289,
+    "name": "Skyfish",
+    "boothNumber": "34019",
+    "description": "Skyfish develops autonomous LiDAR mapping drones for surveying and infrastructure inspection applications. Their turnkey drone mapping systems combine 3D laser scanning with autonomous flight for efficient, accurate geospatial data collection.",
+    "website": "https://www.skyfish.com"
+  },
+  {
+    "id": 290,
+    "name": "SMART Modular Technologies",
+    "boothNumber": "30004",
+    "description": "SMART Modular Technologies manufactures memory modules, solid-state drives, and storage solutions for aerospace and defense applications. Their rugged, high-reliability memory products are designed for use in uncrewed systems operating in extreme conditions.",
+    "website": "https://www.smartm.com"
+  },
+  {
+    "id": 291,
+    "name": "Sonoran Desert Institute",
+    "boothNumber": "34008",
+    "description": "The Sonoran Desert Institute offers online degree programs and certificate courses in unmanned aircraft systems technology and drone operation. Their curriculum prepares students for careers in the rapidly growing UAS industry.",
+    "website": "https://www.sdi.edu"
+  },
+  {
+    "id": 292,
+    "name": "Sunflower Labs Inc.",
+    "boothNumber": "22005",
+    "description": "Sunflower Labs develops autonomous drone-based home security systems combining ground sensors with aerial drones. Their system provides intelligent perimeter monitoring and automated drone response for residential and property protection.",
+    "website": "https://www.sunflower-labs.com"
+  },
+  {
+    "id": 293,
+    "name": "Sunhillo Corporation",
+    "boothNumber": "31022",
+    "description": "Sunhillo Corporation provides high-performance IP networking, data routing, and communication management solutions for defense and aerospace. Their tactical data link products support real-time information sharing across uncrewed platform networks.",
+    "website": "https://www.sunhillo.com"
+  },
+  {
+    "id": 294,
+    "name": "Target Arm Inc.",
+    "boothNumber": "13031",
+    "description": "Target Arm manufactures towed and aerial target systems for military training and weapons testing applications. Their targets support UAV threat simulation and live-fire training for armed forces worldwide.",
+    "website": "https://www.targetarm.com"
+  },
+  {
+    "id": 295,
+    "name": "Tekdense Systems & Solutions Inc",
+    "boothNumber": "17031",
+    "description": "Tekdense Systems & Solutions provides engineering consulting, software development, and systems integration services for defense and aerospace programs. Their expertise includes UAS data links, mission systems, and cybersecurity for uncrewed platforms.",
+    "website": "https://www.tekdense.com"
+  },
+  {
+    "id": 296,
+    "name": "Teradek",
+    "boothNumber": "43018",
+    "description": "Teradek develops wireless video transmission systems for professional cinema, broadcast, and drone applications. Their zero-delay video links provide high-quality FPV feeds for drone pilots and onboard camera operators.",
+    "website": "https://www.teradek.com"
+  },
+  {
+    "id": 297,
+    "name": "Trimble Inc",
+    "boothNumber": "27000",
+    "description": "Trimble is a global technology leader providing positioning, modeling, and data analytics solutions for geospatial and industrial applications. Their GNSS receivers, surveying software, and data processing tools are widely used in drone mapping and precision agriculture.",
+    "website": "https://www.trimble.com"
+  },
+  {
+    "id": 298,
+    "name": "Trusted Operator",
+    "boothNumber": "40021",
+    "description": "Trusted Operator provides credentialing, background checks, and verification services for professional drone operators. Their platform builds trust in the UAS ecosystem by validating operator qualifications and compliance.",
+    "website": "https://www.trustedoperator.com"
+  },
+  {
+    "id": 299,
+    "name": "TrustPoint",
+    "boothNumber": "15019",
+    "description": "TrustPoint develops next-generation GPS technology and assured positioning, navigation, and timing (PNT) services for critical infrastructure and autonomous systems. Their resilient PNT solutions ensure reliable navigation for uncrewed platforms.",
+    "website": "https://www.trustpoint.com"
+  },
+  {
+    "id": 300,
+    "name": "DJI Enterprise",
+    "boothNumber": "23000",
+    "description": "DJI is the world's largest drone manufacturer, providing a comprehensive range of uncrewed aircraft systems for commercial, industrial, and government applications. Their product lineup includes the Matrice, Phantom, Mavic, and Agras series, along with enterprise software solutions for mapping, inspection, and public safety.",
+    "website": "https://www.dji.com"
+  },
+  {
+    "id": 301,
+    "name": "Skydio",
+    "boothNumber": "25000",
+    "description": "Skydio is a leading American drone manufacturer known for its advanced autonomous flight capabilities and AI-powered obstacle avoidance. Their X10D and S-Series drones serve defense, public safety, and enterprise customers with industry-leading autonomy and situational awareness.",
+    "website": "https://www.skydio.com"
+  },
+  {
+    "id": 302,
+    "name": "Anduril Industries",
+    "boothNumber": "21000",
+    "description": "Anduril Industries is a defense technology company developing autonomous systems, counter-UAS solutions, and AI-powered command and control platforms. Their Ghost and Altius drone families, combined with the Lattice software platform, deliver next-generation autonomous capabilities for military operations.",
+    "website": "https://www.anduril.com"
+  },
+  {
+    "id": 303,
+    "name": "Shield AI",
+    "boothNumber": "24000",
+    "description": "Shield AI develops AI pilots and autonomous systems for defense applications including the Hivemind autonomy software and V-BAT vertical takeoff UAV. Their technology enables uncrewed aircraft to operate without GPS, communications, or human intervention in contested environments.",
+    "website": "https://www.shield.ai"
+  },
+  {
+    "id": 304,
+    "name": "Dedrone",
+    "boothNumber": "21026",
+    "description": "Dedrone provides airspace security solutions for detecting, tracking, and mitigating unauthorized drone activity. Their multi-sensor platform combines RF, radar, and camera technologies to protect critical infrastructure, airports, and public venues from drone threats.",
+    "website": "https://www.dedrone.com"
+  },
+  {
+    "id": 305,
+    "name": "Iris Automation",
+    "boothNumber": "20035",
+    "description": "Iris Automation develops AI-based detect-and-avoid systems that enable safe beyond-visual-line-of-sight drone operations. Their onboard vision-based collision avoidance technology provides the situational awareness needed for autonomous BVLOS flight approvals.",
+    "website": "https://www.irisautomation.com"
+  },
+  {
+    "id": 306,
+    "name": "Wing",
+    "boothNumber": "21010",
+    "description": "Wing (an Alphabet company) operates a commercial drone delivery service for food, medicine, and retail goods. Their autonomous delivery drones have completed hundreds of thousands of commercial deliveries across multiple countries, leading the practical implementation of urban drone logistics.",
+    "website": "https://www.wing.com"
+  },
+  {
+    "id": 307,
+    "name": "Zipline",
+    "boothNumber": "23010",
+    "description": "Zipline is a global leader in autonomous drone delivery, operating the world's largest commercial drone delivery network for medical and logistics applications. Their fixed-wing and hybrid drones have delivered millions of units of blood, vaccines, and commercial products across multiple continents.",
+    "website": "https://www.flyzipline.com"
+  },
+  {
+    "id": 308,
+    "name": "Teledyne FLIR",
+    "boothNumber": "18010",
+    "description": "Teledyne FLIR is the world leader in thermal imaging, infrared cameras, and EO/IR sensor systems for defense, industrial, and commercial applications. Their compact thermal sensors and gimbal payloads are widely integrated into uncrewed platforms for surveillance, inspection, and search-and-rescue missions.",
+    "website": "https://www.flir.com"
+  },
+  {
+    "id": 309,
+    "name": "Brinc Drones",
+    "boothNumber": "22015",
+    "description": "Brinc Drones develops tethered drone systems for persistent public safety, security, and emergency response applications. Their autonomous docking stations and UAV platforms provide always-ready aerial surveillance for law enforcement and fire services.",
+    "website": "https://www.brincdrones.com"
+  },
+  {
+    "id": 310,
+    "name": "AgEagle Aerial Systems",
+    "boothNumber": "19032",
+    "description": "AgEagle Aerial Systems provides drone-based sensing solutions and analytics software for precision agriculture and environmental monitoring. Their multispectral and thermal sensors, combined with data analysis platforms, help farmers optimize crop management and resource utilization.",
+    "website": "https://www.ageagle.com"
+  },
+  {
+    "id": 311,
+    "name": "SenseFly",
+    "boothNumber": "20021",
+    "description": "SenseFly (an AgEagle company) designs fixed-wing mapping drones for professional surveying, agriculture, and geospatial applications. Their eBee series of autonomous mapping drones delivers accurate results with user-friendly flight planning and data processing workflows.",
+    "website": "https://www.sensefly.com"
+  },
+  {
+    "id": 312,
+    "name": "Wispr Systems",
+    "boothNumber": "21033",
+    "description": "Wispr Systems develops edge AI computing platforms and neural processing hardware for autonomous systems and robotics. Their ultra-efficient AI accelerators enable real-time perception and decision-making on power-constrained uncrewed platforms.",
+    "website": "https://www.wisprsystems.com"
+  },
+  {
+    "id": 313,
+    "name": "Auterion",
+    "boothNumber": "24020",
+    "description": "Auterion provides an enterprise drone operating system and software-defined platform for commercial and government drone fleets. Their open-source-based software stack enables standardized app development, fleet management, and advanced autonomy across different drone hardware platforms.",
+    "website": "https://www.auterion.com"
+  }
+];
 
         document.addEventListener('DOMContentLoaded', function() {
-            const exhibitorsList = document.querySelector('.exhibitors-list');
+            const exhibitorsList = document.getElementById('exhibitorsList');
+            const searchInput = document.getElementById('searchInput');
+            const selectAllBtn = document.getElementById('selectAllBtn');
+            const deselectAllBtn = document.getElementById('deselectAllBtn');
+            const selectionCounter = document.getElementById('selectionCounter');
             const submitButton = document.getElementById('submitButton');
             const resultsSection = document.getElementById('resultsSection');
             const resultsJson = document.getElementById('resultsJson');
+            const copyBtn = document.getElementById('copyBtn');
+            const closeResultsBtn = document.getElementById('closeResultsBtn');
             
-            // Populate exhibitor list
-            exhibitors.forEach(exhibitor => {
-                const exhibitorElement = document.createElement('div');
-                exhibitorElement.className = 'exhibitor-item';
-                exhibitorElement.innerHTML = `
-                    <input type="checkbox" class="exhibitor-checkbox" data-id="${exhibitor.id}">
-                    <div class="exhibitor-info">
-                        <div class="exhibitor-name">${exhibitor.name}</div>
-                        <div class="exhibitor-description">${exhibitor.description}</div>
-                    </div>
-                `;
-                exhibitorsList.appendChild(exhibitorElement);
+            let filteredIds = new Set(exhibitors.map(e => e.id));
+            
+            function renderExhibitors(filterText) {
+                exhibitorsList.innerHTML = '';
+                const lowerFilter = filterText ? filterText.toLowerCase() : '';
+                
+                const filtered = filterText
+                    ? exhibitors.filter(e => 
+                        e.name.toLowerCase().includes(lowerFilter) ||
+                        e.description.toLowerCase().includes(lowerFilter) ||
+                        e.boothNumber.toLowerCase().includes(lowerFilter) ||
+                        e.boothNumber.toLowerCase().includes(lowerFilter.replace(/[^0-9]/g, ''))
+                      )
+                    : exhibitors;
+                
+                filteredIds = new Set(filtered.map(e => e.id));
+                
+                if (filtered.length === 0) {
+                    exhibitorsList.innerHTML = '<div class="no-results">No exhibitors match your search.</div>';
+                    updateCounter();
+                    return;
+                }
+                
+                filtered.forEach(exhibitor => {
+                    const element = document.createElement('div');
+                    element.className = 'exhibitor-item';
+                    element.innerHTML = `
+                        <input type="checkbox" class="exhibitor-checkbox" data-id="${exhibitor.id}">
+                        <div class="exhibitor-info">
+                            <div class="exhibitor-name">${escapeHtml(exhibitor.name)}</div>
+                            <div class="exhibitor-meta">
+                                <span class="booth-badge">Booth ${escapeHtml(exhibitor.boothNumber)}</span>
+                                ${exhibitor.website ? '<span class="exhibitor-website"><a href="' + escapeHtml(exhibitor.website) + '" target="_blank" rel="noopener">' + escapeHtml(exhibitor.website) + '</a></span>' : ''}
+                            </div>
+                            <div class="exhibitor-description">${escapeHtml(exhibitor.description)}</div>
+                        </div>
+                    `;
+                    exhibitorsList.appendChild(element);
+                });
+                
+                updateCounter();
+            }
+            
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            function updateCounter() {
+                const checkboxes = document.querySelectorAll('.exhibitor-checkbox');
+                const checked = document.querySelectorAll('.exhibitor-checkbox:checked');
+                const totalVisible = checkboxes.length;
+                selectionCounter.textContent = checked.length + ' of ' + exhibitors.length + ' selected';
+            }
+            
+            function updateCounterFromState() {
+                const checkboxes = document.querySelectorAll('.exhibitor-checkbox');
+                const checked = document.querySelectorAll('.exhibitor-checkbox:checked');
+                selectionCounter.textContent = checked.length + ' of ' + exhibitors.length + ' selected';
+            }
+            
+            // Search
+            searchInput.addEventListener('input', function() {
+                renderExhibitors(this.value);
             });
             
-            // Handle submit button click
+            // Select All (visible only)
+            selectAllBtn.addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('.exhibitor-checkbox');
+                checkboxes.forEach(cb => cb.checked = true);
+                updateCounter();
+            });
+            
+            // Deselect All
+            deselectAllBtn.addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('.exhibitor-checkbox');
+                checkboxes.forEach(cb => cb.checked = false);
+                updateCounter();
+            });
+            
+            // Delegate change events
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('exhibitor-checkbox')) {
+                    updateCounter();
+                }
+            });
+            
+            // Submit
             submitButton.addEventListener('click', function() {
                 const selectedExhibitors = [];
                 const checkboxes = document.querySelectorAll('.exhibitor-checkbox:checked');
@@ -274,20 +2637,37 @@
                         selectedExhibitors.push({
                             id: exhibitor.id,
                             name: exhibitor.name,
-                            description: exhibitor.description
+                            boothNumber: exhibitor.boothNumber,
+                            description: exhibitor.description,
+                            website: exhibitor.website || ''
                         });
                     }
                 });
                 
-                // Display results
-                if (selectedExhibitors.length > 0) {
-                    resultsJson.textContent = JSON.stringify(selectedExhibitors, null, 2);
-                    resultsSection.classList.add('active');
-                } else {
-                    resultsJson.textContent = '[]';
-                    resultsSection.classList.add('active');
-                }
+                resultsJson.textContent = JSON.stringify(selectedExhibitors, null, 2);
+                resultsSection.classList.add('active');
+                
+                // Scroll to results
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
+            
+            // Copy to clipboard
+            copyBtn.addEventListener('click', function() {
+                const text = resultsJson.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const origText = copyBtn.textContent;
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => { copyBtn.textContent = origText; }, 2000);
+                });
+            });
+            
+            // Close results
+            closeResultsBtn.addEventListener('click', function() {
+                resultsSection.classList.remove('active');
+            });
+            
+            // Initial render
+            renderExhibitors('');
         });
     </script>
 </body>
